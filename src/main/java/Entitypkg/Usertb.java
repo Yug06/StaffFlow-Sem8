@@ -7,6 +7,7 @@ package Entitypkg;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -63,7 +64,7 @@ public class Usertb implements Serializable {
     private String email;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 50)
+    @Size(min = 1, max = 500)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
@@ -193,26 +194,32 @@ public class Usertb implements Serializable {
         this.dob = dob;
     }
 
+    @JsonbTransient
     public Collection<Projecttb> getProjecttbCollection() {
         return projecttbCollection;
     }
 
+    @JsonbTransient
     public void setProjecttbCollection(Collection<Projecttb> projecttbCollection) {
         this.projecttbCollection = projecttbCollection;
     }
 
+    @JsonbTransient
     public Collection<Performanceevaltb> getPerformanceevaltbCollection() {
         return performanceevaltbCollection;
     }
 
+    @JsonbTransient
     public void setPerformanceevaltbCollection(Collection<Performanceevaltb> performanceevaltbCollection) {
         this.performanceevaltbCollection = performanceevaltbCollection;
     }
 
+    @JsonbTransient
     public Collection<Performanceevaltb> getPerformanceevaltbCollection1() {
         return performanceevaltbCollection1;
     }
 
+    @JsonbTransient
     public void setPerformanceevaltbCollection1(Collection<Performanceevaltb> performanceevaltbCollection1) {
         this.performanceevaltbCollection1 = performanceevaltbCollection1;
     }
@@ -225,66 +232,82 @@ public class Usertb implements Serializable {
         this.designationID = designationID;
     }
 
+    @JsonbTransient
     public Collection<Salarytb> getSalarytbCollection() {
         return salarytbCollection;
     }
 
+    @JsonbTransient
     public void setSalarytbCollection(Collection<Salarytb> salarytbCollection) {
         this.salarytbCollection = salarytbCollection;
     }
 
+    @JsonbTransient
     public Collection<Employeefeedback> getEmployeefeedbackCollection() {
         return employeefeedbackCollection;
     }
 
+    @JsonbTransient
     public void setEmployeefeedbackCollection(Collection<Employeefeedback> employeefeedbackCollection) {
         this.employeefeedbackCollection = employeefeedbackCollection;
     }
 
+    @JsonbTransient
     public Collection<Payrolltb> getPayrolltbCollection() {
         return payrolltbCollection;
     }
 
+    @JsonbTransient
     public void setPayrolltbCollection(Collection<Payrolltb> payrolltbCollection) {
         this.payrolltbCollection = payrolltbCollection;
     }
 
+    @JsonbTransient
     public Collection<Attendancetb> getAttendancetbCollection() {
         return attendancetbCollection;
     }
 
+    @JsonbTransient
     public void setAttendancetbCollection(Collection<Attendancetb> attendancetbCollection) {
         this.attendancetbCollection = attendancetbCollection;
     }
 
+    @JsonbTransient
     public Collection<Leavetb> getLeavetbCollection() {
         return leavetbCollection;
     }
 
+    @JsonbTransient
     public void setLeavetbCollection(Collection<Leavetb> leavetbCollection) {
         this.leavetbCollection = leavetbCollection;
     }
 
+    @JsonbTransient
     public Collection<Tasktb> getTasktbCollection() {
         return tasktbCollection;
     }
 
+    @JsonbTransient
     public void setTasktbCollection(Collection<Tasktb> tasktbCollection) {
         this.tasktbCollection = tasktbCollection;
     }
 
+    @JsonbTransient
     public Collection<Tasktb> getTasktbCollection1() {
         return tasktbCollection1;
     }
 
+    @JsonbTransient
     public void setTasktbCollection1(Collection<Tasktb> tasktbCollection1) {
         this.tasktbCollection1 = tasktbCollection1;
     }
 
+    @JsonbTransient
     public Collection<Projecttb> getProjecttbCollection1() {
         return projecttbCollection1;
     }
 
+    @JsonbTransient
     public void setProjecttbCollection1(Collection<Projecttb> projecttbCollection1) {
         this.projecttbCollection1 = projecttbCollection1;
     }
@@ -313,5 +336,5 @@ public class Usertb implements Serializable {
     public String toString() {
         return "Entitypkg.Usertb[ userID=" + userID + " ]";
     }
-    
+
 }

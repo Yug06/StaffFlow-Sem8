@@ -41,11 +41,6 @@ public class RestClient {
         webTarget.path(java.text.MessageFormat.format("addDesignation/{0}", new Object[]{type})).request().post(null);
     }
 
-//    public <T> T ping(Class<T> responseType) throws ClientErrorException {
-//        WebTarget resource = webTarget;
-//        return resource.get(responseType);
-//    }
-
     public void updateHR(String userID, String name, String email, String password, String contactNo, String joinDate, String address, String DOB) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("updateHR/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{userID, name, email, password, contactNo, joinDate, address, DOB})).request().put(null);
     }

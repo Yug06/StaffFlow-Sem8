@@ -7,6 +7,7 @@ package Entitypkg;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -134,18 +135,22 @@ public class Projecttb implements Serializable {
         this.endDate = endDate;
     }
 
+        @JsonbTransient
     public Collection<Usertb> getUsertbCollection() {
         return usertbCollection;
     }
 
+        @JsonbTransient
     public void setUsertbCollection(Collection<Usertb> usertbCollection) {
         this.usertbCollection = usertbCollection;
     }
 
+        @JsonbTransient
     public Collection<Tasktb> getTasktbCollection() {
         return tasktbCollection;
     }
 
+        @JsonbTransient
     public void setTasktbCollection(Collection<Tasktb> tasktbCollection) {
         this.tasktbCollection = tasktbCollection;
     }

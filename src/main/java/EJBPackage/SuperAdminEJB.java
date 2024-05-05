@@ -11,6 +11,7 @@ import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 /**
  *
@@ -20,6 +21,8 @@ import javax.persistence.PersistenceContext;
 public class SuperAdminEJB {
 @PersistenceContext(unitName = "my_persistence_unit")
 EntityManager em;
+
+    Pbkdf2PasswordHashImpl pb;
 
     //Designation
     //Display
@@ -55,11 +58,16 @@ EntityManager em;
     
     //Add HR
     public void addHR(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB){
+         
+         pb = new Pbkdf2PasswordHashImpl();
+         String enc = pb.generate(password.toCharArray());
+
+        
         Designationtb dt = em.find(Designationtb.class, 2);
         Usertb u = new Usertb();
         u.setName(name);
         u.setEmail(email);
-        u.setPassword(password);
+        u.setPassword(enc);
         u.setContactNo(contactNo);
         u.setJoinDate(joinDate);
         u.setAddress(address);
