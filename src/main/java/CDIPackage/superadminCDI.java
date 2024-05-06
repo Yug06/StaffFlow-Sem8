@@ -60,6 +60,7 @@ public class superadminCDI {
 
     
     public String addHR(){
+        
         String contactNo = String.valueOf(u.getContactNo());
          
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -76,6 +77,11 @@ public class superadminCDI {
 
     public void setGusers(GenericType<Collection<Usertb>> gusers) {
         this.gusers = gusers;
+    }
+    
+ public String deleteHR(Integer uid){
+        rc.deleteHR(uid);
+        return "ShowHR.jsf";
     }
     
 }

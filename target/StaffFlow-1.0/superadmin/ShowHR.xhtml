@@ -29,6 +29,12 @@
                 <tbody>
                     <tr>
                         <td>
+                             <h:column>
+                                <f:facet name="header">
+                                    uid
+                                </f:facet>
+                                #{h.userID}
+                            </h:column> 
                             <h:column>
                                 <f:facet name="header">
                                     Name
@@ -71,9 +77,9 @@
                         <td>
                             <h:column>
                                 <f:facet name="header">
-                                    Delete
+                                    Action
                                 </f:facet>
-                                
+                                <h:commandButton value="Delete" styleClass="btn btn-danger" action="#{superadminCDI.deleteHR(h.userID)}"></h:commandButton>
                             </h:column> 
                         </td>
                   </tr>

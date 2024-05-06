@@ -113,7 +113,7 @@ public class RestClient {
         webTarget.path(java.text.MessageFormat.format("addHR/{0}/{1}/{2}/{3}/{4}/{5}/{6}", new Object[]{name, email, password, contactNo, joinDate, address, DOB})).request().post(null);
     }
 
-    public void deleteHR(String userID) throws ClientErrorException {
+    public void deleteHR(Integer userID) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("deleteHR/{0}", new Object[]{userID})).request().delete();
     }
 
