@@ -105,6 +105,19 @@ EntityManager em;
         em.merge(u);
     } 
     
+      //getid by email
+      public Integer getUserIDByEmail(String email) {
+    try {
+        Usertb user = em.createQuery("SELECT u FROM Usertb u WHERE u.email = :email", Usertb.class)
+                        .setParameter("email", email)
+                        .getSingleResult();
+        return user.getUserID();
+    } catch (Exception e) {
+        // Handle case when no user is found with the given email
+        e.printStackTrace();
+        return null;
+    }
+}
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

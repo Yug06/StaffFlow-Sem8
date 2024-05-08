@@ -13,6 +13,7 @@ jwtrest\Constants.class
 EJBPackage\EmployeeEJB.class
 ServletPackage\projectServlet.class
 Entitypkg\Payrolltb.class
+CDIPackage\NavigationCDI.class
 client\MyRestFilter.class
 Entitypkg\Leavetb.class
 Entitypkg\Tasktb.class

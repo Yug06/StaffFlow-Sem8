@@ -12,6 +12,9 @@
     </h:head>
     
     <h:body>
+           <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkAdmin()}"/>
+        </f:metadata>
         <main id="main" class="main">
             <section class="section">
                 <div class="container-fluid">

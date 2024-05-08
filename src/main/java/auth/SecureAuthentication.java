@@ -6,9 +6,11 @@
 package auth;
 
 //import beans.LoginBean;
+import EJBPackage.SuperAdminEJB;
 import io.jsonwebtoken.ExpiredJwtException;
 import javax.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import java.io.Serializable;
+import javax.ejb.EJB;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -46,6 +48,9 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
     AuthenticationStatus status;
     @Inject
     TokenProvider tokenProvider;
+    
+    @EJB
+    SuperAdminEJB se; 
 // @Inject LoginBean lbean;
 
         public String logout() throws ServletException{
@@ -56,7 +61,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
         request.logout();
         KeepRecord.reset();
          
-        return "/plogin.jsf";
+        return "/plogin.jsf?faces-redirect=true";
     }
     
     @Override
@@ -86,7 +91,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
 //          String password = lbean.getPassword();
                 Credential credential = new UsernamePasswordCredential(email, new Password(password));
                 result = handler.validate(credential);
-
+                System.out.println(email+password+result.getStatus());
                 if (result.getStatus() == Status.VALID) {
                     KeepRecord.setErrorStatus("");
                     AuthenticationStatus status = createToken(result, ctx);
@@ -106,14 +111,14 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
 //                        request.getRequestDispatcher("Admin/Category.jsf").forward(request, response);
                     }
                     if (result.getCallerGroups().contains("HR")) {
-                        //  Integer userID =  ur.getIdByusername(username);
+                          Integer userID =  se.getUserIDByEmail(email);
 //                         HttpSession session = request.getSession();
-                        session.setAttribute("Email", email);
-                        //session.setAttribute("User",userID );
+                        session.setAttribute("User", email);
+                        session.setAttribute("Uid",userID );
                         response.sendRedirect("hr.jsf");
 //                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
                     }
-
+                    
                     return status;
                 } else {
                   KeepRecord.setErrorStatus("Either Username or Password is wrong !");

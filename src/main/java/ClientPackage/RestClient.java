@@ -4,6 +4,7 @@
  */
 package ClientPackage;
 
+import client.MyRestFilter;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -29,6 +30,7 @@ public class RestClient {
     public RestClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("rest");
+        client.register(new MyRestFilter());
     }
 
     public <T> T displayDesignation(Class<T> responseType) throws ClientErrorException {

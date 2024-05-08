@@ -7,6 +7,8 @@
     </h:head>
     <h:body>
         Hello HR
+        #{session.getAttribute("User")}
+        #{session.getAttribute("Uid")}
         <h:form>
         <h:commandButton value="Logout" action="#{loginBean.logout()}"></h:commandButton>
         </h:form>
