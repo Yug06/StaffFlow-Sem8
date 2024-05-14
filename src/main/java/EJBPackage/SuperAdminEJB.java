@@ -118,6 +118,21 @@ EntityManager em;
         return null;
     }
 }
+      
+     public Integer getHRcount() {
+    Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 2").getSingleResult();
+    return count.intValue();
+    }
+
+      public Integer getPMcount() {
+    Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 3").getSingleResult();
+    return count.intValue();
+    }
+
+      public Integer getEmployeecount() {
+    Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 4").getSingleResult();
+    return count.intValue();
+    }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

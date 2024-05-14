@@ -107,7 +107,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                     if (result.getCallerGroups().contains("Super Admin")) {
                         
                         session.setAttribute("Super Admin", email);
-                        response.sendRedirect("superadmin/ShowHR.jsf");
+                        response.sendRedirect("superadmin/HomeSA.jsf");
 //                        request.getRequestDispatcher("Admin/Category.jsf").forward(request, response);
                     }
                     if (result.getCallerGroups().contains("HR")) {

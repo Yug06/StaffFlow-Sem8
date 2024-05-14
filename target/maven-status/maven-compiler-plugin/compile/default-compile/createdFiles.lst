@@ -18,6 +18,7 @@ client\MyRestFilter.class
 Entitypkg\Leavetb.class
 Entitypkg\Tasktb.class
 filter\NoCacheFilter.class
+servlet\NewServlet.class
 ServletPackage\employeeServlet.class
 config\Project.class
 EJBPackage\SuperAdminEJB.class

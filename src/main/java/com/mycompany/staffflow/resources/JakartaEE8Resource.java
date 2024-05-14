@@ -199,7 +199,31 @@ public class JakartaEE8Resource {
     public void updateHR(@PathParam("userID") Integer userID,@PathParam("name")  String name,@PathParam("email")  String email,@PathParam("password")  String password,@PathParam("contactNo")  Integer contactNo,@PathParam("joinDate")  Date joinDate,@PathParam("address")  String address,@PathParam("DOB")  Date DOB) {
         saejb.updateHR(userID, name, email, password, contactNo, joinDate, address, DOB);
     }
-
+    
+    //getHRCount
+   @GET
+    @Path("/getHRcount")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Integer getHRCount() {
+        return saejb.getHRcount();
+    }
+     
+    //getPMCount
+   @GET
+    @Path("/getPMcount")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Integer getPMcount() {
+        return saejb.getPMcount();
+    }
+    
+     //getEmployeeCount
+   @GET
+    @Path("/getEmployeecount")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Integer getEmployeecount() {
+        return saejb.getEmployeecount();
+    }
+    
     //-------------------------------------------- HR ------------------------------------------------------
     
     @GET

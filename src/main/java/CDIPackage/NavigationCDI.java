@@ -21,6 +21,7 @@ public class NavigationCDI {
 
     String SAdmin;
     Integer HR;
+    
     public NavigationCDI() {
     }
     

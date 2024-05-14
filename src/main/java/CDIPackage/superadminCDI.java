@@ -31,6 +31,10 @@ public class superadminCDI {
     GenericType<Collection<Usertb>> gusers;
     
     Response rs;
+    
+    Integer HRCount;
+    Integer PMCount;
+    Integer EmployeeCount;
     /**
      * Creates a new instance of superadminCDI
      */
@@ -82,6 +86,36 @@ public class superadminCDI {
  public String deleteHR(Integer uid){
         rc.deleteHR(uid);
         return "ShowHR.jsf";
+    }
+
+    public Integer getHRCount() {
+        rs = rc.getHRCount(Response.class);
+        HRCount = rs.readEntity(Integer.class);
+        return HRCount;
+    }
+
+    public void setHRCount(Integer HRCount) {
+        this.HRCount = HRCount;
+    }
+
+    public Integer getPMCount() {
+        rs = rc.getPMcount(Response.class);
+        PMCount = rs.readEntity(Integer.class);
+        return PMCount;
+    }
+
+    public void setPMCount(Integer PMCount) {
+        this.PMCount = PMCount;
+    }
+
+    public Integer getEmployeeCount() {
+        rs = rc.getEmployeecount(Response.class);
+        EmployeeCount = rs.readEntity(Integer.class);
+        return EmployeeCount;
+    }
+
+    public void setEmployeeCount(Integer EmployeeCount) {
+        this.EmployeeCount = EmployeeCount;
     }
     
 }

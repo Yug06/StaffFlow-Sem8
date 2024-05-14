@@ -4,7 +4,6 @@
  */
 package ClientPackage;
 
-import client.MyRestFilter;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
@@ -30,12 +29,17 @@ public class RestClient {
     public RestClient() {
         client = javax.ws.rs.client.ClientBuilder.newClient();
         webTarget = client.target(BASE_URI).path("rest");
-        client.register(new MyRestFilter());
     }
 
     public <T> T displayDesignation(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("displayDesignation");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T getEmployeecount(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("getEmployeecount");
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
@@ -54,6 +58,12 @@ public class RestClient {
     public <T> T displayHR(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("showHR");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T getPMcount(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("getPMcount");
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
@@ -93,6 +103,12 @@ public class RestClient {
 
     public void deleteDesignation(String designationID) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("deleteDesignation/{0}", new Object[]{designationID})).request().delete();
+    }
+
+    public <T> T getHRCount(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("getHRcount");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
     public <T> T getProjectID(Class<T> responseType, String projectID) throws ClientErrorException {
