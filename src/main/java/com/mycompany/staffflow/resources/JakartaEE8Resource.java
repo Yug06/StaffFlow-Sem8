@@ -207,7 +207,22 @@ public class JakartaEE8Resource {
     public Integer getHRCount() {
         return saejb.getHRcount();
     }
-     
+    
+    //showPM
+     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showPM")
+    public Collection<Usertb> displayPM() {
+        return saejb.displayPM();
+    }
+    
+    //showEMP
+     @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showEmp")
+    public Collection<Usertb> displayEmployee() {
+        return saejb.displayEmployee();
+    }
     //getPMCount
    @GET
     @Path("/getPMcount")

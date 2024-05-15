@@ -30,6 +30,12 @@ public class superadminCDI {
     Collection<Usertb> userCollection;
     GenericType<Collection<Usertb>> gusers;
     
+    Collection<Usertb> pmCollection;
+    GenericType<Collection<Usertb>> gpms;
+    
+    Collection<Usertb> empCollection;
+    GenericType<Collection<Usertb>> gemps;
+    
     Response rs;
     
     Integer HRCount;
@@ -40,8 +46,15 @@ public class superadminCDI {
      */
     public superadminCDI() {
         rc = new RestClient();
+        
         userCollection = new ArrayList<>();
         gusers = new GenericType<Collection<Usertb>>(){};
+        
+        pmCollection = new ArrayList<>();
+        gpms = new GenericType<Collection<Usertb>>(){};
+        
+        empCollection = new ArrayList<>();
+        gemps = new GenericType<Collection<Usertb>>(){};
     }
 
     public Usertb getU() {
@@ -60,6 +73,26 @@ public class superadminCDI {
 
     public void setUserCollection(Collection<Usertb> userCollection) {
         this.userCollection = userCollection;
+    }
+
+     public Collection<Usertb> getPmCollection() {
+         rs = rc.displayPM(Response.class);
+         pmCollection = rs.readEntity(gpms);
+        return pmCollection;
+    }
+
+    public void setPmCollection(Collection<Usertb> pmCollection) {
+        this.pmCollection = pmCollection;
+    }
+
+    public Collection<Usertb> getEmpCollection() {
+        rs = rc.displayEmployee(Response.class);
+        empCollection = rs.readEntity(gemps);
+        return empCollection;
+    }
+
+    public void setEmpCollection(Collection<Usertb> empCollection) {
+        this.empCollection = empCollection;
     }
 
     

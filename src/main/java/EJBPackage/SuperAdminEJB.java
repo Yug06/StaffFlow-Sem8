@@ -87,6 +87,8 @@ EntityManager em;
         return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 2).getResultList();
     }
     
+    
+    
     //GetDataById
       public Collection<Usertb> getHRByIdforUpdate(Integer userID){
         return em.createNamedQuery("Usertb.findByUserID").setParameter("userID", userID).getResultList();
@@ -118,6 +120,18 @@ EntityManager em;
         return null;
     }
 }
+      
+      //Display PM
+    public Collection<Usertb> displayPM(){
+        return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 3).getResultList();
+    }
+    
+      //Display Employee
+    public Collection<Usertb> displayEmployee(){
+        return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 4).getResultList();
+    }
+    
+    
       
      public Integer getHRcount() {
     Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 2").getSingleResult();

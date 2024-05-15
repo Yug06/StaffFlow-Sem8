@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../superadmin/headersa.xhtml"/>
+        <ui:include src="../superadmin/aside.xhtml"/>
+    </h:head>
+    <h:body>
+        
+           <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkAdmin()}"/>
+        </f:metadata>
+        
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1><center>Project Manager Data</center></h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+            <h:form>
+                <h:dataTable value="#{superadminCDI.pmCollection}" class="table datatable" var="h">
+                <tbody>
+                    <tr>
+                        <td>
+                             <h:column>
+                                <f:facet name="header">
+                                    uid
+                                </f:facet>
+                                #{h.userID}
+                            </h:column> 
+                            <h:column>
+                                <f:facet name="header">
+                                    Name
+                                </f:facet>
+                                #{h.name}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Email
+                                </f:facet>
+                                #{h.email}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Address
+                                </f:facet>
+                                #{h.address}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Join Date
+                                </f:facet>
+                                #{h.joinDate}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Contact NO
+                                </f:facet>
+                                #{h.contactNo}
+                            </h:column> 
+                        </td>
+                  </tr>
+                </tbody>
+            </h:dataTable>
+                  </h:form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+        
+        
+        
+    </h:body>
+    <ui:include src="../superadmin/footersa.xhtml"/>
+</html>

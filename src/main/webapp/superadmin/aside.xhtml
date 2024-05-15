@@ -6,6 +6,8 @@
         <meta charset="utf-8"/>
         <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 
+        
+        
         <title>Dashboard - NiceAdmin Bootstrap Template</title>
         <meta content="" name="description"/>
         <meta content="" name="keywords"/>
@@ -24,6 +26,8 @@
         <link href="#{request.contextPath}/public/assets/vendor/simple-datatables/style.css" rel="stylesheet"/>
 
         <link href="#{request.contextPath}/public/assets/css/style.css" rel="stylesheet"/>
+        
+        
     </h:head>
     <h:body>
 
@@ -32,21 +36,21 @@
             <ul class="sidebar-nav" id="sidebar-nav">
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="../superadmin/HomeSA.jsf">
+                    <a class="nav-link collapsed" href="../superadmin/HomeSA.jsf" id="dash">
                         <i class="bi bi-grid"></i>
                         <span>Dashboard</span>
                     </a>
                 </li><!-- End Dashboard Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="../superadmin/ShowHR.jsf">
+                    <a class="nav-link collapsed" href="../superadmin/ShowHR.jsf" id="showHR">
                         <i class="bi bi-person"></i>
                         <span>HR summary</span>
                     </a>
                 </li><!-- End Profile Page Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="../superadmin/AddHR.jsf">
+                    <a class="nav-link collapsed" href="../superadmin/AddHR.jsf" id="addHR">
                         <i class="bi bi-question-circle"></i>
                         <span>Add HR</span>
                     </a>
@@ -56,7 +60,7 @@
 
                 <li class="nav-item">
                     <h:form>
-                        <h:commandLink class="nav-link collapsed" action="#{secureAuthentication.logout()}">
+                        <h:commandLink class="nav-link collapsed" action="#{secureAuthentication.logout()}" id="lout">
 
                             <!--        <a class="nav-link collapsed" href="plogin.jsf">-->
 
@@ -75,6 +79,32 @@
         <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
         <!-- Vendor JS Files -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <script>
+            $("#dash").click(function(){
+                $("#dash").addClass()("collapsed");
+                $("#showHR").addClass("collapsed");
+                $("#addHR").addClass("collapsed");
+                $("#lout").addClass("collapsed");
+
+            });
+            
+              $("#showHR").click(function(){
+                $("#dash").addClass("collapsed");
+                $("#showHR").removeClass("collapsed");
+                $("#addHR").addClass("collapsed");
+                $("#lout").addClass("collapsed");
+
+            });
+            
+              $("#addHR").click(function(){
+                $("#dash").addClass("collapsed");
+                $("#showHR").addClass("collapsed");
+                $("#addHR").removeClass("collapsed");
+                $("#lout").addClass("collapsed");
+
+            });
+        </script>
         <script src="#{request.contextPath}/public/assets/vendor/apexcharts/apexcharts.min.js"></script>
         <script src="#{request.contextPath}/public/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="#{request.contextPath}/public/assets/vendor/chart.js/chart.umd.js"></script>
