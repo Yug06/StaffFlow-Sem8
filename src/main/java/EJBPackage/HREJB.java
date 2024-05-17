@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 /**
  *
@@ -22,7 +23,7 @@ public class HREJB {
 @PersistenceContext(unitName = "my_persistence_unit")
 EntityManager em;
 
-
+  Pbkdf2PasswordHashImpl pb;
   //Designation
     //Display
     public Collection<Designationtb> showDesignation(){
@@ -34,16 +35,24 @@ EntityManager em;
         return em.createQuery("SELECT d FROM Designationtb d WHERE d.designationID NOT IN (1,2)",Designationtb.class).getResultList();
     }
     
+    public Collection<Usertb> displayUserList(){
+        return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID NOT IN (1,2)",Usertb.class).getResultList();
+    }
+    
     //Add User
      public void addUser(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB, Integer designationID) {
         // Check if the selected designation is either Project Manager or Employee
+       
+          pb = new Pbkdf2PasswordHashImpl();
+         String enc = pb.generate(password.toCharArray());
+         
         if (designationID.equals(3) || designationID.equals(4)) { // Assuming 3 is Project Manager and 4 is Employee
             Designationtb designation = em.find(Designationtb.class, designationID);
             if (designation != null) {
                 Usertb user = new Usertb();
                 user.setName(name);
                 user.setEmail(email);
-                user.setPassword(password);
+                user.setPassword(enc);
                 user.setContactNo(contactNo);
                 user.setJoinDate(joinDate);
                 user.setAddress(address);
@@ -79,11 +88,13 @@ EntityManager em;
       
       //Update User
         public void updateUser(Integer userID, String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB) {
-        Usertb user = em.find(Usertb.class, userID);
+         pb = new Pbkdf2PasswordHashImpl();
+         String enc = pb.generate(password.toCharArray());
+         Usertb user = em.find(Usertb.class, userID);
         if (user != null) {
             user.setName(name);
             user.setEmail(email);
-            user.setPassword(password);
+            user.setPassword(enc);
             user.setContactNo(contactNo);
             user.setJoinDate(joinDate);
             user.setAddress(address);

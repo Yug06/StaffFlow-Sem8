@@ -130,8 +130,6 @@ EntityManager em;
     public Collection<Usertb> displayEmployee(){
         return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 4).getResultList();
     }
-    
-    
       
      public Integer getHRcount() {
     Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 2").getSingleResult();

@@ -41,47 +41,7 @@ public class JakartaEE8Resource {
     @EJB
     HREJB hrejb;
 
-    //---------------------------------- project -------------------------------------------------------
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showProjects")
-    public Collection<Projecttb> displayProjects() {
-        return pejb.displayProjects();
-    }
-
-    @POST
-    @Path("addProject/{userID}/{title}/{description}/{startDate}/{endDate}")
-    public void addProject(@PathParam("userID") Integer userID, @PathParam("title") String title, @PathParam("description") String description, @PathParam("startDate") Date startDate, @PathParam("endDate") Date endDate) {
-        pejb.addProject(userID, title, description, startDate, endDate);
-
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showProjbyid/{projectID}")
-    public Collection<Projecttb> getProjectID(@PathParam("projectID") Integer projectID) {
-        return pejb.getProjectID(projectID);
-    }
-
-    @PUT
-    @Path("updateProject/{userID}/{title}/{description}/{startDate}/{endDate}/{projectID}")
-    public void updateProject(@PathParam("projectID") Integer projectID, @PathParam("userID") Integer userID, @PathParam("title") String title, @PathParam("description") String description, @PathParam("startDate") Date startDate, @PathParam("endDate") Date endDate) {
-        pejb.updateProject(projectID, userID, title, description, startDate, endDate);
-    }
-
-    @DELETE
-    @Path("deleteProject/{projectID}")
-    public void deleteProject(@PathParam("projectID") Integer projectID) {
-        pejb.deleteProject(projectID);
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showProjbytitle/{title}")
-    public Collection<Projecttb> getProjectTitle(@PathParam("title") String title) {
-        return pejb.getProjectTitle(title);
-    }
-
+ 
     //----------------------------------- employee -------------------------------------------------------
     @POST
     @Path("giveFeedback/{description}/{date}/{userID}")
@@ -133,29 +93,6 @@ public class JakartaEE8Resource {
         saejb.deleteDesignation(designationID);
     }
 
-    
-    
-//    @Path("addHR/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}")
-//    public Response addHR(
-//        @PathParam("name") String name,
-//        @PathParam("email") String email,
-//        @PathParam("password") String password,
-//        @PathParam("contactNo") Integer contactNo,
-//        @PathParam("joinDate") Date joinDate,
-//        @PathParam("address") String address,
-//        @PathParam("DOB") Date DOB
-//    ) {
-//        try {
-//            // Call your EJB method to add HR
-//            saejb.addHR(name, email, password, contactNo, joinDate, address, DOB);
-//            
-//            // Return a success response
-//            return Response.status(Response.Status.CREATED).entity("HR user added successfully").build();
-//        } catch (Exception e) {
-//            // Return an error response if something goes wrong
-//            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("Failed to add HR user").build();
-//        }
-//    }
     @POST
     @Path("addHR/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}")
     public void addHR(@PathParam("name") String name,@PathParam("email") String email,@PathParam("password") String password, @PathParam("contactNo") Integer contactNo, @PathParam("joinDate") String joinDate,@PathParam("address") String address,@PathParam("DOB") String DOB) {
@@ -239,59 +176,6 @@ public class JakartaEE8Resource {
         return saejb.getEmployeecount();
     }
     
-    //-------------------------------------------- HR ------------------------------------------------------
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showDestination")
-    public Collection<Designationtb> showDesignation() {
-        return hrejb.showDesignation();
-    }
-
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showDestinationforHR")
-    public Collection<Designationtb> getDesignationsforHR() {
-        return hrejb.getDesignationsforHR();
-    }
-
-    
-    @POST
-    @Path("addUser/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}/{designationID}")
-    public void addUser(@PathParam("name") String name,@PathParam("email")  String email,@PathParam("password") String password,@PathParam("contactNo") Integer contactNo,@PathParam("joinDate")  Date joinDate,@PathParam("address")  String address,@PathParam("DOB")  Date DOB,@PathParam("designationID")  Integer designationID) {
-        hrejb.addUser(name, email, password, contactNo, joinDate, address, DOB, designationID);
-    }
-
-    
-    @DELETE
-    @Path("deleteUser/{userID}")
-    public void deleteUser(@PathParam("userID") Integer userID) {
-        hrejb.deleteUser(userID);
-    }
-
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showUseridforupdate/{userID}")
-    public Collection<Usertb> getUserByIdforUpdate(@PathParam("userID") Integer userID) {
-        return hrejb.getUserByIdforUpdate(userID);
-    }
-
-    
-    @PUT
-    @Path("updateUser/{userID}/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}")
-    public void updateUser(@PathParam("userID") Integer userID,@PathParam("name")  String name,@PathParam("email")  String email,@PathParam("password")  String password,@PathParam("contactNo")  Integer contactNo,@PathParam("joinDate")  Date joinDate,@PathParam("address")  String address,@PathParam("DOB")  Date DOB) {
-        hrejb.updateUser(userID, name, email, password, contactNo, joinDate, address, DOB);
-    }
-
-    
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("showSalary")
-    public Collection<Salarytb> displaySalary() {
-        return hrejb.displaySalary();
-    }
-
+   
 
 }

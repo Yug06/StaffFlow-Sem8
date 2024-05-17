@@ -115,7 +115,14 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
 //                         HttpSession session = request.getSession();
                         session.setAttribute("User", email);
                         session.setAttribute("Uid",userID );
-                        response.sendRedirect("hr.jsf");
+                        response.sendRedirect("hr/showUser.jsf");
+//                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
+                    }if (result.getCallerGroups().contains("Project Manager")) {
+                          Integer userID =  se.getUserIDByEmail(email);
+//                         HttpSession session = request.getSession();
+                        session.setAttribute("User", email);
+                        session.setAttribute("Uid",userID );
+                        response.sendRedirect("projectmanager/showProject.jsf");
 //                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
                     }
                     

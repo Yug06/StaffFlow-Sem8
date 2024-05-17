@@ -39,7 +39,6 @@ public class ProjectEJB {
         proj.setStartDate(startDate);
         proj.setEndDate(endDate);
         em.persist(proj);
-        
     }
     
     

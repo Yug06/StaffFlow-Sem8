@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../projectmanager/headerPM.xhtml"/>
+        <ui:include src="../projectmanager/asidePM.xhtml"/>
+    </h:head>
+    <h:body>
+    
+    <f:metadata>
+        <f:event type="preRenderView" listener="#{navigationCDI.checkPM()}"/>
+    </f:metadata>
+        
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1><center>Project Summary</center></h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+            <h:form>
+                <h:dataTable value="#{projectmanagerCDI.projcol}" class="table datatable" var="p">
+                <tbody>
+                    <tr>
+                        <td>
+                             <h:column>
+                                <f:facet name="header">
+                                    Project ID
+                                </f:facet>
+                                #{p.projectID}
+                            </h:column> 
+                            <h:column>
+                                <f:facet name="header">
+                                    Title
+                                </f:facet>
+                                #{p.title}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Description
+                                </f:facet>
+                                #{p.description}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Start Date
+                                </f:facet>
+                                #{p.startDate}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Due Date
+                                </f:facet>
+                                #{p.endDate}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Action
+                                </f:facet>
+                                <h:commandButton value="Delete" styleClass="btn btn-danger" action="#{projectmanagerCDI.deleteProject(pid)}"></h:commandButton>
+                            </h:column> 
+                        </td>
+                  </tr>
+                </tbody>
+            </h:dataTable>
+                  </h:form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+    </h:body>
+    <ui:include src="../projectmanager/footerPM.xhtml"/>
+</html>

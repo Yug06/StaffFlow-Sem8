@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    
+    <h:head>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkHR()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Employee Registration Form</h5>
+                                    <h:form>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                Name
+                                                <h:inputText id="n" class="form-control" value="#{hrCDI.u.name}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Email
+                                                <h:inputText id="e" class="form-control" value="#{hrCDI.u.email}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Password
+                                                <h:inputText id="p" class="form-control" value="#{hrCDI.u.password}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Contact no
+                                                <h:inputText id="cno" class="form-control" value="#{hrCDI.u.contactNo}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Join Date
+                                                <p:datePicker id="jd" class="form-control" value="#{hrCDI.u.joinDate}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Address
+                                                <h:inputText id="aa" class="form-control" value="#{hrCDI.u.address}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Date of Birth
+                                                <p:datePicker id="dob" class="form-control" value="#{hrCDI.u.dob}"/>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                Designation
+                                                <h:selectOneMenu id="ddd" class="form-select" value="#{hrCDI.designationID}">
+                                                    <f:selectItems value="#{hrCDI.deshr}" var="d" itemLabel="#{d.type}" itemValue="#{d.designationID}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <h:commandButton value="Submit" class="btn btn-primary" action="#{hrCDI.addUser()}" />
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <h:form>
+            <h:commandButton value="logout" action="#{secureAuthentication.logout()}"></h:commandButton>
+        </h:form>
+    </h:body>
+    <ui:include src="../hr/footerHR.xhtml"/>
+</html>

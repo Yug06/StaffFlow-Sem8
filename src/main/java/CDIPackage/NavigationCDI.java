@@ -20,7 +20,9 @@ import javax.validation.constraints.Email;
 public class NavigationCDI {
 
     String SAdmin;
-    Integer HR;
+    String HR;
+    String PM;
+
     
     public NavigationCDI() {
     }
@@ -44,13 +46,13 @@ public class NavigationCDI {
          return "successOutcome";
     }
     
-    public String checkUser()
+    public String checkHR()
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
         HttpSession session = (HttpSession) externalContext.getSession(false);
 
-         HR = (Integer) session.getAttribute("User");
+         HR = (String) session.getAttribute("User");
         if (HR == null) {
             // Redirect to the login page
             try {
@@ -62,4 +64,24 @@ public class NavigationCDI {
         }
          return "successOutcome";
     }
+    
+      public String checkPM()
+    {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = facesContext.getExternalContext();
+        HttpSession session = (HttpSession) externalContext.getSession(false);
+
+         PM = (String) session.getAttribute("User");
+        if (PM == null) {
+            // Redirect to the login page
+            try {
+                externalContext.redirect(externalContext.getRequestContextPath() + "/plogin.jsf");
+            } catch (Exception e) {
+                e.printStackTrace(); // Handle the exception as needed
+            }
+            return "/plogin.jsf?faces-redirect=true";
+        }
+         return "successOutcome";
+    }
+    
 }
