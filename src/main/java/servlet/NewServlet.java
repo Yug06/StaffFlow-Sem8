@@ -4,9 +4,16 @@
  */
 package servlet;
 
+import EJBPackage.HREJB;
 import EJBPackage.SuperAdminEJB;
+import EJBPackage.userforpayroll;
+import Entitypkg.Designationtb;
+import Entitypkg.Payrolltb;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +27,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "NewServlet", urlPatterns = {"/NewServlet"})
 public class NewServlet extends HttpServlet {
-    @EJB SuperAdminEJB saejb;
+
+    @EJB
+    SuperAdminEJB saejb;
+    @EJB
+    HREJB hrejb;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,13 +50,63 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
+            out.println("<title>Servlet NewServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            
-            out.println(saejb.getHRcount());
-            
+
+//            int month = 4; // For example, May
+//            int year = 2024;
+//
+////
+//            Collection<Payrolltb> payrollRecords = hrejb.getPayrollRecordsForMonth(month, year);
+//
+//
+//            for (Payrolltb payrollRecord : payrollRecords) {
+//                // Process each payroll record
+//                // Example: Print the details of each payroll record
+//                out.println("Payroll ID: " + payrollRecord.getId());
+//                out.println("User ID: " + payrollRecord.getUserId().getName());
+//                // Add more details as needed
+//     // Initialize the current date
+        Date currentDate = new Date();
+        
+        // Create an instance of your service clas
+
+        // Call the method and get the result
+        Collection<userforpayroll> userList = hrejb.displayUserListforPayroll(currentDate);
+
+        // Set the response content type
+        response.setContentType("text/html");
+        
+        // Get the response writer
+//        PrintWriter out = response.getWriter();
+
+        // Generate the HTML response
+        out.println("<html>");
+        out.println("<head><title>User List for Payroll</title></head>");
+        out.println("<body>");
+        out.println("<h1>User List for Payroll</h1>");
+        out.println("<table border='1'>");
+        out.println("<tr><th>User ID</th><th>Name</th><th>Email</th><th>Exists in Payroll</th></tr>");
+
+        for (userforpayroll user : userList) {
+            out.println("<tr>");
+            out.println("<td>" + user.userID + "</td>");
+            out.println("<td>" + user.name + "</td>");
+            out.println("<td>" + user.email + "</td>");
+                        out.println("<td>" + user.designation + "</td>");
+
+            out.println("<td>" + user.isExist + "</td>");
+            out.println("</tr>");
+        }
+
+        out.println("</table>");
+//         Collection<Payrolltb> pt = hrejb.getPayrollRecordsForMonth();
+//            
+//            for(Payrolltb d: pt){
+//                out.println(d.getUserId().getName() + " " + d.getFinalAmount());
+//            }
             out.println("</body>");
             out.println("</html>");
         }

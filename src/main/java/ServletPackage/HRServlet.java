@@ -6,6 +6,7 @@ package ServletPackage;
 
 import EJBPackage.HREJB;
 import Entitypkg.Designationtb;
+import Entitypkg.Payrolltb;
 import Entitypkg.Salarytb;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -56,10 +57,10 @@ HREJB he;
                 out.println(d.getDesignationID() + " " + d.getType());
             }
             
-             Collection<Salarytb> sd = he.displaySalary();
+             Collection<Payrolltb> sd = he.getAllPayrollRecords();
             
-            for(Salarytb d: sd){
-                out.println(d.getSalaryID() + " " + d.getUserID().getName() + " " + d.getAmount());
+            for(Payrolltb d: sd){
+                out.println(d.getId() + " " + d.getUserId().getName() + " " + d.getFinalAmount());
             }
             
 //                         String dateString = "22-04-2021";

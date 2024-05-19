@@ -31,6 +31,46 @@ public class hrClient {
         webTarget = client.target(BASE_URI).path("hr");
     }
 
+    public <T> T checkPayrollRecordExistsForMonth(Class<T> responseType, String userID, String effectiveDate) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("checkRecord/{0}/{1}", new Object[]{userID, effectiveDate}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T getMostRecentPayrollRecordForUser(Class<T> responseType, String userID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("mostRecentPayroll/{0}", new Object[]{userID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public void addUser(String name, String email, String password, String contactNo, String joinDate, String address, String DOB, String designationID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("addUser/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{name, email, password, contactNo, joinDate, address, DOB, designationID})).request().post(null);
+    }
+
+    public <T> T getPayrollRecordsForUser(Class<T> responseType, String userID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("payroll/{0}", new Object[]{userID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public void updateUser(String userID, String name, String email, String password, String contactNo, String joinDate, String address, String DOB) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("updateUser/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{userID, name, email, password, contactNo, joinDate, address, DOB})).request().post(null);
+    }
+
+    public void updatePayrollRecord(String payrollID, String basicSalary, String bonus, String deductions, String effectiveDate) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("payroll/update/{0}/{1}/{2}/{3}/{4}", new Object[]{payrollID, basicSalary, bonus, deductions, effectiveDate})).request().post(null);
+    }
+
+    public <T> T getAllPayrollRecords(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("payroll/all");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public void deletePayrollRecord(String payrollID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("payroll/delete/{0}", new Object[]{payrollID})).request().delete();
+    }
+
     public <T> T getDesignationsforHR(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("showDesignationforHR");
@@ -49,21 +89,19 @@ public class hrClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public void addUser(String name, String email, String password, String contactNo, String joinDate, String address, String DOB, String designationID) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("addUser/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{name, email, password, contactNo, joinDate, address, DOB, designationID})).request().post(null);
-    }
-
     public void deleteUser(Integer userID) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("deleteUser/{0}", new Object[]{userID})).request().delete();
     }
 
-    public void updateUser(String userID, String name, String email, String password, String contactNo, String joinDate, String address, String DOB) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("updateUser/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{userID, name, email, password, contactNo, joinDate, address, DOB})).request().put(null);
+    public <T> T getUsersWithPayrollStatus(Class<T> responseType, String effectiveDate) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("usersWithPayrollStatus/{0}", new Object[]{effectiveDate}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public <T> T displaySalary(Class<T> responseType) throws ClientErrorException {
+    public <T> T getPayrollRecordsForMonth(Class<T> responseType, String month, String year) throws ClientErrorException {
         WebTarget resource = webTarget;
-        resource = resource.path("showSalary");
+        resource = resource.path(java.text.MessageFormat.format("payroll/month/{0}/{1}", new Object[]{month, year}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
@@ -71,6 +109,10 @@ public class hrClient {
         WebTarget resource = webTarget;
         resource = resource.path("showDesignation");
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public void addPayroll(String userID, String basicSalary, String bonus, String deductions, String effectiveDate) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("addPayroll/{0}/{1}/{2}/{3}/{4}", new Object[]{userID, basicSalary, bonus, deductions, effectiveDate})).request().post(null);
     }
 
     public void close() {

@@ -1,0 +1,62 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:viewParam name="userID" value="#{hrCDI.selectedUserID}"/>
+        </f:metadata>
+        
+        <main id="main" class="main">
+            <div class="pagetitle">
+                <h1><center>Add Payroll</center></h1>
+            </div><!-- End Page Title -->
+
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Form for adding payroll details -->
+                             
+                                  <h:form>
+                                      <h:inputHidden value="#{hrCDI.p.id}"></h:inputHidden>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                Name
+                                                <h:inputText id="n" class="form-control" value="#{hrCDI.p.userId.name}" readonly="true"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Basic Salary
+                                                <p:inputNumber id="b" class="form-control" value="#{hrCDI.p.basicSalary}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Bonus
+                                                <p:inputNumber id="bo" class="form-control" value="#{hrCDI.p.bonus}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Deductions
+                                                <p:inputNumber id="de" class="form-control" value="#{hrCDI.p.deductions}"/>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <h:commandButton value="Submit" class="btn btn-primary" action="#{hrCDI.updatePayroll()}" />
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main><!-- End #main -->
+        <ui:include src="../hr/footerHR.xhtml"/>
+    </h:body>
+</html>
