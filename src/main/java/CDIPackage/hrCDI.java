@@ -19,9 +19,10 @@ import javax.ws.rs.core.Response;
 @Named(value = "hrCDI")
 @RequestScoped
 public class hrCDI {
+
     @EJB
-            HREJB hrEJB;
-    
+    HREJB hrEJB;
+
     hrClient hc;
     Response rs;
 
@@ -37,6 +38,13 @@ public class hrCDI {
     Collection<userforpayroll> userForPayrollCollection;
     GenericType<Collection<userforpayroll>> gUserForPayrolls;
 
+    Collection<Payrolltb> payrollForUserCollection;
+    GenericType<Collection<Payrolltb>> gpayrollForUser;
+
+    Collection<Payrolltb> payrollCollection;
+    GenericType<Collection<Payrolltb>> gpayroll;
+
+    
     String designationID;
     Integer selectedUserID;
     String selectedName;
@@ -44,13 +52,25 @@ public class hrCDI {
     public hrCDI() {
         hc = new hrClient();
         users = new ArrayList<>();
-        gusers = new GenericType<Collection<Usertb>>() {};
+        gusers = new GenericType<Collection<Usertb>>() {
+        };
 
         deshr = new ArrayList<>();
-        gdeshr = new GenericType<Collection<Designationtb>>() {};
+        gdeshr = new GenericType<Collection<Designationtb>>() {
+        };
 
         userForPayrollCollection = new ArrayList<>();
-        gUserForPayrolls = new GenericType<Collection<userforpayroll>>() {};
+        gUserForPayrolls = new GenericType<Collection<userforpayroll>>() {
+        };
+
+        payrollForUserCollection = new ArrayList<>();
+        gpayrollForUser = new GenericType<Collection<Payrolltb>>() {
+        };
+        
+        payrollCollection = new ArrayList<>();
+        gpayroll = new GenericType<Collection<Payrolltb>>() {
+        };
+
     }
 
     public Usertb getU() {
@@ -152,28 +172,56 @@ public class hrCDI {
 
     public String addPayroll() {
         hc.addPayroll(selectedUserID.toString(), p.getBasicSalary().toString(), p.getBonus().toString(), p.getDeductions().toString(), getCurrentDate());
-       return "showUserforPayroll.jsf?faces-redirect=true";
+        return "showUserforPayroll.jsf?faces-redirect=true";
     }
-    
-     public String redirectToUpdatePayroll(Integer userID) {
-         
+
+    public String redirectToUpdatePayroll(Integer userID) {
+
         p = hc.getMostRecentPayrollRecordForUser(Payrolltb.class, userID.toString());
         if (p == null) {
             // Handle the case where no payroll record is found
             System.out.println("No payroll record found");
         }
-                return "updatePayroll.jsf"; // Make sure you have an updatePayroll.jsf page
+        return "updatePayroll.jsf"; // Make sure you have an updatePayroll.jsf page
 
     }
-     
-     public String updatePayroll(){
-      hc.updatePayrollRecord(p.getId().toString(), p.getBasicSalary().toString(), p.getBonus().toString(), p.getDeductions().toString(), getCurrentDate());
-       return "showUserforPayroll.jsf?faces-redirect=true";
-     }
-     
+
+    public String updatePayroll() {
+        hc.updatePayrollRecord(p.getId().toString(), p.getBasicSalary().toString(), p.getBonus().toString(), p.getDeductions().toString(), getCurrentDate());
+        return "showUserforPayroll.jsf?faces-redirect=true";
+    }
+
+    public String redirectToViewPayroll(Integer userID,String name) {
+        this.selectedUserID = userID;
+this.selectedName = name;
+        return "PayrollforUser.jsf";
+    }
+
 //     public String redirectToUpdatePayroll(Integer userID) {
 //        this.selectedUserID = userID;
 //        fetchPayrollDataForUser();
 //        return "updatePayroll.jsf"; // Make sure you have an updatePayroll.jsf page
 //    }
+
+    public Collection<Payrolltb> getPayrollForUserCollection() {
+        rs = hc.getPayrollRecordsForUser(Response.class, selectedUserID.toString());
+        payrollForUserCollection = rs.readEntity(gpayrollForUser);
+        return payrollForUserCollection;
+    }
+
+    public void setPayrollForUserCollection(Collection<Payrolltb> payrollForUserCollection) {
+        this.payrollForUserCollection = payrollForUserCollection;
+    }
+
+    public Collection<Payrolltb> getPayrollCollection() {
+        rs = hc.getAllPayrollRecords(Response.class);
+        payrollCollection = rs.readEntity(gpayroll);
+        return payrollCollection;
+    }
+
+    public void setPayrollCollection(Collection<Payrolltb> payrollCollection) {
+        this.payrollCollection = payrollCollection;
+    }
+    
+    
 }

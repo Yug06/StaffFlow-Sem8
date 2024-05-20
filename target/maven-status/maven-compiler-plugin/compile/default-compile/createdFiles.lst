@@ -25,6 +25,7 @@ Entitypkg\Projecttb.class
 Entitypkg\Usertb.class
 com\mycompany\staffflow\resources\JakartaEE8Resource.class
 CDIPackage\hrCDI$1.class
+CDIPackage\hrCDI$4.class
 ServletPackage\designationServlet.class
 CDIPackage\navbean.class
 EJBPackage\HREJB.class
@@ -37,6 +38,7 @@ CDIPackage\superadminCDI$3.class
 Entitypkg\Leavetb.class
 config\Project.class
 EJBPackage\SuperAdminEJB.class
+CDIPackage\hrCDI$5.class
 ClientPackage\RestClient.class
 Entitypkg\Designationtb.class
 EJBPackage\ProjectEJB.class

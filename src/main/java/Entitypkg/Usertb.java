@@ -194,7 +194,7 @@ public class Usertb implements Serializable {
         this.dob = dob;
     }
 
-    @JsonbTransient
+        @JsonbTransient
     public Collection<Projecttb> getProjecttbCollection() {
         return projecttbCollection;
     }
@@ -252,6 +252,7 @@ public class Usertb implements Serializable {
         this.employeefeedbackCollection = employeefeedbackCollection;
     }
 
+    
     @JsonbTransient
     public Collection<Payrolltb> getPayrolltbCollection() {
         return payrolltbCollection;
@@ -336,5 +337,5 @@ public class Usertb implements Serializable {
     public String toString() {
         return "Entitypkg.Usertb[ userID=" + userID + " ]";
     }
-
+    
 }

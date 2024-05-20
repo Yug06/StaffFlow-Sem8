@@ -122,6 +122,11 @@ public class HREJB {
             pr.setBonus(bonus);
             pr.setDeductions(deductions);
             pr.setEffectiveDate(effectiDate);
+            
+            // Calculate final amount
+        BigDecimal finalAmount = basic_salary.add(bonus).subtract(deductions);
+        pr.setFinalAmount(finalAmount);
+            
             em.persist(pr);
         } else {
             System.out.println("User not found");
@@ -185,6 +190,11 @@ public class HREJB {
             pr.setBonus(bonus);
             pr.setDeductions(deductions);
             pr.setEffectiveDate(effectiDate);
+           
+            // Calculate final amount
+        BigDecimal finalAmount = basic_salary.add(bonus).subtract(deductions);
+        pr.setFinalAmount(finalAmount);
+            
             em.merge(pr);
         } else {
             System.out.println("Payroll record not found");

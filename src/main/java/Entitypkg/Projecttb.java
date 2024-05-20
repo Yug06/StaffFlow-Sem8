@@ -135,22 +135,22 @@ public class Projecttb implements Serializable {
         this.endDate = endDate;
     }
 
-        @JsonbTransient
+    @JsonbTransient
     public Collection<Usertb> getUsertbCollection() {
         return usertbCollection;
     }
 
-        @JsonbTransient
+    @JsonbTransient
     public void setUsertbCollection(Collection<Usertb> usertbCollection) {
         this.usertbCollection = usertbCollection;
     }
 
-        @JsonbTransient
+    @JsonbTransient
     public Collection<Tasktb> getTasktbCollection() {
         return tasktbCollection;
     }
 
-        @JsonbTransient
+    @JsonbTransient
     public void setTasktbCollection(Collection<Tasktb> tasktbCollection) {
         this.tasktbCollection = tasktbCollection;
     }
@@ -187,5 +187,5 @@ public class Projecttb implements Serializable {
     public String toString() {
         return "Entitypkg.Projecttb[ projectID=" + projectID + " ]";
     }
-    
+
 }

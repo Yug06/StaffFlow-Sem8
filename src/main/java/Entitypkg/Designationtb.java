@@ -80,7 +80,7 @@ public class Designationtb implements Serializable {
         return usertbCollection;
     }
 
-    @JsonbTransient
+        @JsonbTransient
     public void setUsertbCollection(Collection<Usertb> usertbCollection) {
         this.usertbCollection = usertbCollection;
     }

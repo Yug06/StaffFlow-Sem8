@@ -67,7 +67,8 @@
                                  <h:panelGroup>
                                      <h:commandButton value="Add" styleClass="btn btn-primary" rendered="#{not h.isExist}" action="#{hrCDI.redirectToAddPayroll(h.userID,h.name)}"/>
                                      <h:commandButton value="Update" styleClass="btn btn-secondary" rendered="#{h.isExist}" action="#{hrCDI.redirectToUpdatePayroll(h.userID)}"/>
-                                            </h:panelGroup>
+                                  <h:commandButton value="View" styleClass="btn btn-info" action="#{hrCDI.redirectToViewPayroll(h.userID,h.name)}"/>    
+                                 </h:panelGroup>
                             </h:column> 
                         </td>
                   </tr>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkHR()}"/>
+    </f:metadata>
+        
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1><center>Payroll Summary of #{hrCDI.selectedName}</center></h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+            <h:form>
+                <h:dataTable value="#{hrCDI.payrollForUserCollection}" class="table datatable" var="p">
+                <tbody>
+                    <tr>
+                         <td>
+                            <h:column>
+  <f:facet name="header">Effective Date</f:facet>
+                                        <h:outputText value="#{p.effectiveDate}">
+                                            <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                        </h:outputText>
+                            </h:column> 
+                        </td>
+                        <td>
+                             <h:column>
+                                 <f:facet name="header">Basic Salary</f:facet>
+                                        #{p.basicSalary}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">Bonus</f:facet>
+                                        #{p.bonus}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">Deductions</f:facet>
+                                        #{p.deductions}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">Gross Salary</f:facet>
+                                        #{p.finalAmount}
+                            </h:column> 
+                        </td>
+                        
+                        
+                  </tr>
+                </tbody>
+            </h:dataTable>
+                  </h:form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+    </h:body>
+    <ui:include src="../hr/footerHR.xhtml"/>
+</html>
