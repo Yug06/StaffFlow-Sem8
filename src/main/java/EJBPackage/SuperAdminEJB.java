@@ -121,6 +121,19 @@ EntityManager em;
     }
 }
       
+        public String getUserNameByEmail(String email) {
+    try {
+        Usertb user = em.createQuery("SELECT u FROM Usertb u WHERE u.email = :email", Usertb.class)
+                        .setParameter("email", email)
+                        .getSingleResult();
+        return user.getName();
+    } catch (Exception e) {
+        // Handle case when no user is found with the given email
+        e.printStackTrace();
+        return null;
+    }
+}
+      
       //Display PM
     public Collection<Usertb> displayPM(){
         return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 3).getResultList();

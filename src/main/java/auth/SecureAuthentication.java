@@ -48,22 +48,22 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
     AuthenticationStatus status;
     @Inject
     TokenProvider tokenProvider;
-    
+
     @EJB
-    SuperAdminEJB se; 
+    SuperAdminEJB se;
 // @Inject LoginBean lbean;
 
-        public String logout() throws ServletException{
-           
-            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    public String logout() throws ServletException {
+
+        HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
         HttpSession session = request.getSession();
         session.invalidate();
         request.logout();
         KeepRecord.reset();
-         
+
         return "/plogin.jsf?faces-redirect=true";
     }
-    
+
     @Override
     public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext ctx) throws AuthenticationException {
         //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -91,7 +91,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
 //          String password = lbean.getPassword();
                 Credential credential = new UsernamePasswordCredential(email, new Password(password));
                 result = handler.validate(credential);
-                System.out.println(email+password+result.getStatus());
+                System.out.println(email + password + result.getStatus());
                 if (result.getStatus() == Status.VALID) {
                     KeepRecord.setErrorStatus("");
                     AuthenticationStatus status = createToken(result, ctx);
@@ -105,30 +105,38 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                     KeepRecord.setCredential(credential);
 
                     if (result.getCallerGroups().contains("Super Admin")) {
-                        
+
                         session.setAttribute("Super Admin", email);
                         response.sendRedirect("superadmin/HomeSA.jsf");
 //                        request.getRequestDispatcher("Admin/Category.jsf").forward(request, response);
                     }
                     if (result.getCallerGroups().contains("HR")) {
-                          Integer userID =  se.getUserIDByEmail(email);
+                        Integer userID = se.getUserIDByEmail(email);
+                        String userName = se.getUserNameByEmail(email);
 //                         HttpSession session = request.getSession();
                         session.setAttribute("User", email);
-                        session.setAttribute("Uid",userID );
+                        session.setAttribute("Uid", userID);
+                        session.setAttribute("Uname", userName);
+
                         response.sendRedirect("hr/showUser.jsf");
 //                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
-                    }if (result.getCallerGroups().contains("Project Manager")) {
-                          Integer userID =  se.getUserIDByEmail(email);
+                    }
+                    if (result.getCallerGroups().contains("Project Manager")) {
+                        Integer userID = se.getUserIDByEmail(email);
+                        String userName = se.getUserNameByEmail(email);
+
 //                         HttpSession session = request.getSession();
                         session.setAttribute("User", email);
-                        session.setAttribute("Uid",userID );
+                        session.setAttribute("Uid", userID);
+                        session.setAttribute("Uname", userName);
+
                         response.sendRedirect("projectmanager/showProject.jsf");
 //                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
                     }
-                    
+
                     return status;
                 } else {
-                  KeepRecord.setErrorStatus("Either Username or Password is wrong !");
+                    KeepRecord.setErrorStatus("Either Username or Password is wrong !");
                     response.sendRedirect("login.jsf");
 
                     //lbean.setStatus(AuthenticationStatus.SEND_FAILURE);
@@ -136,8 +144,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                 }
 
             }
-            
-           
+
             if (KeepRecord.getToken() != null) {
 //          Credential credential1 = new UsernamePasswordCredential(KeepRecord.getUsername(), new Password(KeepRecord.getPassword()));
 //          result = handler.validate(credential1);
@@ -149,17 +156,16 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
             e.printStackTrace();
         }
 //        System.out.println(token);
-    token = KeepRecord.getToken();
+        token = KeepRecord.getToken();
         if (token != null) {
             // validation of the jwt credential
-           
 
             return validateToken(token, ctx);
-       } else if (ctx.isProtected()) {
+        } else if (ctx.isProtected()) {
 //            // A protected resource is a resource for which a constraint has been defined.
 //            // if there are no credentials and the resource is protected, we response with unauthorized status
-       
-    return ctx.responseUnauthorized();
+
+            return ctx.responseUnauthorized();
         }
         return ctx.doNothing();
     }
@@ -178,19 +184,19 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
 //            //LOGGER.log(Level.INFO, "Security exception for user {0} - {1}", new String[]{eje.getClaims().getSubject(), eje.getMessage()});
 //            return context.responseUnauthorized();
 //        }
- try {
-        if (tokenProvider.validateToken(token)) {
-            JWTCredential credential = tokenProvider.getCredential(token);
-            System.out.println("JWTAuthenticationMechanism - Token Validated");
-            return context.notifyContainerAboutLogin(credential.getPrincipal(), credential.getAuthorities());
+        try {
+            if (tokenProvider.validateToken(token)) {
+                JWTCredential credential = tokenProvider.getCredential(token);
+                System.out.println("JWTAuthenticationMechanism - Token Validated");
+                return context.notifyContainerAboutLogin(credential.getPrincipal(), credential.getAuthorities());
 
+            }
+            System.out.println("JWTAuthenticationMechanism - Invalid Token");
+            return context.responseUnauthorized();
+        } catch (ExpiredJwtException eje) {
+            System.out.println("JWTAuthenticationMechanism - Token Expired");
+            return context.responseUnauthorized();
         }
-        System.out.println("JWTAuthenticationMechanism - Invalid Token");
-        return context.responseUnauthorized();
-    } catch (ExpiredJwtException eje) {
-        System.out.println("JWTAuthenticationMechanism - Token Expired");
-        return context.responseUnauthorized();
-    }
     }
 
     /**
@@ -203,14 +209,14 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
      */
     private AuthenticationStatus createToken(CredentialValidationResult result, HttpMessageContext context) {
 //        if (!isRememberMe(context)) {
-            // if (true) {
-            String jwt = tokenProvider.createToken(result.getCallerPrincipal().getName(), result.getCallerGroups(), false);
-            //context.getRequest().getSession().setAttribute("token", jwt);
-            KeepRecord.setToken(jwt);
-            context.getResponse().addHeader(AUTHORIZATION_HEADER, BEARER + jwt);
-            System.out.println("Token Value " + jwt);
+        // if (true) {
+        String jwt = tokenProvider.createToken(result.getCallerPrincipal().getName(), result.getCallerGroups(), false);
+        //context.getRequest().getSession().setAttribute("token", jwt);
+        KeepRecord.setToken(jwt);
+        context.getResponse().addHeader(AUTHORIZATION_HEADER, BEARER + jwt);
+        System.out.println("Token Value " + jwt);
 
-   //     }
+        //     }
         System.out.println("JWTAuthenticationMechanism - Token Created");
 
         return context.notifyContainerAboutLogin(result.getCallerPrincipal(), result.getCallerGroups());
