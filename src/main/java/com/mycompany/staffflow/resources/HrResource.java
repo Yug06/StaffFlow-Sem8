@@ -8,6 +8,7 @@ import EJBPackage.EmployeeEJB;
 import EJBPackage.HREJB;
 import EJBPackage.ProjectEJB;
 import EJBPackage.SuperAdminEJB;
+import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
 import Entitypkg.Designationtb;
 import Entitypkg.Salarytb;
@@ -218,10 +219,43 @@ public class HrResource {
     }
     
      @GET
+    @Path("/usersWithAttendance/{date}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<userforattendance> getUsersWithAttendance(@PathParam("date") String date) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dt = sdf.parse(date);
+            return hrejb.displayUserListforAttendance(dt);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+     @GET
     @Path("mostRecentPayroll/{userID}")
     @Produces(MediaType.APPLICATION_JSON)
     public Payrolltb getMostRecentPayrollRecordForUser(@PathParam("userID") Integer userID) {
         Payrolltb payroll = hrejb.getMostRecentPayrollRecordForUser(userID);
         return payroll;
     }
+    
+     @POST
+    @Path("attendance/{userId}/{date}/{status}")
+    public void recordAttendance(
+            @PathParam("userId") Integer userId,
+            @PathParam("date") String date,
+            @PathParam("status") Boolean status) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date dt = sdf.parse(date);
+
+            hrejb.recordAttendance(userId, dt, status);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle parsing exception
+        }
+    }
+        
+          
 }

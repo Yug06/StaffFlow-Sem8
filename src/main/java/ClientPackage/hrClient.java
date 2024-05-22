@@ -71,6 +71,16 @@ public class hrClient {
         webTarget.path(java.text.MessageFormat.format("payroll/delete/{0}", new Object[]{payrollID})).request().delete();
     }
 
+    public <T> T getUsersWithAttendance(Class<T> responseType, String date) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("usersWithAttendance/{0}", new Object[]{date}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public void recordAttendance(String userId, String date, String status) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("attendance/{0}/{1}/{2}", new Object[]{userId, date, status})).request().post(null);
+    }
+
     public <T> T getDesignationsforHR(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("showDesignationforHR");
@@ -89,7 +99,7 @@ public class hrClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public void deleteUser(Integer userID) throws ClientErrorException {
+    public void deleteUser(String userID) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("deleteUser/{0}", new Object[]{userID})).request().delete();
     }
 

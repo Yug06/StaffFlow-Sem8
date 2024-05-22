@@ -6,6 +6,7 @@ package servlet;
 
 import EJBPackage.HREJB;
 import EJBPackage.SuperAdminEJB;
+import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
 import Entitypkg.Designationtb;
 import Entitypkg.Payrolltb;
@@ -71,10 +72,12 @@ public class NewServlet extends HttpServlet {
 //     // Initialize the current date
         Date currentDate = new Date();
         
+//        hrejb.recordAttendance(3, currentDate, Boolean.TRUE);
         // Create an instance of your service clas
 
         // Call the method and get the result
-        Collection<userforpayroll> userList = hrejb.displayUserListforPayroll(currentDate);
+//        Collection<userforpayroll> userList = hrejb.displayUserListforPayroll(currentDate);
+        Collection<userforattendance> userList = hrejb.displayUserListforAttendance(currentDate);
 
         // Set the response content type
         response.setContentType("text/html");
@@ -90,14 +93,14 @@ public class NewServlet extends HttpServlet {
         out.println("<table border='1'>");
         out.println("<tr><th>User ID</th><th>Name</th><th>Email</th><th>Exists in Payroll</th></tr>");
 
-        for (userforpayroll user : userList) {
+        for (userforattendance user : userList) {
             out.println("<tr>");
             out.println("<td>" + user.userID + "</td>");
             out.println("<td>" + user.name + "</td>");
             out.println("<td>" + user.email + "</td>");
                         out.println("<td>" + user.designation + "</td>");
 
-            out.println("<td>" + user.isExist + "</td>");
+            out.println("<td>" + user.isPresent + "</td>");
             out.println("</tr>");
         }
 

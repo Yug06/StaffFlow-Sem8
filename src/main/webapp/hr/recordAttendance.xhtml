@@ -1,0 +1,131 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkHR()}"/>
+    </f:metadata>
+        
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1><center>Employee Summary</center></h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+            <h:form>
+            
+                <h:dataTable value="#{hrCDI.userforAttendanceColletion}" class="table datatable" var="u">
+                    
+                <tbody>
+                    <tr>
+                        <td>
+                             <h:column>
+                                <f:facet name="header">
+                                    User ID
+                                </f:facet>
+                                #{u.userID}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Name
+                                </f:facet>
+                                #{u.name}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Email
+                                </f:facet>
+                                #{u.email}
+                            </h:column> 
+                        </td>
+                        <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Designation
+                                </f:facet>
+                                #{u.designation}
+                            </h:column> 
+                        </td>
+                     <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Status
+                                </f:facet>
+                                <h:selectBooleanCheckbox value="#{u.isPresent}"></h:selectBooleanCheckbox>
+                            </h:column> 
+                        </td>
+                  </tr>
+                   
+                </tbody>
+                   
+            </h:dataTable>
+                  <h:commandButton value="Submit" action="#{hrCDI.recordBulkAttendance()}"></h:commandButton>
+                  </h:form>
+            </div>
+          </div>
+            
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+    </h:body>
+  <script>
+    function setDefaultInputValues() {
+        const inputs = document.querySelectorAll(".datatable-input");
+        inputs.forEach(input => {
+            input.value = "Amit";
+        });
+
+        // Focus on the first input element and simulate the up arrow key press
+        if (inputs.length > 0) {
+            const firstInput = inputs[0];
+            firstInput.focus();
+            
+            // Simulate pressing the up arrow key
+            const keyEvent = new KeyboardEvent('keydown', {
+                bubbles: true,
+                cancelable: true,
+                key: 'ArrowUp',
+                code: 'ArrowUp',
+                keyCode: 38, // Key code for the up arrow key
+                which: 38
+            });
+            firstInput.dispatchEvent(keyEvent);
+
+            // Trigger input event to reflect the change
+            const inputEvent = new Event('input', {
+                bubbles: true,
+                cancelable: true
+            });
+            firstInput.dispatchEvent(inputEvent);
+        }
+        console.log(inputs);
+    }
+
+    // Trigger the function after a slight delay to ensure the page has rendered
+    window.onload = function() {
+        setTimeout(setDefaultInputValues, 500);
+    };
+</script>
+
+    <ui:include src="../hr/footerHR.xhtml"/>
+</html>

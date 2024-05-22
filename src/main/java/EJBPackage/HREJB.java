@@ -4,6 +4,7 @@
  */
 package EJBPackage;
 
+import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
 import Entitypkg.Payrolltb;
 import Entitypkg.Salarytb;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -122,11 +124,11 @@ public class HREJB {
             pr.setBonus(bonus);
             pr.setDeductions(deductions);
             pr.setEffectiveDate(effectiDate);
-            
+
             // Calculate final amount
-        BigDecimal finalAmount = basic_salary.add(bonus).subtract(deductions);
-        pr.setFinalAmount(finalAmount);
-            
+            BigDecimal finalAmount = basic_salary.add(bonus).subtract(deductions);
+            pr.setFinalAmount(finalAmount);
+
             em.persist(pr);
         } else {
             System.out.println("User not found");
@@ -163,21 +165,45 @@ public class HREJB {
                 .setParameter("userID", userID)
                 .getResultList();
     }
-    
-    
 
     public Collection<userforpayroll> displayUserListforPayroll(Date dt) {
         Collection<userforpayroll> cu = new ArrayList<userforpayroll>();
         Collection<Usertb> u = em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID NOT IN (1,2)", Usertb.class).getResultList();
 //        return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID NOT IN (1,2)", Usertb.class).getResultList();
-        u.forEach((element)->{
+        u.forEach((element) -> {
             userforpayroll up = new userforpayroll();
             up.userID = element.getUserID();
             up.name = element.getName();
             up.email = element.getEmail();
             up.designation = element.getDesignationID().getType();
-            up.isExist = isPayrollRecordExistsForMonth(up.userID,dt);
+            up.isExist = isPayrollRecordExistsForMonth(up.userID, dt);
             cu.add(up);
+        });
+        return cu;
+    }
+
+    public Collection<userforattendance> displayUserListforAttendance(Date dt) {
+        Collection<userforattendance> cu = new ArrayList<userforattendance>();
+        Collection<Usertb> u = em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID NOT IN (1,2)", Usertb.class).getResultList();
+        Collection<Attendancetb> a = em.createQuery("SELECT a FROM Attendancetb a WHERE a.date = :date", Attendancetb.class)
+                .setParameter("date", dt)
+                .getResultList();
+        u.forEach((element) -> {
+            userforattendance ua = new userforattendance();
+            ua.userID = element.getUserID();
+            ua.name = element.getName();
+            ua.email = element.getEmail();
+            ua.designation = element.getDesignationID().getType();
+           
+            ua.isPresent = false;
+
+            for (Attendancetb attendance : a) {
+                if (attendance.getUserID().getUserID().equals(ua.userID)) {
+                    ua.isPresent = attendance.getAttendance();
+                }
+            }
+
+            cu.add(ua);
         });
         return cu;
     }
@@ -190,11 +216,11 @@ public class HREJB {
             pr.setBonus(bonus);
             pr.setDeductions(deductions);
             pr.setEffectiveDate(effectiDate);
-           
+
             // Calculate final amount
-        BigDecimal finalAmount = basic_salary.add(bonus).subtract(deductions);
-        pr.setFinalAmount(finalAmount);
-            
+            BigDecimal finalAmount = basic_salary.add(bonus).subtract(deductions);
+            pr.setFinalAmount(finalAmount);
+
             em.merge(pr);
         } else {
             System.out.println("Payroll record not found");
@@ -240,6 +266,42 @@ public class HREJB {
             return null;
         }
     }
+
+    //Attendance
+
+     public Collection<Attendancetb> getAllAttendancetbsRecords() {
+        return em.createQuery(
+                "SELECT a FROM Attendancetb a", Attendancetb.class)
+                .getResultList();
+    }
+    
+    public void recordAttendance(Integer userId, Date date, Boolean status) {
+        Usertb user = em.find(Usertb.class, userId);
+        if (user != null) {
+            Attendancetb existingAttendance = em.createQuery("SELECT a FROM Attendancetb a WHERE a.userID = :user AND a.date = :date", Attendancetb.class)
+                    .setParameter("user", user)
+                    .setParameter("date", date)
+                    .getResultStream()
+                    .findFirst()
+                    .orElse(null);
+
+            if (existingAttendance != null) {
+                // Update existing attendance record
+                if(existingAttendance.getAttendance()!=status){
+                existingAttendance.setAttendance(status);
+                em.merge(existingAttendance);
+                }
+            } else {
+                // Add new attendance record
+                Attendancetb newAttendance = new Attendancetb();
+                newAttendance.setUserID(user);
+                newAttendance.setDate(date);
+                newAttendance.setAttendance(status);
+                em.persist(newAttendance);
+            }
+        }
+    }
+
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

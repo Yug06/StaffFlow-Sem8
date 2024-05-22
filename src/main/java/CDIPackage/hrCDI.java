@@ -2,7 +2,9 @@ package CDIPackage;
 
 import ClientPackage.hrClient;
 import EJBPackage.HREJB;
+import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
+import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
 import Entitypkg.Payrolltb;
 import Entitypkg.Usertb;
@@ -28,6 +30,7 @@ public class hrCDI {
 
     Usertb u = new Usertb();
     Payrolltb p = new Payrolltb();
+    Attendancetb a = new Attendancetb();
 
     Collection<Usertb> users;
     GenericType<Collection<Usertb>> gusers;
@@ -44,10 +47,16 @@ public class hrCDI {
     Collection<Payrolltb> payrollCollection;
     GenericType<Collection<Payrolltb>> gpayroll;
 
+    Collection<userforattendance> userforAttendanceColletion;
+    GenericType<Collection<userforattendance>> guserforAttendance;
+
     
     String designationID;
     Integer selectedUserID;
     String selectedName;
+    Date dt;
+
+   
 
     public hrCDI() {
         hc = new hrClient();
@@ -70,9 +79,20 @@ public class hrCDI {
         payrollCollection = new ArrayList<>();
         gpayroll = new GenericType<Collection<Payrolltb>>() {
         };
-
+        
+        userforAttendanceColletion = new ArrayList<>();
+        guserforAttendance = new GenericType<Collection<userforattendance>>() {
+        };
     }
 
+     public Date getDt() {
+        return dt;
+    }
+
+    public void setDt(Date dt) {
+        this.dt = dt;
+    }
+    
     public Usertb getU() {
         return u;
     }
@@ -145,7 +165,7 @@ public class hrCDI {
     }
 
     public String deleteUser(Integer uid) {
-        hc.deleteUser(uid);
+        hc.deleteUser(uid.toString());
         return "showUser.jsf";
     }
 
@@ -154,6 +174,11 @@ public class hrCDI {
         return sdf.format(new Date());
     }
 
+     public String getNewDate() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        return sdf.format(new Date());
+    }
+    
     public Collection<userforpayroll> getUserForPayrollCollection() {
         rs = hc.getUsersWithPayrollStatus(Response.class, getCurrentDate());
         userForPayrollCollection = rs.readEntity(gUserForPayrolls);
@@ -221,6 +246,29 @@ this.selectedName = name;
 
     public void setPayrollCollection(Collection<Payrolltb> payrollCollection) {
         this.payrollCollection = payrollCollection;
+    }
+
+    public Collection<userforattendance> getUserforAttendanceColletion() {
+      
+           rs = hc.getUsersWithAttendance(Response.class, getCurrentDate());
+            
+        
+      userforAttendanceColletion = rs.readEntity(guserforAttendance);
+        return userforAttendanceColletion;
+    }
+
+    public void setUserforAttendanceColletion(Collection<userforattendance> userforAttendanceColletion) {
+        this.userforAttendanceColletion = userforAttendanceColletion;
+    }
+    
+    public void recordBulkAttendance() {
+        userforAttendanceColletion.forEach((element)->{
+            hc.recordAttendance(element.getUserID().toString(), getCurrentDate(), String.valueOf(element.isIsPresent()));
+        });
+}
+
+    public String changeDt(){
+        return "recordAttendance.jsf";
     }
     
     
