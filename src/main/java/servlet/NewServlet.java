@@ -8,10 +8,12 @@ import EJBPackage.HREJB;
 import EJBPackage.SuperAdminEJB;
 import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
+import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
 import Entitypkg.Payrolltb;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -71,13 +73,14 @@ public class NewServlet extends HttpServlet {
 //                // Add more details as needed
 //     // Initialize the current date
         Date currentDate = new Date();
-        
+     
 //        hrejb.recordAttendance(3, currentDate, Boolean.TRUE);
         // Create an instance of your service clas
 
         // Call the method and get the result
 //        Collection<userforpayroll> userList = hrejb.displayUserListforPayroll(currentDate);
-        Collection<userforattendance> userList = hrejb.displayUserListforAttendance(currentDate);
+//        Collection<userforattendance> userList = hrejb.displayUserListforAttendance(currentDate);
+            Collection<Attendancetb> aList = hrejb.getAttendancetbsByDate(currentDate);
 
         // Set the response content type
         response.setContentType("text/html");
@@ -91,16 +94,15 @@ public class NewServlet extends HttpServlet {
         out.println("<body>");
         out.println("<h1>User List for Payroll</h1>");
         out.println("<table border='1'>");
-        out.println("<tr><th>User ID</th><th>Name</th><th>Email</th><th>Exists in Payroll</th></tr>");
-
-        for (userforattendance user : userList) {
+//        out.println("<tr><th>User ID</th><th>Name</th><th>Email</th><th>Exists in Payroll</th></tr>");
+//
+        for (Attendancetb user : aList) {
             out.println("<tr>");
-            out.println("<td>" + user.userID + "</td>");
-            out.println("<td>" + user.name + "</td>");
-            out.println("<td>" + user.email + "</td>");
-                        out.println("<td>" + user.designation + "</td>");
+            out.println("<td>" + user.getUserID().getName() + "</td>");
+            out.println("<td>" + user.getDate() + "</td>");
+                        out.println("<td>" + user.getAttendance() + "</td>");
 
-            out.println("<td>" + user.isPresent + "</td>");
+           out.println("<td>" + user.getAttendanceID() + "</td>");
             out.println("</tr>");
         }
 

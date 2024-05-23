@@ -64,6 +64,14 @@
                                 #{u.designation}
                             </h:column> 
                         </td>
+                          <td>
+                            <h:column>
+                                <f:facet name="header">
+                                    Date
+                                </f:facet>
+                                #{u.date}
+                            </h:column> 
+                        </td>
                      <td>
                             <h:column>
                                 <f:facet name="header">
@@ -88,7 +96,7 @@
 
   </main><!-- End #main -->
     </h:body>
-  <script>
+<!--  <script>
     function setDefaultInputValues() {
         const inputs = document.querySelectorAll(".datatable-input");
         inputs.forEach(input => {
@@ -125,7 +133,7 @@
     window.onload = function() {
         setTimeout(setDefaultInputValues, 500);
     };
-</script>
+</script>-->
 
     <ui:include src="../hr/footerHR.xhtml"/>
 </html>

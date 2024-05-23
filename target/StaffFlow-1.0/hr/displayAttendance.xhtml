@@ -1,11 +1,72 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Facelet Title</title>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkHR()}"/>
+        </f:metadata>
+        
+    <main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1><center>Employee Summary</center></h1>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body">
+              <!-- Table with stripped rows -->
+            <h:form>
+                <h:form>
+                <p:datePicker value="#{hrCDI.dt}" onchange="submit()" />
+                </h:form>
+                <h:dataTable value="#{hrCDI.attendanceCollection}" class="table datatable" var="u">
+                    <h:column>
+                        <f:facet name="header">
+                            User ID
+                        </f:facet>
+                        #{u.userID.userID}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Name
+                        </f:facet>
+                        #{u.userID.name}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Date
+                        </f:facet>
+                        #{u.date}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">
+                            Status
+                        </f:facet>
+                        #{u.attendance}
+                    </h:column>
+                </h:dataTable>
+                
+              </h:form>
+            </div>
+          </div>
+            
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
     </h:body>
+
+    <ui:include src="../hr/footerHR.xhtml"/>
 </html>

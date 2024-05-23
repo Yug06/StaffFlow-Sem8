@@ -53,12 +53,24 @@ public class hrClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    public <T> T getAllAttendanceRecords(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("attendance/all");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
     public void updateUser(String userID, String name, String email, String password, String contactNo, String joinDate, String address, String DOB) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("updateUser/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{userID, name, email, password, contactNo, joinDate, address, DOB})).request().post(null);
     }
 
     public void updatePayrollRecord(String payrollID, String basicSalary, String bonus, String deductions, String effectiveDate) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("payroll/update/{0}/{1}/{2}/{3}/{4}", new Object[]{payrollID, basicSalary, bonus, deductions, effectiveDate})).request().post(null);
+    }
+
+    public <T> T getAttendancebyDate(Class<T> responseType, String date) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("attendance/{0}", new Object[]{date}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
     public <T> T getAllPayrollRecords(Class<T> responseType) throws ClientErrorException {

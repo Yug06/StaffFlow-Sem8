@@ -49,14 +49,19 @@ public class hrCDI {
 
     Collection<userforattendance> userforAttendanceColletion;
     GenericType<Collection<userforattendance>> guserforAttendance;
+    
+    Collection<Attendancetb> attendanceCollection;
+    GenericType<Collection<Attendancetb>> gattendance;
 
+    Collection<Attendancetb> attendancedatecol;
+    GenericType<Collection<Attendancetb>> gatdate;
     
     String designationID;
     Integer selectedUserID;
     String selectedName;
     Date dt;
 
-   
+  
 
     public hrCDI() {
         hc = new hrClient();
@@ -83,15 +88,26 @@ public class hrCDI {
         userforAttendanceColletion = new ArrayList<>();
         guserforAttendance = new GenericType<Collection<userforattendance>>() {
         };
+        
+        attendanceCollection = new ArrayList<>();
+        gattendance = new GenericType<Collection<Attendancetb>>(){};
+        
+        
+        attendancedatecol = new ArrayList<>();
+        gatdate = new GenericType<Collection<Attendancetb>>(){};
     }
+
+
 
      public Date getDt() {
         return dt;
     }
 
-    public void setDt(Date dt) {
-        this.dt = dt;
-    }
+  public void setDt(Date dt) {
+    this.dt = dt;
+    System.out.println("Date set: " + dt);
+}
+
     
     public Usertb getU() {
         return u;
@@ -270,6 +286,43 @@ this.selectedName = name;
     public String changeDt(){
         return "recordAttendance.jsf";
     }
+
+ 
+
+    public void fetchAttendanceByDate() {
+    System.out.println("Fetching attendance by date. Selected date: " + dt);
+    if (dt != null) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String formattedDate = sdf.format(dt);
+        System.out.println("Formatted date: " + formattedDate);
+        rs = hc.getAttendancebyDate(Response.class, formattedDate);
+        attendanceCollection = rs.readEntity(gattendance);
+    } else {
+        System.out.println("Date is null, fetching all attendance records.");
+        rs = hc.getAllAttendanceRecords(Response.class);
+        attendanceCollection = rs.readEntity(gattendance);
+    }
+}
+
+
+    public Collection<Attendancetb> getAttendanceCollection() {
+        fetchAttendanceByDate();
+        return attendanceCollection;
+    }
+
+    public void setAttendanceCollection(Collection<Attendancetb> attendanceCollection) {
+        this.attendanceCollection = attendanceCollection;
+    }
+ 
     
+    
+    public Collection<Attendancetb> getAttendancedatecol() {
+        return attendancedatecol;
+    }
+
+    public void setAttendancedatecol(Collection<Attendancetb> attendancedatecol) {
+        this.attendancedatecol = attendancedatecol;
+    }
+
     
 }

@@ -5,6 +5,8 @@
 package EJBPackage;
 
 import java.util.Date;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -15,8 +17,17 @@ public class userforattendance {
     public String name;
     public String email;
     public String designation;
-  
+   @Temporal(TemporalType.DATE)
+    public Date date;
      public boolean isPresent;
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
 
     public Integer getUserID() {
         return userID;

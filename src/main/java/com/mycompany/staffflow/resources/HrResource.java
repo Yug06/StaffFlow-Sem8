@@ -10,11 +10,13 @@ import EJBPackage.ProjectEJB;
 import EJBPackage.SuperAdminEJB;
 import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
+import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
 import Entitypkg.Salarytb;
 import Entitypkg.Payrolltb;
 import Entitypkg.Usertb;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -31,6 +33,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * REST Web Service
@@ -257,5 +260,28 @@ public class HrResource {
         }
     }
         
-          
+    @GET
+    @Path("/attendance/all")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Attendancetb> getAllAttendanceRecords() {
+        return hrejb.getAllAttendancetbsRecords();
+    }
+    
+ @GET
+@Path("/attendance/{date}")
+@Produces(MediaType.APPLICATION_JSON)
+public Collection<Attendancetb> getAttendancebyDate(@PathParam("date") String date){
+      try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dt = sdf.parse(date);
+        return hrejb.getAttendancetbsByDate(dt);
+    } catch (Exception e) {
+        e.printStackTrace();
+          System.out.println("locho");
+        return null;
+    }
+}
+  
+
+ 
 }

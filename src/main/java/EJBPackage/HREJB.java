@@ -15,6 +15,7 @@ import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
+import javax.ejb.EJBException;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -194,12 +195,13 @@ public class HREJB {
             ua.name = element.getName();
             ua.email = element.getEmail();
             ua.designation = element.getDesignationID().getType();
-           
+         
             ua.isPresent = false;
 
             for (Attendancetb attendance : a) {
                 if (attendance.getUserID().getUserID().equals(ua.userID)) {
                     ua.isPresent = attendance.getAttendance();
+                    ua.date = attendance.getDate();
                 }
             }
 
@@ -274,6 +276,19 @@ public class HREJB {
                 "SELECT a FROM Attendancetb a", Attendancetb.class)
                 .getResultList();
     }
+     
+    public Collection<Attendancetb> getAttendancetbsByDate(Date date) {
+    try {
+        Collection<Attendancetb> a = em.createQuery("SELECT a FROM Attendancetb a WHERE a.date = :date", Attendancetb.class)
+                .setParameter("date", date)
+                .getResultList();
+        return a;
+    } catch (Exception e) {
+        e.printStackTrace();
+        throw new EJBException("Error querying Attendancetb by date", e);
+    }
+}
+
     
     public void recordAttendance(Integer userId, Date date, Boolean status) {
         Usertb user = em.find(Usertb.class, userId);
