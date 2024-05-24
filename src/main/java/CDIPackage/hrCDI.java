@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
@@ -324,5 +325,9 @@ this.selectedName = name;
         this.attendancedatecol = attendancedatecol;
     }
 
-    
+    @PostConstruct
+    public void init() {
+        dt = new Date(); // Set dt to the current date
+        // Initialize attendanceCollection if needed
+    }
 }
