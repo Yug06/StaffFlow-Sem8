@@ -4,17 +4,22 @@ CDIPackage\projectmanagerCDI.class
 CDIPackage\superadminCDI.class
 CDIPackage\superadminCDI$2.class
 jwtrest\TokenProvider.class
+CDIPackage\hrCDI$9.class
 jwtrest\JWTCredential.class
 ServletPackage\HRServlet.class
 EJBPackage\EmployeeEJB.class
+CDIPackage\hrCDI$11.class
 CDIPackage\hrCDI$2.class
 Entitypkg\Payrolltb.class
 CDIPackage\NavigationCDI.class
 client\MyRestFilter.class
+CDIPackage\empCDI$1.class
 ClientPackage\pmClient.class
 EJBPackage\userforpayroll.class
+CDIPackage\empCDI.class
 Entitypkg\Tasktb.class
 filter\NoCacheFilter.class
+ClientPackage\empClient.class
 servlet\NewServlet.class
 ServletPackage\employeeServlet.class
 CDIPackage\superadminCDI$1.class
@@ -24,6 +29,7 @@ Entitypkg\Employeefeedback.class
 com\mycompany\staffflow\JakartaRestConfiguration.class
 Entitypkg\Projecttb.class
 Entitypkg\Usertb.class
+com\mycompany\staffflow\resources\EmpResource.class
 com\mycompany\staffflow\resources\JakartaEE8Resource.class
 CDIPackage\hrCDI$1.class
 CDIPackage\hrCDI$4.class
@@ -37,6 +43,7 @@ com\mycompany\staffflow\resources\PmResource.class
 CDIPackage\hrCDI$7.class
 CDIPackage\projectmanagerCDI$1.class
 CDIPackage\superadminCDI$3.class
+CDIPackage\hrCDI$10.class
 Entitypkg\Leavetb.class
 config\Project.class
 EJBPackage\SuperAdminEJB.class
@@ -52,4 +59,5 @@ CDIPackage\hrCDI$8.class
 auth\SecureAuthentication.class
 keeprecord\KeepRecord.class
 Entitypkg\Salarytb.class
+Entitypkg\Statustb.class
 client\SecureClient.class

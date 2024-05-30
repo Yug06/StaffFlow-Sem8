@@ -33,7 +33,6 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Leavetb.findByLeaveID", query = "SELECT l FROM Leavetb l WHERE l.leaveID = :leaveID"),
     @NamedQuery(name = "Leavetb.findByStartDate", query = "SELECT l FROM Leavetb l WHERE l.startDate = :startDate"),
     @NamedQuery(name = "Leavetb.findByEndDate", query = "SELECT l FROM Leavetb l WHERE l.endDate = :endDate"),
-    @NamedQuery(name = "Leavetb.findByStatus", query = "SELECT l FROM Leavetb l WHERE l.status = :status"),
     @NamedQuery(name = "Leavetb.findBySubject", query = "SELECT l FROM Leavetb l WHERE l.subject = :subject")})
 public class Leavetb implements Serializable {
 
@@ -55,16 +54,18 @@ public class Leavetb implements Serializable {
     private Date endDate;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "status")
-    private boolean status;
-    @Basic(optional = false)
-    @NotNull
     @Size(min = 1, max = 500)
     @Column(name = "subject")
     private String subject;
     @JoinColumn(name = "userID", referencedColumnName = "userID")
     @ManyToOne(optional = false)
     private Usertb userID;
+    @JoinColumn(name = "actionBy", referencedColumnName = "userID")
+    @ManyToOne
+    private Usertb actionBy;
+    @JoinColumn(name = "statusid", referencedColumnName = "statusid")
+    @ManyToOne(optional = false)
+    private Statustb statusid;
 
     public Leavetb() {
     }
@@ -73,11 +74,10 @@ public class Leavetb implements Serializable {
         this.leaveID = leaveID;
     }
 
-    public Leavetb(Integer leaveID, Date startDate, Date endDate, boolean status, String subject) {
+    public Leavetb(Integer leaveID, Date startDate, Date endDate, String subject) {
         this.leaveID = leaveID;
         this.startDate = startDate;
         this.endDate = endDate;
-        this.status = status;
         this.subject = subject;
     }
 
@@ -105,14 +105,6 @@ public class Leavetb implements Serializable {
         this.endDate = endDate;
     }
 
-    public boolean getStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public String getSubject() {
         return subject;
     }
@@ -127,6 +119,22 @@ public class Leavetb implements Serializable {
 
     public void setUserID(Usertb userID) {
         this.userID = userID;
+    }
+
+    public Usertb getActionBy() {
+        return actionBy;
+    }
+
+    public void setActionBy(Usertb actionBy) {
+        this.actionBy = actionBy;
+    }
+
+    public Statustb getStatusid() {
+        return statusid;
+    }
+
+    public void setStatusid(Statustb statusid) {
+        this.statusid = statusid;
     }
 
     @Override

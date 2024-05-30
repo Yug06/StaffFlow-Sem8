@@ -114,23 +114,35 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                         Integer userID = se.getUserIDByEmail(email);
                         String userName = se.getUserNameByEmail(email);
 //                         HttpSession session = request.getSession();
-                        session.setAttribute("User", email);
+                        session.setAttribute("HR", email);
                         session.setAttribute("Uid", userID);
                         session.setAttribute("Uname", userName);
 
                         response.sendRedirect("hr/showUser.jsf");
-//                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
+                    //    request.getRequestDispatcher("hr/showUser.jsf").forward(request, response);
                     }
                     if (result.getCallerGroups().contains("Project Manager")) {
                         Integer userID = se.getUserIDByEmail(email);
                         String userName = se.getUserNameByEmail(email);
 
 //                         HttpSession session = request.getSession();
-                        session.setAttribute("User", email);
+                        session.setAttribute("PM", email);
                         session.setAttribute("Uid", userID);
                         session.setAttribute("Uname", userName);
 
                         response.sendRedirect("projectmanager/showProject.jsf");
+//                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
+                    }
+                      if (result.getCallerGroups().contains("Employee")) {
+                        Integer userID = se.getUserIDByEmail(email);
+                        String userName = se.getUserNameByEmail(email);
+
+//                         HttpSession session = request.getSession();
+                        session.setAttribute("Emp", email);
+                        session.setAttribute("Uid", userID);
+                        session.setAttribute("Uname", userName);
+
+                        response.sendRedirect("employee/homeEmp.jsf");
 //                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
                     }
 
@@ -144,12 +156,25 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                 }
 
             }
-
+            
             if (KeepRecord.getToken() != null) {
 //          Credential credential1 = new UsernamePasswordCredential(KeepRecord.getUsername(), new Password(KeepRecord.getPassword()));
-//          result = handler.validate(credential1);
-//          AuthenticationStatus status = createToken(result, ctx);
-                ctx.notifyContainerAboutLogin(KeepRecord.getPrincipal(), KeepRecord.getRoles());
+          result = handler.validate(KeepRecord.getCredential());
+//                System.out.println("o bhaii!!");
+          AuthenticationStatus status = createToken(result, ctx);
+          for (String s : result.getCallerGroups()) {
+                    System.out.println("role = " + s);
+                    
+                }
+                if(request.getRequestURI().contains("hr") && result.getCallerGroups().contains("Employee"))
+                {
+                    ctx.responseUnauthorized();
+                }
+               else if(request.getRequestURI().contains("user") && result.getCallerGroups().contains("admin"))
+               {
+                  ctx.responseUnauthorized();
+               }   
+          ctx.notifyContainerAboutLogin(KeepRecord.getPrincipal(), KeepRecord.getRoles());
             }
 
         } catch (Exception e) {

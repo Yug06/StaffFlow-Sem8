@@ -12,6 +12,7 @@ D:\Sem 8\Java Projects\StaffFlow\src\main\java\ClientPackage\RestClient.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\Entitypkg\Usertb.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\CDIPackage\navbean.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\com\mycompany\staffflow\resources\PmResource.java
+D:\Sem 8\Java Projects\StaffFlow\src\main\java\CDIPackage\empCDI.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\Entitypkg\Payrolltb.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\Entitypkg\Leavetb.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\ServletPackage\employeeServlet.java
@@ -19,6 +20,7 @@ D:\Sem 8\Java Projects\StaffFlow\src\main\java\keeprecord\KeepRecord.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\CDIPackage\loginBean.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\EJBPackage\userforpayroll.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\ClientPackage\hrClient.java
+D:\Sem 8\Java Projects\StaffFlow\src\main\java\com\mycompany\staffflow\resources\EmpResource.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\com\mycompany\staffflow\resources\JakartaEE8Resource.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\Entitypkg\Attendancetb.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\CDIPackage\hrCDI.java
@@ -26,7 +28,9 @@ D:\Sem 8\Java Projects\StaffFlow\src\main\java\filter\NoCacheFilter.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\client\MyRestFilter.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\config\Project.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\jwtrest\TokenProvider.java
+D:\Sem 8\Java Projects\StaffFlow\src\main\java\ClientPackage\empClient.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\Entitypkg\Designationtb.java
+D:\Sem 8\Java Projects\StaffFlow\src\main\java\Entitypkg\Statustb.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\CDIPackage\superadminCDI.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\servlet\NewServlet.java
 D:\Sem 8\Java Projects\StaffFlow\src\main\java\CDIPackage\NavigationCDI.java

@@ -53,6 +53,12 @@ public class hrClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    public <T> T showAllLeave(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("leave/all");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
     public <T> T getAllAttendanceRecords(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("attendance/all");
@@ -93,9 +99,19 @@ public class hrClient {
         webTarget.path(java.text.MessageFormat.format("attendance/{0}/{1}/{2}", new Object[]{userId, date, status})).request().post(null);
     }
 
+    public void rejectLeave(String leaveID, String userID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("rejectleave/{0}/{1}", new Object[]{leaveID, userID})).request().post(null);
+    }
+
     public <T> T getDesignationsforHR(Class<T> responseType) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path("showDesignationforHR");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T showLeaveToHR(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("showLeaveToHr");
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
@@ -113,6 +129,10 @@ public class hrClient {
 
     public void deleteUser(String userID) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("deleteUser/{0}", new Object[]{userID})).request().delete();
+    }
+
+    public void approveLeave(String leaveID, String userID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("approveleave/{0}/{1}", new Object[]{leaveID, userID})).request().post(null);
     }
 
     public <T> T getUsersWithPayrollStatus(Class<T> responseType, String effectiveDate) throws ClientErrorException {

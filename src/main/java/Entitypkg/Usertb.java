@@ -105,6 +105,8 @@ public class Usertb implements Serializable {
     private Collection<Attendancetb> attendancetbCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
     private Collection<Leavetb> leavetbCollection;
+    @OneToMany(mappedBy = "actionBy")
+    private Collection<Leavetb> leavetbCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedBy")
     private Collection<Tasktb> tasktbCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedTo")
@@ -194,7 +196,7 @@ public class Usertb implements Serializable {
         this.dob = dob;
     }
 
-        @JsonbTransient
+    @JsonbTransient
     public Collection<Projecttb> getProjecttbCollection() {
         return projecttbCollection;
     }
@@ -218,7 +220,7 @@ public class Usertb implements Serializable {
     public Collection<Performanceevaltb> getPerformanceevaltbCollection1() {
         return performanceevaltbCollection1;
     }
-
+    
     @JsonbTransient
     public void setPerformanceevaltbCollection1(Collection<Performanceevaltb> performanceevaltbCollection1) {
         this.performanceevaltbCollection1 = performanceevaltbCollection1;
@@ -252,7 +254,6 @@ public class Usertb implements Serializable {
         this.employeefeedbackCollection = employeefeedbackCollection;
     }
 
-    
     @JsonbTransient
     public Collection<Payrolltb> getPayrolltbCollection() {
         return payrolltbCollection;
@@ -262,7 +263,7 @@ public class Usertb implements Serializable {
     public void setPayrolltbCollection(Collection<Payrolltb> payrolltbCollection) {
         this.payrolltbCollection = payrolltbCollection;
     }
-
+    
     @JsonbTransient
     public Collection<Attendancetb> getAttendancetbCollection() {
         return attendancetbCollection;
@@ -281,6 +282,16 @@ public class Usertb implements Serializable {
     @JsonbTransient
     public void setLeavetbCollection(Collection<Leavetb> leavetbCollection) {
         this.leavetbCollection = leavetbCollection;
+    }
+
+    @JsonbTransient
+    public Collection<Leavetb> getLeavetbCollection1() {
+        return leavetbCollection1;
+    }
+
+    @JsonbTransient
+    public void setLeavetbCollection1(Collection<Leavetb> leavetbCollection1) {
+        this.leavetbCollection1 = leavetbCollection1;
     }
 
     @JsonbTransient

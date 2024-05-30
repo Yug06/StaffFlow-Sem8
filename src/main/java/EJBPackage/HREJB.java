@@ -6,8 +6,10 @@ package EJBPackage;
 
 import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
+import Entitypkg.Leavetb;
 import Entitypkg.Payrolltb;
 import Entitypkg.Salarytb;
+import Entitypkg.Statustb;
 import Entitypkg.Usertb;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -316,7 +318,37 @@ public class HREJB {
             }
         }
     }
+    
+    public Collection<Leavetb> showLeavetoHR()
+    {
+        Date today = new Date();
+        TypedQuery<Leavetb> query = em.createQuery("SELECT l FROM Leavetb l WHERE l.startDate > :today", Leavetb.class);
+        query.setParameter("today", today);
+        return query.getResultList();
+    }
+    
 
+     public void approveLeave(Integer leaveID,Integer actionBy){
+         Leavetb l = em.find(Leavetb.class, leaveID);
+         Usertb u = em.find(Usertb.class, actionBy);
+         Statustb s = em.find(Statustb.class, 2);
+         l.setActionBy(u);
+         l.setStatusid(s);
+         em.merge(l);
+     }
+
+       public void rejectLeave(Integer leaveID,Integer actionBy){
+         Leavetb l = em.find(Leavetb.class, leaveID);
+         Usertb u = em.find(Usertb.class, actionBy);
+         Statustb s = em.find(Statustb.class, 3);
+         l.setActionBy(u);
+         l.setStatusid(s);
+         em.merge(l);
+     }
+       
+        public Collection<Leavetb> showAllLeave(){
+         return em.createNamedQuery("Leavetb.findAll").getResultList();
+     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

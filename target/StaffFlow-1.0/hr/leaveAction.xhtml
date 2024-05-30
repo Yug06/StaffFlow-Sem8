@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkHR()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Approve or Reject Leave</h5>
+                                    <h:form>
+                                        <h:inputHidden value="#{hrCDI.l.leaveID}"></h:inputHidden>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                Name
+                                                <h:inputText id="n" class="form-control" value="#{hrCDI.l.userID.name}" readonly="true"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Start Date
+                                                <h:inputText value="#{hrCDI.l.startDate}" class="form-control" readonly="true">
+                                                    <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="col-12">
+                                                End Date
+                                                <h:inputText value="#{hrCDI.l.endDate}" class="form-control" readonly="true">
+                                                    <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                                </h:inputText>
+                                            </div>
+                                            <div class="col-12">
+                                                Subject
+                                                <h:inputTextarea class="form-control" value="#{hrCDI.l.subject}" readonly="true"/>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <h:commandButton class="btn btn-primary" value="Approve" action="#{hrCDI.approveLeave()}"></h:commandButton>&nbsp;
+                                                <h:commandButton class="btn btn-danger" value="Reject" action="#{hrCDI.rejectLeave()}"></h:commandButton>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <h:form>
+            <h:commandButton value="logout" action="#{secureAuthentication.logout()}"></h:commandButton>
+        </h:form>
+    </h:body>
+    <ui:include src="../hr/footerHR.xhtml"/>
+</html>

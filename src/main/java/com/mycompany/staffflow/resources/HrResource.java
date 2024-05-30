@@ -12,6 +12,7 @@ import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
 import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
+import Entitypkg.Leavetb;
 import Entitypkg.Salarytb;
 import Entitypkg.Payrolltb;
 import Entitypkg.Usertb;
@@ -282,6 +283,34 @@ public Collection<Attendancetb> getAttendancebyDate(@PathParam("date") String da
     }
 }
   
+//Approve leave
+// approve Leave
+    
+    @POST
+    @Path("approveleave/{leaveID}/{userID}")
+    public void approveLeave(@PathParam("leaveID") Integer leaveID,@PathParam("userID") Integer userID){
+        hrejb.approveLeave(leaveID, userID);
+    }
 
+     @POST
+    @Path("rejectleave/{leaveID}/{userID}")
+    public void rejectLeave(@PathParam("leaveID") Integer leaveID,@PathParam("userID") Integer userID){
+        hrejb.rejectLeave(leaveID, userID);
+    }
  
+      @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showLeaveToHr")
+    public Collection<Leavetb> showLeaveToHR()
+    {
+        return hrejb.showLeavetoHR();
+    }
+    
+      @GET
+     @Produces(MediaType.APPLICATION_JSON)
+    @Path("leave/all")
+    public Collection<Leavetb> showAllLeave()
+    {
+        return hrejb.showAllLeave();
+    }
 }

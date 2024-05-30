@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <ui:include src="../hr/headerHR.xhtml"/>
+        <ui:include src="../hr/asideHR.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkHR()}"/>
+        </f:metadata>
+
+        <main id="main" class="main">
+
+            <div class="pagetitle">
+                <h1><center>Leave Records</center></h1>
+            </div><!-- End Page Title -->
+
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Table with stripped rows -->
+                                <h:form>
+
+                                    <h:dataTable value="#{hrCDI.leavecol}" class="table datatable" var="l">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Leave Id
+                                            </f:facet>
+                                            #{l.leaveID}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Employee Name
+                                            </f:facet>
+                                            #{l.userID.name}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                               Start Date
+                                            </f:facet>
+                                            <h:outputText value="#{l.startDate}">
+                                            <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                        </h:outputText>
+                                        </h:column>
+                                         <h:column>
+                                            <f:facet name="header">
+                                               End Date
+                                            </f:facet>
+                                             <h:outputText value="#{l.endDate}">
+                                            <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                        </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Status
+                                            </f:facet>
+                                            <h:panelGroup rendered="#{l.statusid.statusid == 1}">
+                                                <span class="badge bg-warning">Pending</span>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{l.statusid.statusid == 2}">
+                                                <span class="badge bg-success">Approved</span>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{l.statusid.statusid == 3}">
+                                                <span class="badge bg-danger">Rejected</span>
+                                            </h:panelGroup>
+                                        </h:column>
+                                        
+                                        <h:column>
+                                            <f:facet name="header">Show</f:facet>
+                                            <h:commandButton class="btn btn-secondary" value="View" action="#{hrCDI.getLeaveforUser(l)}"></h:commandButton>
+                                        </h:column>
+                                    </h:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main><!-- End #main -->
+    </h:body>
+
+    <ui:include src="../hr/footerHR.xhtml"/>
+</html>

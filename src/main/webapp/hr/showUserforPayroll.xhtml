@@ -16,7 +16,7 @@
     <main id="main" class="main">
 
     <div class="pagetitle">
-        <h1><center>Employee Summary</center></h1>
+        <h1><center>Manage Payroll</center></h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -67,7 +67,7 @@
                                  <h:panelGroup>
                                      <h:commandButton value="Add" styleClass="btn btn-primary" rendered="#{not h.isExist}" action="#{hrCDI.redirectToAddPayroll(h.userID,h.name)}"/>
                                      <h:commandButton value="Update" styleClass="btn btn-secondary" rendered="#{h.isExist}" action="#{hrCDI.redirectToUpdatePayroll(h.userID)}"/>
-                                  <h:commandButton value="View" styleClass="btn btn-info" action="#{hrCDI.redirectToViewPayroll(h.userID,h.name)}"/>    
+                                     &nbsp;<h:commandButton value="View" styleClass="btn btn-info" action="#{hrCDI.redirectToViewPayroll(h.userID,h.name)}"/>    
                                  </h:panelGroup>
                             </h:column> 
                         </td>

@@ -6,16 +6,29 @@ import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
 import Entitypkg.Attendancetb;
 import Entitypkg.Designationtb;
+import Entitypkg.Leavetb;
 import Entitypkg.Payrolltb;
 import Entitypkg.Usertb;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Properties;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 
@@ -32,6 +45,7 @@ public class hrCDI {
     Usertb u = new Usertb();
     Payrolltb p = new Payrolltb();
     Attendancetb a = new Attendancetb();
+    Leavetb l = new Leavetb();
 
     Collection<Usertb> users;
     GenericType<Collection<Usertb>> gusers;
@@ -56,6 +70,12 @@ public class hrCDI {
 
     Collection<Attendancetb> attendancedatecol;
     GenericType<Collection<Attendancetb>> gatdate;
+    
+    Collection<Leavetb> leavetohrcol;
+    GenericType<Collection<Leavetb>> gleavetohr;
+    
+     Collection<Leavetb> leavecol;
+    GenericType<Collection<Leavetb>> gleave;
     
     String designationID;
     Integer selectedUserID;
@@ -96,6 +116,12 @@ public class hrCDI {
         
         attendancedatecol = new ArrayList<>();
         gatdate = new GenericType<Collection<Attendancetb>>(){};
+        
+        leavetohrcol = new ArrayList<>();
+        gleavetohr = new GenericType<Collection<Leavetb>>(){};
+        
+         leavecol = new ArrayList<>();
+        gleave = new GenericType<Collection<Leavetb>>(){};
     }
 
 
@@ -178,6 +204,45 @@ public class hrCDI {
 
         hc.addUser(u.getName(), u.getEmail(), u.getPassword(), contactNo, joinDate, u.getAddress(), dob, designationID);
 
+        Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+
+            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("yugparmar.mscit20@vnsgu.ac.in", "yugparmar7610");
+                }
+            });
+
+            session.setDebug(true); // Enable debug output
+
+            try {
+                Message msg = new MimeMessage(session);
+                msg.setFrom(new InternetAddress("yugparmar.mscit20@vnsgu.ac.in", "Example.com Admin"));
+                msg.addRecipient(Message.RecipientType.TO,
+                        new InternetAddress("yugparmartheactor@gmail.com", "Mr. User"));
+                msg.setSubject("Your Example.com account has been activated");
+                msg.setText("This is a test");
+
+                // Send the message
+                Transport.send(msg);
+                System.out.println("Email sent successfully");
+            } catch (AddressException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Adress exception occured");
+            } catch (MessagingException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Message exception occured");
+            } catch (UnsupportedEncodingException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Unsupported exception occured");
+            }
+            
         return "showUser.jsf";
     }
 
@@ -325,6 +390,65 @@ this.selectedName = name;
         this.attendancedatecol = attendancedatecol;
     }
 
+    public Collection<Leavetb> getLeavetohrcol() {
+        rs = hc.showLeaveToHR(Response.class);
+        leavetohrcol = rs.readEntity(gleavetohr);
+        return leavetohrcol;
+    }
+
+    public void setLeavetohrcol(Collection<Leavetb> leavetohrcol) {
+        this.leavetohrcol = leavetohrcol;
+    }
+    
+    
+    public Leavetb getL() {
+        return l;
+    }
+
+    public void setL(Leavetb l) {
+        this.l = l;
+    }
+
+    public Collection<Leavetb> getLeavecol() {
+       rs = hc.showAllLeave(Response.class);
+        leavecol = rs.readEntity(gleavetohr);
+        return leavecol;
+    }
+
+    public void setLeavecol(Collection<Leavetb> leavecol) {
+        this.leavecol = leavecol;
+    }
+ 
+    
+        public String getLeave(Leavetb l){
+        this.l =l;
+//        this.cid = p.getCid().getCid().toString();
+        return "leaveAction.jsf";
+    }
+
+             public String getLeaveforUser(Leavetb l){
+        this.l =l;
+//        this.cid = p.getCid().getCid().toString();
+        return "showLeaveforUser.jsf";
+    }
+
+        
+    public String approveLeave(){
+          FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        hc.approveLeave(l.getLeaveID().toString(), userID.toString());
+        return "showLeavetoHR.jsf";
+    }
+    
+     public String rejectLeave(){
+          FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        hc.rejectLeave(l.getLeaveID().toString(), userID.toString());
+        return "showLeavetoHR.jsf";
+    }
+    
     @PostConstruct
     public void init() {
         dt = new Date(); // Set dt to the current date
