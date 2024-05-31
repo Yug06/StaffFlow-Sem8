@@ -16,7 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -86,8 +85,6 @@ public class Usertb implements Serializable {
     @Column(name = "DOB")
     @Temporal(TemporalType.DATE)
     private Date dob;
-    @ManyToMany(mappedBy = "usertbCollection")
-    private Collection<Projecttb> projecttbCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
     private Collection<Performanceevaltb> performanceevaltbCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "evaluatorID")
@@ -97,6 +94,8 @@ public class Usertb implements Serializable {
     private Designationtb designationID;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
     private Collection<Salarytb> salarytbCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
+    private Collection<Userprojecttb> userprojecttbCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
     private Collection<Employeefeedback> employeefeedbackCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
@@ -112,7 +111,7 @@ public class Usertb implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "assignedTo")
     private Collection<Tasktb> tasktbCollection1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userID")
-    private Collection<Projecttb> projecttbCollection1;
+    private Collection<Projecttb> projecttbCollection;
 
     public Usertb() {
     }
@@ -197,16 +196,6 @@ public class Usertb implements Serializable {
     }
 
     @JsonbTransient
-    public Collection<Projecttb> getProjecttbCollection() {
-        return projecttbCollection;
-    }
-
-    @JsonbTransient
-    public void setProjecttbCollection(Collection<Projecttb> projecttbCollection) {
-        this.projecttbCollection = projecttbCollection;
-    }
-
-    @JsonbTransient
     public Collection<Performanceevaltb> getPerformanceevaltbCollection() {
         return performanceevaltbCollection;
     }
@@ -220,7 +209,7 @@ public class Usertb implements Serializable {
     public Collection<Performanceevaltb> getPerformanceevaltbCollection1() {
         return performanceevaltbCollection1;
     }
-    
+
     @JsonbTransient
     public void setPerformanceevaltbCollection1(Collection<Performanceevaltb> performanceevaltbCollection1) {
         this.performanceevaltbCollection1 = performanceevaltbCollection1;
@@ -245,6 +234,16 @@ public class Usertb implements Serializable {
     }
 
     @JsonbTransient
+    public Collection<Userprojecttb> getUserprojecttbCollection() {
+        return userprojecttbCollection;
+    }
+
+    @JsonbTransient
+    public void setUserprojecttbCollection(Collection<Userprojecttb> userprojecttbCollection) {
+        this.userprojecttbCollection = userprojecttbCollection;
+    }
+
+    @JsonbTransient
     public Collection<Employeefeedback> getEmployeefeedbackCollection() {
         return employeefeedbackCollection;
     }
@@ -263,7 +262,7 @@ public class Usertb implements Serializable {
     public void setPayrolltbCollection(Collection<Payrolltb> payrolltbCollection) {
         this.payrolltbCollection = payrolltbCollection;
     }
-    
+
     @JsonbTransient
     public Collection<Attendancetb> getAttendancetbCollection() {
         return attendancetbCollection;
@@ -315,13 +314,13 @@ public class Usertb implements Serializable {
     }
 
     @JsonbTransient
-    public Collection<Projecttb> getProjecttbCollection1() {
-        return projecttbCollection1;
+    public Collection<Projecttb> getProjecttbCollection() {
+        return projecttbCollection;
     }
 
     @JsonbTransient
-    public void setProjecttbCollection1(Collection<Projecttb> projecttbCollection1) {
-        this.projecttbCollection1 = projecttbCollection1;
+    public void setProjecttbCollection(Collection<Projecttb> projecttbCollection) {
+        this.projecttbCollection = projecttbCollection;
     }
 
     @Override

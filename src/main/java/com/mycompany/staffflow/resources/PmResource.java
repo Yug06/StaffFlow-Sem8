@@ -9,6 +9,9 @@ import EJBPackage.HREJB;
 import EJBPackage.ProjectEJB;
 import EJBPackage.SuperAdminEJB;
 import Entitypkg.Projecttb;
+import Entitypkg.Tasktb;
+import Entitypkg.Userprojecttb;
+import Entitypkg.Usertb;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -43,30 +46,42 @@ public class PmResource {
     SuperAdminEJB saejb;
     @EJB
     HREJB hrejb;
-    
+
     @Context
     private UriInfo context;
 
- 
-  
-     @GET
+    @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("showProjects")
     public Collection<Projecttb> displayProjects() {
         return pejb.displayProjects();
     }
 
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showProjbymanager/{userID}")
+    public Collection<Projecttb> getProjectbyPM(@PathParam("userID") Integer userID) {
+        return pejb.displayProjecttoPM(userID);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showEmp")
+    public Collection<Usertb> displayEmp() {
+        return pejb.displayEmp();
+    }
+    
     @POST
     @Path("addProject/{userID}/{title}/{description}/{startDate}/{endDate}")
     public void addProject(@PathParam("userID") Integer userID, @PathParam("title") String title, @PathParam("description") String description, @PathParam("startDate") String startDate, @PathParam("endDate") String endDate) {
-         try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
-              Date sdate = sdf.parse(startDate);
-              Date edate = sdf.parse(endDate);
-         pejb.addProject(userID, title, description, sdate, edate);
-      
-       }catch (Exception e) {
+
+            Date sdate = sdf.parse(startDate);
+            Date edate = sdf.parse(endDate);
+            pejb.addProject(userID, title, description, sdate, edate);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -78,17 +93,17 @@ public class PmResource {
         return pejb.getProjectID(projectID);
     }
 
-    @PUT
+    @POST
     @Path("updateProject/{userID}/{title}/{description}/{startDate}/{endDate}/{projectID}")
     public void updateProject(@PathParam("projectID") Integer projectID, @PathParam("userID") Integer userID, @PathParam("title") String title, @PathParam("description") String description, @PathParam("startDate") String startDate, @PathParam("endDate") String endDate) {
-         try{
+        try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
-              Date sdate = sdf.parse(startDate);
-              Date edate = sdf.parse(endDate);
-           pejb.updateProject(projectID, userID, title, description, sdate, edate);
-      
-       }catch (Exception e) {
+
+            Date sdate = sdf.parse(startDate);
+            Date edate = sdf.parse(endDate);
+            pejb.updateProject(projectID, userID, title, description, sdate, edate);
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -106,5 +121,44 @@ public class PmResource {
         return pejb.getProjectTitle(title);
     }
 
-   
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showEmpbyProj/{projectID}")
+    public Collection<Userprojecttb> getEmpbyProj(@PathParam("projectID") Integer projectID) {
+        return pejb.getEmpbyProj(projectID);
+    }
+    
+      @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showEmpNotinProj/{projectID}")
+    public Collection<Usertb> getEmpNotInProj(@PathParam("projectID") Integer projectID) {
+        return pejb.getEmployeesNotInProject(projectID);
+    }
+
+    @POST
+    @Path("adduserproj/{ProjectID}/{userID}")
+    public void addEmptoProj(@PathParam("ProjectID") Integer ProjectID, @PathParam("userID") Integer userID) {
+        pejb.addEmployeetoProject(ProjectID, userID);
+    }
+    
+    @POST
+    @Path("addtasktoemp/{assignedBy}/{assignedTo}/{subject}/{description}/{dueDate}/{projectId}")
+    public void addTasktoProj(@PathParam("assignedBy") Integer assignedBy,@PathParam("assignedTo") Integer assignedTo,@PathParam("subject") String subject,@PathParam("description") String description,@PathParam("dueDate") String dueDate,@PathParam("projectId") Integer projectId){
+         try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            Date duedate = sdf.parse(dueDate);
+
+            pejb.addTaskToProject(assignedBy, assignedTo, subject, description, duedate, projectId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @GET
+    @Path("getTaskbyEmpProj/{ProjectID}/{assignedTo}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Tasktb> getTaskByEmpProj(@PathParam("ProjectID") Integer ProjectID,@PathParam("assignedTo") Integer assignedTo){
+        return pejb.getTaskByEmpProj(ProjectID, assignedTo);
+    }
 }

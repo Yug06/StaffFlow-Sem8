@@ -32,6 +32,7 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "Tasktb.findAll", query = "SELECT t FROM Tasktb t"),
     @NamedQuery(name = "Tasktb.findByTaskID", query = "SELECT t FROM Tasktb t WHERE t.taskID = :taskID"),
     @NamedQuery(name = "Tasktb.findBySubject", query = "SELECT t FROM Tasktb t WHERE t.subject = :subject"),
+    @NamedQuery(name = "Tasktb.findByDescription", query = "SELECT t FROM Tasktb t WHERE t.description = :description"),
     @NamedQuery(name = "Tasktb.findByAssignDate", query = "SELECT t FROM Tasktb t WHERE t.assignDate = :assignDate"),
     @NamedQuery(name = "Tasktb.findByDueDate", query = "SELECT t FROM Tasktb t WHERE t.dueDate = :dueDate")})
 public class Tasktb implements Serializable {
@@ -47,6 +48,11 @@ public class Tasktb implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "subject")
     private String subject;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 2000)
+    @Column(name = "Description")
+    private String description;
     @Basic(optional = false)
     @NotNull
     @Column(name = "assignDate")
@@ -66,6 +72,9 @@ public class Tasktb implements Serializable {
     @JoinColumn(name = "assignedTo", referencedColumnName = "userID")
     @ManyToOne(optional = false)
     private Usertb assignedTo;
+    @JoinColumn(name = "statusid", referencedColumnName = "statusid")
+    @ManyToOne(optional = false)
+    private Statustb statusid;
 
     public Tasktb() {
     }
@@ -74,9 +83,10 @@ public class Tasktb implements Serializable {
         this.taskID = taskID;
     }
 
-    public Tasktb(Integer taskID, String subject, Date assignDate, Date dueDate) {
+    public Tasktb(Integer taskID, String subject, String description, Date assignDate, Date dueDate) {
         this.taskID = taskID;
         this.subject = subject;
+        this.description = description;
         this.assignDate = assignDate;
         this.dueDate = dueDate;
     }
@@ -95,6 +105,14 @@ public class Tasktb implements Serializable {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public Date getAssignDate() {
@@ -135,6 +153,14 @@ public class Tasktb implements Serializable {
 
     public void setAssignedTo(Usertb assignedTo) {
         this.assignedTo = assignedTo;
+    }
+
+    public Statustb getStatusid() {
+        return statusid;
+    }
+
+    public void setStatusid(Statustb statusid) {
+        this.statusid = statusid;
     }
 
     @Override

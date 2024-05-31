@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../projectmanager/headerPM.xhtml"/>
+        <ui:include src="../projectmanager/asidePM.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkPM()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Task Form</h5>
+                                    <h:form>
+
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                User
+                                                <h:inputText id="user" class="form-control" value="#{projectmanagerCDI.unm}" readonly="true"/>
+                                            </div>
+
+                                            <div class="col-12">
+                                                Subject
+                                                <h:inputText id="sub" class="form-control" value="#{projectmanagerCDI.t.subject}"></h:inputText>
+                                            </div>
+
+                                            <div class="col-12">
+                                                Description
+                                                <h:inputText id="des" class="form-control" value="#{projectmanagerCDI.t.description}"></h:inputText>
+                                            </div>
+
+                                            <div class="col-12">
+                                                Due Date
+                                                <p:datePicker id="duedate" class="form-control" value="#{projectmanagerCDI.t.dueDate}"/>
+                                      </div>
+                                             <div class="col-12 text-center">
+                                                <h:commandButton value="Submit" class="btn btn-primary" action="#{projectmanagerCDI.addTasktoUser()}" />
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <h:form>
+            <h:commandButton value="logout" action="#{secureAuthentication.logout()}"></h:commandButton>
+        </h:form>
+    </h:body>
+    <ui:include src="../projectmanager/footerPM.xhtml"/>
+</html>

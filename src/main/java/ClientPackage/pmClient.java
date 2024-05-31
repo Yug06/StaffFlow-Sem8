@@ -37,16 +37,14 @@ public class pmClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public void addProject(String userID, String title, String description, String startDate, String endDate) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("addProject/{0}/{1}/{2}/{3}/{4}", new Object[]{userID, title, description, startDate, endDate})).request().post(null);
+    public <T> T getProjectbyPM(Class<T> responseType, String userID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("showProjbymanager/{0}", new Object[]{userID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public void updateProject(String userID, String title, String description, String startDate, String endDate, String projectID) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("updateProject/{0}/{1}/{2}/{3}/{4}/{5}", new Object[]{userID, title, description, startDate, endDate, projectID})).request().put(null);
-    }
-
-    public void deleteProject(Integer projectID) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("deleteProject/{0}", new Object[]{projectID})).request().delete();
+    public void addTasktoProj(String assignedBy, String assignedTo, String subject, String description, String dueDate, String projectId) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("addtasktoemp/{0}/{1}/{2}/{3}/{4}/{5}", new Object[]{assignedBy, assignedTo, subject, description, dueDate, projectId})).request().post(null);
     }
 
     public <T> T getProjectTitle(Class<T> responseType, String title) throws ClientErrorException {
@@ -58,6 +56,46 @@ public class pmClient {
     public <T> T getProjectID(Class<T> responseType, String projectID) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("showProjbyid/{0}", new Object[]{projectID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public void addEmptoProj(String ProjectID, String userID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("adduserproj/{0}/{1}", new Object[]{ProjectID, userID})).request().post(null);
+    }
+
+    public void addProject(String userID, String title, String description, String startDate, String endDate) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("addProject/{0}/{1}/{2}/{3}/{4}", new Object[]{userID, title, description, startDate, endDate})).request().post(null);
+    }
+
+    public void updateProject(String userID, String title, String description, String startDate, String endDate, String projectID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("updateProject/{0}/{1}/{2}/{3}/{4}/{5}", new Object[]{userID, title, description, startDate, endDate, projectID})).request().post(null);
+    }
+
+    public void deleteProject(String projectID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("deleteProject/{0}", new Object[]{projectID})).request().delete();
+    }
+
+    public <T> T getEmpbyProj(Class<T> responseType, String projectID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("showEmpbyProj/{0}", new Object[]{projectID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T displayEmp(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("showEmp");
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T getEmpNotInProj(Class<T> responseType, String projectID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("showEmpNotinProj/{0}", new Object[]{projectID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T getTaskByEmpProj(Class<T> responseType, String ProjectID, String assignedTo) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("getTaskbyEmpProj/{0}/{1}", new Object[]{ProjectID, assignedTo}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 

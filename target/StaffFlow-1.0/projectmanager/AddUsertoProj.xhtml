@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../projectmanager/headerPM.xhtml"/>
+        <ui:include src="../projectmanager/asidePM.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkPM()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">User Form</h5>
+                                    <h:form>
+                                        <h:inputHidden value="#{projectmanagerCDI.selectedProjID}"></h:inputHidden>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                Project
+                                                <h:inputText id="n" class="form-control" value="#{projectmanagerCDI.selectedProjName}" readonly="true"/>
+                                            </div>
+                                            
+                                            <div class="row mb-3">
+                                                Employee
+                                                <h:selectOneMenu id="emp" class="form-select" value="#{projectmanagerCDI.userID}">
+                                                    <f:selectItems value="#{projectmanagerCDI.empinprojcol}" var="d" itemLabel="#{d.name}" itemValue="#{d.userID}"/>
+                                                </h:selectOneMenu>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <h:commandButton value="Submit" class="btn btn-primary" action="#{projectmanagerCDI.addUsertoProj()}" />
+                                                <button type="reset" class="btn btn-secondary">Reset</button>
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <h:form>
+            <h:commandButton value="logout" action="#{secureAuthentication.logout()}"></h:commandButton>
+        </h:form>
+    </h:body>
+    <ui:include src="../projectmanager/footerPM.xhtml"/>
+</html>

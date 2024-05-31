@@ -27,7 +27,7 @@
             <div class="card-body">
               <!-- Table with stripped rows -->
             <h:form>
-                <h:dataTable value="#{projectmanagerCDI.projcol}" class="table datatable" var="p">
+                <h:dataTable value="#{projectmanagerCDI.projcoltopm}" class="table datatable" var="p">
                 <tbody>
                     <tr>
                         <td>
@@ -57,7 +57,9 @@
                                 <f:facet name="header">
                                     Start Date
                                 </f:facet>
-                                #{p.startDate}
+                                <h:outputText value="#{p.startDate}">
+                                            <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                        </h:outputText>
                             </h:column> 
                         </td>
                         <td>
@@ -65,7 +67,9 @@
                                 <f:facet name="header">
                                     Due Date
                                 </f:facet>
-                                #{p.endDate}
+                                <h:outputText value="#{p.endDate}">
+                                            <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                        </h:outputText>
                             </h:column> 
                         </td>
                         <td>
@@ -73,7 +77,7 @@
                                 <f:facet name="header">
                                     Action
                                 </f:facet>
-                                <h:commandButton value="Delete" styleClass="btn btn-danger" action="#{projectmanagerCDI.deleteProject(pid)}"></h:commandButton>
+                                <h:commandButton value="Action" styleClass="btn btn-primary" action="#{projectmanagerCDI.getProj(p)}"></h:commandButton>
                             </h:column> 
                         </td>
                   </tr>

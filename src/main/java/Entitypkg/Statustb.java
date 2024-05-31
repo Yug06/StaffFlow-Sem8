@@ -46,6 +46,8 @@ public class Statustb implements Serializable {
     private String status;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusid")
     private Collection<Leavetb> leavetbCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "statusid")
+    private Collection<Tasktb> tasktbCollection;
 
     public Statustb() {
     }
@@ -85,6 +87,16 @@ public class Statustb implements Serializable {
         this.leavetbCollection = leavetbCollection;
     }
 
+    @JsonbTransient
+    public Collection<Tasktb> getTasktbCollection() {
+        return tasktbCollection;
+    }
+
+    @JsonbTransient
+    public void setTasktbCollection(Collection<Tasktb> tasktbCollection) {
+        this.tasktbCollection = tasktbCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -109,5 +121,5 @@ public class Statustb implements Serializable {
     public String toString() {
         return "Entitypkg.Statustb[ statusid=" + statusid + " ]";
     }
-    
+
 }

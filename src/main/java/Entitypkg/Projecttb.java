@@ -16,8 +16,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -69,11 +67,8 @@ public class Projecttb implements Serializable {
     @Column(name = "endDate")
     @Temporal(TemporalType.DATE)
     private Date endDate;
-    @JoinTable(name = "userprojecttb", joinColumns = {
-        @JoinColumn(name = "projectID", referencedColumnName = "projectID")}, inverseJoinColumns = {
-        @JoinColumn(name = "userID", referencedColumnName = "userID")})
-    @ManyToMany
-    private Collection<Usertb> usertbCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectID")
+    private Collection<Userprojecttb> userprojecttbCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectID")
     private Collection<Tasktb> tasktbCollection;
     @JoinColumn(name = "userID", referencedColumnName = "userID")
@@ -136,13 +131,13 @@ public class Projecttb implements Serializable {
     }
 
     @JsonbTransient
-    public Collection<Usertb> getUsertbCollection() {
-        return usertbCollection;
+    public Collection<Userprojecttb> getUserprojecttbCollection() {
+        return userprojecttbCollection;
     }
 
     @JsonbTransient
-    public void setUsertbCollection(Collection<Usertb> usertbCollection) {
-        this.usertbCollection = usertbCollection;
+    public void setUserprojecttbCollection(Collection<Userprojecttb> userprojecttbCollection) {
+        this.userprojecttbCollection = userprojecttbCollection;
     }
 
     @JsonbTransient
