@@ -6,7 +6,9 @@ package EJBPackage;
 
 import Entitypkg.Employeefeedback;
 import Entitypkg.Leavetb;
+import Entitypkg.Projecttb;
 import Entitypkg.Statustb;
+import Entitypkg.Tasktb;
 import Entitypkg.Usertb;
 import java.util.Collection;
 import java.util.Date;
@@ -64,7 +66,44 @@ public class EmployeeEJB {
         return null;
     }
      
+     public Collection<Projecttb> showProjectByEmp(Integer userID){
+         Usertb user = em.find(Usertb.class, userID);
+         if(user!=null){
+             TypedQuery<Projecttb> query = em.createQuery(
+            "SELECT p FROM Projecttb p WHERE p.projectID IN (SELECT up.projectID.projectID FROM Userprojecttb up WHERE up.userID.userID = :userID)",
+            Projecttb.class
+        );
+        query.setParameter("userID", userID);
+         return query.getResultList();
+         }
+         return null;
+     }
     
+      public Collection<Tasktb> getTaskByEmpProj(Integer ProjectID, Integer assignedTo){
+         Projecttb project = em.find(Projecttb.class, ProjectID);
+        Usertb assTo = em.find(Usertb.class, assignedTo);
+        System.out.println(project);
+        System.out.println(assignedTo);
+         return em.createQuery("SELECT t FROM Tasktb t WHERE t.projectID = :projectID AND t.assignedTo = :assignedTo ORDER BY t.statusid", Tasktb.class)
+                .setParameter("projectID", project)
+                .setParameter("assignedTo", assTo)
+                .getResultList();
+        
+    }
+      
+       public void completeTask(Integer taskID){
+         Tasktb t = em.find(Tasktb.class, taskID);  
+         Statustb s = em.find(Statustb.class, 2);
+         t.setStatusid(s);
+         em.merge(t);
+     }
+
+          public void rejectTask(Integer taskID){
+         Tasktb t = em.find(Tasktb.class, taskID);  
+         Statustb s = em.find(Statustb.class, 3);
+         t.setStatusid(s);
+         em.merge(t);
+     }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

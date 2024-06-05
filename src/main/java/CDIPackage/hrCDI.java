@@ -212,7 +212,7 @@ public class hrCDI {
 
             Session session = Session.getInstance(props, new javax.mail.Authenticator() {
                 protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("yugparmar.mscit20@vnsgu.ac.in", "yugparmar7610");
+                    return new PasswordAuthentication("staffflow2024@gmail.com", "vmksdvngcwplcsul");
                 }
             });
 
@@ -220,7 +220,7 @@ public class hrCDI {
 
             try {
                 Message msg = new MimeMessage(session);
-                msg.setFrom(new InternetAddress("yugparmar.mscit20@vnsgu.ac.in", "Example.com Admin"));
+                msg.setFrom(new InternetAddress("staffflow2024@gmail.com", "StaffFlow HR"));
                 msg.addRecipient(Message.RecipientType.TO,
                         new InternetAddress("yugparmartheactor@gmail.com", "Mr. User"));
                 msg.setSubject("Your Example.com account has been activated");

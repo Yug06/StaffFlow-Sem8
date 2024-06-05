@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../employee/headerEmp.xhtml"/>
+        <ui:include src="../employee/asideEmp.xhtml"/>
+    </h:head>
+    <h:body>
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkEMP()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Task</h5>
+                                    <h:form>
+                                        <h:inputHidden value="#{empCDI.t.taskID}"></h:inputHidden>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                <b>User</b> 
+                                                <h:inputText id="user" class="form-control" value="#{empCDI.t.assignedTo.name}" readonly="true"/>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <b> Subject</b>
+                                                <h:inputText id="sub" class="form-control" value="#{empCDI.t.subject}" readonly="true"></h:inputText>
+                                            </div>
+                                            <div class="col-12">
+                                                <b> Description</b>
+                                                <h:inputTextarea id="des" class="form-control" value="#{empCDI.t.description}" readonly="true"></h:inputTextarea>
+                                            </div>
+                                            <div class="col-12">
+                                                <b> Assign Date </b>
+                                                <h:inputText value="#{empCDI.t.assignDate}" class="form-control" readonly="true">
+                                                    <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                                </h:inputText>   
+                                            </div>
+
+                                            <div class="col-12">
+                                                <b> Due Date</b>
+                                                <h:inputText value="#{empCDI.t.dueDate}" class="form-control" readonly="true">
+                                                    <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                                </h:inputText>   
+                                            </div>
+                                            <div class="col-12">
+                                                <b>Status</b>
+                                                <h:panelGroup class="form-control">
+                                                    <h:outputText value="Pending" styleClass="form-control badge bg-warning" rendered="#{empCDI.t.statusid.statusid == 1}"/>
+                                                    <h:outputText value="Completed" styleClass="form-control badge bg-success" rendered="#{empCDI.t.statusid.statusid == 2}"/>
+                                                    <h:outputText value="Rejected" styleClass="form-control badge bg-danger" rendered="#{empCDI.t.statusid.statusid == 3}"/>
+                                                </h:panelGroup>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                       
+                                                 
+                                                    <h:commandButton class="btn btn-primary" value="Completed" action="#{empCDI.completeTask()}" />&nbsp;
+                                                   
+                                        
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <h:form>
+            <h:commandButton value="logout" action="#{secureAuthentication.logout()}"></h:commandButton>
+        </h:form>
+    </h:body>
+    <ui:include src="../employee/footerEmp.xhtml"/>
+</html>

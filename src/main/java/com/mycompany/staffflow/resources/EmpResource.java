@@ -9,6 +9,8 @@ import EJBPackage.HREJB;
 import EJBPackage.ProjectEJB;
 import EJBPackage.SuperAdminEJB;
 import Entitypkg.Leavetb;
+import Entitypkg.Projecttb;
+import Entitypkg.Tasktb;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -75,5 +77,31 @@ public class EmpResource {
         return eejb.showLeaveByUser(userID);
     }
     
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+     @Path("showProjByEmp/{userID}")
+    public Collection<Projecttb> showProjectByEmp(@PathParam("userID") Integer userID){
+        return eejb.showProjectByEmp(userID);
+    }
+    
+    //Task
+    
+     @GET
+    @Path("getTaskbyEmpProj/{ProjectID}/{assignedTo}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Collection<Tasktb> getTaskByEmpProj(@PathParam("ProjectID") Integer ProjectID,@PathParam("assignedTo") Integer assignedTo){
+        return eejb.getTaskByEmpProj(ProjectID, assignedTo);
+    }
   
+     @POST
+    @Path("approveTask/{taskID}")
+    public void completeTask(@PathParam("taskID") Integer taskID){
+        eejb.completeTask(taskID);
+    }
+
+     @POST
+    @Path("rejectTask/{taskID}")
+    public void rejectTask(@PathParam("taskID") Integer taskID){
+       eejb.rejectTask(taskID);
+    }
 }

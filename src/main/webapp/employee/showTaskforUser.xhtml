@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <ui:include src="../employee/headerEmp.xhtml"/>
+        <ui:include src="../employee/asideEmp.xhtml"/>
+    </h:head>
+    <h:body>
+
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkEMP()}"/>
+        </f:metadata>
+
+        <main id="main" class="main">
+
+            <div class="pagetitle">
+                <h1><center>List of Tasks in #{empCDI.selectedProjName}</center></h1>
+            </div><!-- End Page Title -->
+
+            <section class="section">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <!-- Table with stripped rows -->
+                                <h:form>
+                                    <h:dataTable value="#{empCDI.taskbyempcol}" class="table datatable" var="t">
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Task ID
+                                            </f:facet>
+                                            #{t.taskID}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Subject
+                                            </f:facet>
+                                            #{t.subject}
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                               Due Date
+                                            </f:facet>
+                                            <h:outputText value="#{t.dueDate}">
+                                                <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                            </h:outputText>
+                                        </h:column>
+                                        <h:column>
+                                            <f:facet name="header">
+                                                Status
+                                            </f:facet>
+                                            <h:panelGroup rendered="#{t.statusid.statusid == 1}">
+                                                <span class="badge bg-warning">Pending</span>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{t.statusid.statusid == 2}">
+                                                <span class="badge bg-success">Completed</span>
+                                            </h:panelGroup>
+                                            <h:panelGroup rendered="#{t.statusid.statusid == 3}">
+                                                <span class="badge bg-danger">Rejected</span>
+                                            </h:panelGroup>
+                                        </h:column>
+                                        
+                                        <h:column>
+                                            <f:facet name="header">View</f:facet>
+                                            <h:commandButton class="btn btn-secondary" value="View" action="#{empCDI.redirectToindividualTask(t)}"></h:commandButton>                  </h:column>
+                                    </h:dataTable>
+
+                                </h:form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+
+        </main><!-- End #main -->
+    </h:body>
+    <ui:include src="../employee/footerEmp.xhtml"/>
+</html>
