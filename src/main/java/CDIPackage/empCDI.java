@@ -9,6 +9,7 @@ import ClientPackage.empClient;
 import Entitypkg.Leavetb;
 import Entitypkg.Projecttb;
 import Entitypkg.Tasktb;
+import Entitypkg.Usertb;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -41,11 +42,14 @@ public class empCDI {
     
       Collection<Tasktb> taskbyempcol;
     GenericType<Collection<Tasktb>> gtaskbyempcol;
+   
+      Collection<Usertb> users;
+    GenericType<Collection<Usertb>> gusers;
     
     Response rs;
     Projecttb p = new Projecttb();
     Tasktb t = new Tasktb();
-    
+    Usertb u = new Usertb();
     String selectedProjName;
     
     
@@ -62,6 +66,17 @@ public class empCDI {
          taskbyempcol = new ArrayList<>();
         gtaskbyempcol = new GenericType<Collection<Tasktb>>(){};
         
+         users=new ArrayList<>();
+        gusers=new GenericType<Collection<Usertb>>(){};
+        
+    }
+
+    public Usertb getU() {
+        return u;
+    }
+
+    public void setU(Usertb u) {
+        this.u = u;
     }
 
     public Leavetb getL() {
@@ -181,4 +196,19 @@ public class empCDI {
       ec.rejectTask(t.getTaskID().toString());
         return "showTaskforUser.jsf";
     }
+
+    public Collection<Usertb> getUsers() {
+          FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        rs = ec.ShowUserProfile(Response.class, userID.toString());
+        users = rs.readEntity(gusers);
+        return users;
+    }
+
+    public void setUsers(Collection<Usertb> users) {
+        this.users = users;
+    }
+   
+   
 }

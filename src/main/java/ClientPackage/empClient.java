@@ -55,6 +55,12 @@ public class empClient {
         webTarget.path(java.text.MessageFormat.format("rejectTask/{0}", new Object[]{taskID})).request().post(null);
     }
 
+    public <T> T ShowUserProfile(Class<T> responseType, String userID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("ShowUserProfile/{0}", new Object[]{userID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
     public <T> T getTaskByEmpProj(Class<T> responseType, String ProjectID, String assignedTo) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("getTaskbyEmpProj/{0}/{1}", new Object[]{ProjectID, assignedTo}));

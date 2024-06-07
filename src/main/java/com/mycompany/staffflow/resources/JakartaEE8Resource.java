@@ -43,10 +43,10 @@ public class JakartaEE8Resource {
 
  
     //----------------------------------- employee -------------------------------------------------------
-    @POST
-    @Path("giveFeedback/{description}/{date}/{userID}")
-    public void giveFeedback(@PathParam("userID") Integer userID, @PathParam("description") String description, @PathParam("date") Date date) {
-        eejb.giveFeedback(userID, description, date);
+      @POST
+    @Path("giveFeedback/{userID}/{description}/{overallExperience}/{jobSatisfaction}")
+    public void giveFeedback(@PathParam("userID") Integer userID, @PathParam("description") String description,@PathParam("overallExperience") String overallExperience,@PathParam("jobSatisfaction") String jobSatisfaction) {
+        eejb.giveFeedback(userID, description, overallExperience, jobSatisfaction);
     }
 
     @GET

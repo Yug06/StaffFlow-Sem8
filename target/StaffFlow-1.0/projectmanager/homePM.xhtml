@@ -1,11 +1,95 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Facelet Title</title>
+        <ui:include src="../projectmanager/headerPM.xhtml"/>
+        <ui:include src="../projectmanager/asidePM.xhtml"/>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <style>
+            .profile-card {
+                max-width: 800px;
+                margin: 10px auto;
+                padding: 40px;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+                border-radius: 20px;
+                background-color: #fff;
+            }
+            .profile-card h5 {
+                font-size: 28px;
+                font-weight: 700;
+                margin-bottom: 30px;
+                text-align: center;
+                color: #4154f1; /* Heading color */
+            }
+            .profile-card .row {
+                margin-bottom: 20px;
+                border-bottom: 1px solid #ddd;
+                padding-bottom: 15px;
+            }
+            .profile-card .label {
+                font-size: 20px;
+                font-weight: 600;
+                color: #444;
+                text-align: right;
+            }
+            .profile-card .value {
+                font-size: 20px;
+                color: #666;
+            }
+        </style>
     </h:head>
     <h:body>
-        Hello from Facelets
+          <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkPM()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section profile">
+                <div class="profile-card">
+                    <h5 class="card-title">Profile Details</h5>
+                    <ui:repeat value="#{empCDI.users}" var="user">
+                        <div class="row">
+                            <div class="col-md-4 label">Name</div>
+                            <div class="col-md-8 value">#{user.name}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 label">Email address</div>
+                            <div class="col-md-8 value">#{user.email}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 label">Contact Number</div>
+                            <div class="col-md-8 value">#{user.contactNo}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 label">Address</div>
+                            <div class="col-md-8 value">#{user.address}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 label">Join Date</div>
+                            <div class="col-md-8 value">
+                                <h:outputText value="#{user.joinDate}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 label">Date of Birth</div>
+                            <div class="col-md-8 value">
+                                <h:outputText value="#{user.dob}">
+                                    <f:convertDateTime pattern="dd-MM-yyyy"/>
+                                </h:outputText>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 label">Designation</div>
+                            <div class="col-md-8 value">#{user.designationID.type}</div>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </section>
+        </main>
     </h:body>
+    <ui:include src="../projectmanager/footerPM.xhtml"/>
 </html>

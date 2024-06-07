@@ -11,6 +11,7 @@ import EJBPackage.SuperAdminEJB;
 import Entitypkg.Leavetb;
 import Entitypkg.Projecttb;
 import Entitypkg.Tasktb;
+import Entitypkg.Usertb;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
@@ -104,4 +105,13 @@ public class EmpResource {
     public void rejectTask(@PathParam("taskID") Integer taskID){
        eejb.rejectTask(taskID);
     }
+    
+      @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("ShowUserProfile/{userID}")
+    public Collection<Usertb> ShowUserProfile(@PathParam("userID") Integer userID)
+    {
+        return eejb.ShowUserProfile(userID);
+    }
+    
 }

@@ -52,6 +52,7 @@ com\mycompany\staffflow\resources\PmResource.class
 CDIPackage\hrCDI$7.class
 CDIPackage\projectmanagerCDI$1.class
 CDIPackage\superadminCDI$3.class
+CDIPackage\empCDI$4.class
 CDIPackage\hrCDI$10.class
 Entitypkg\Leavetb.class
 config\Project.class

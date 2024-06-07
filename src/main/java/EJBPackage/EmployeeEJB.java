@@ -26,13 +26,15 @@ public class EmployeeEJB {
    @PersistenceContext(unitName = "my_persistence_unit")
     EntityManager em;
     
-    public void giveFeedback(Integer userID,String description, Date date)
+        public void giveFeedback(Integer userID,String description,String overallExperience,String jobSatisfaction)
     {
         Usertb u=(Usertb) em.find(Usertb.class, userID);
         Employeefeedback ef=new Employeefeedback();
         ef.setUserID(u);
         ef.setDescription(description);
         ef.setDate(new Date());
+        ef.setOverallExperience(overallExperience);
+        ef.setJobSatisfaction(jobSatisfaction);
         em.persist(ef);
     }
     
@@ -104,6 +106,11 @@ public class EmployeeEJB {
          t.setStatusid(s);
          em.merge(t);
      }
+          
+             public Collection<Usertb> ShowUserProfile(Integer userID)
+    {
+        return em.createNamedQuery("Usertb.findByUserID").setParameter("userID", userID).getResultList();
+    }
 
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

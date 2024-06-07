@@ -6,6 +6,7 @@ package ServletPackage;
 
 import EJBPackage.EmployeeEJB;
 import Entitypkg.Employeefeedback;
+import Entitypkg.Usertb;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
@@ -45,10 +46,10 @@ public class employeeServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet employeeServlet at " + request.getContextPath() + "</h1>");
-                Collection<Employeefeedback> f = ejb.DisplayFeedback();
-            for(Employeefeedback p: f)
+                Collection<Usertb> f = ejb.ShowUserProfile(17);
+            for(Usertb p: f)
             {
-                out.println( p.getUserID()+ " " + p.getDescription()+ " " + p.getDate()+ "</br>");
+                out.println( p.getUserID()+ " " + p.getName()+ " " + p.getEmail()+ "</br>");
             }
 
             out.println("</body>");
