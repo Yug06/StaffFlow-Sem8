@@ -118,7 +118,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                         session.setAttribute("Uid", userID);
                         session.setAttribute("Uname", userName);
 
-                        response.sendRedirect("hr/showUser.jsf");
+                        response.sendRedirect("hr/homeHR.jsf");
                     //    request.getRequestDispatcher("hr/showUser.jsf").forward(request, response);
                     }
                     if (result.getCallerGroups().contains("Project Manager")) {
@@ -130,7 +130,7 @@ public class SecureAuthentication implements HttpAuthenticationMechanism, Serial
                         session.setAttribute("Uid", userID);
                         session.setAttribute("Uname", userName);
 
-                        response.sendRedirect("projectmanager/showProject.jsf");
+                        response.sendRedirect("projectmanager/homePM.jsf");
 //                        request.getRequestDispatcher("User/Home.jsf").forward(request, response);
                     }
                       if (result.getCallerGroups().contains("Employee")) {

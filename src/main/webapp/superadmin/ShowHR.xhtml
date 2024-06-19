@@ -65,7 +65,9 @@
                                 <f:facet name="header">
                                     Join Date
                                 </f:facet>
-                                #{h.joinDate}
+                                  <h:outputText value="#{h.joinDate}">
+                                                <f:convertDateTime pattern="dd-MMMM-yyyy"/>
+                                            </h:outputText>
                             </h:column> 
                         </td>
                         <td>
