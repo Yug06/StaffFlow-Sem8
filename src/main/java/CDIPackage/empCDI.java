@@ -6,6 +6,7 @@ package CDIPackage;
 
 import ClientPackage.RestClient;
 import ClientPackage.empClient;
+import Entitypkg.Employeefeedback;
 import Entitypkg.Leavetb;
 import Entitypkg.Projecttb;
 import Entitypkg.Tasktb;
@@ -47,10 +48,13 @@ public class empCDI {
     Collection<Usertb> users;
     GenericType<Collection<Usertb>> gusers;
 
+    Collection<Employeefeedback> feedback;
+    GenericType<Collection<Employeefeedback>> gfeedback;
     Response rs;
     Projecttb p = new Projecttb();
     Tasktb t = new Tasktb();
     Usertb u = new Usertb();
+    Employeefeedback f = new Employeefeedback();
     String selectedProjName;
 
     public empCDI() {
@@ -71,7 +75,9 @@ public class empCDI {
         users = new ArrayList<>();
         gusers = new GenericType<Collection<Usertb>>() {
         };
-
+        feedback = new ArrayList<>();
+        gfeedback = new GenericType<Collection<Employeefeedback>>() {
+        };
     }
 
     public Usertb getU() {
@@ -104,6 +110,14 @@ public class empCDI {
 
     public void setT(Tasktb t) {
         this.t = t;
+    }
+
+    public Employeefeedback getF() {
+        return f;
+    }
+
+    public void setF(Employeefeedback f) {
+        this.f = f;
     }
 
     public String getSelectedProjName() {
@@ -238,4 +252,28 @@ public class empCDI {
         return "homeEmp.jsf";
     }
 
+    public String giveFeedback() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        if (userID != null) {
+            ec.giveFeedback(String.valueOf(userID), f.getDescription(), f.getOverallExperience(), f.getJobSatisfaction());
+            return "homeEmp.jsf";
+        } else {
+            return "plogin.jsf?faces-redirect=true";
+        }
+    }
+
+    public Collection<Employeefeedback> getFeedback() {
+         rs=ec.DisplayFeedback(Response.class);
+        feedback=rs.readEntity(gfeedback);
+        return feedback;
+        
+    }
+
+    public void setFeedback(Collection<Employeefeedback> feedback) {
+        this.feedback = feedback;
+    }
+    
+    
 }

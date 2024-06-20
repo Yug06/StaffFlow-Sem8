@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -301,7 +302,27 @@ empClient ec;
          this.t = t;
          return "showIndividualTaskforUser.jsf";
      }
-     
+      public void fetchUserData() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        rs = ec.ShowUserforUpd(Response.class, userID.toString());
+        u = rs.readEntity(Usertb.class);
+    }
+
+    @PostConstruct
+    public void init() {
+        fetchUserData();
+    }
+
+    public String updateUserProfile() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        ec.updateUserProfile(userID.toString(), u.getName(), String.valueOf(u.getContactNo()), u.getAddress());
+        // Optionally, you can return a navigation case to redirect or display a success message
+        return "homePM.jsf";
+    }
        public String changePassword()
     {
         FacesContext facesContext = FacesContext.getCurrentInstance();

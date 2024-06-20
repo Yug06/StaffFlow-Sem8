@@ -206,45 +206,45 @@ empClient ec;
 
         hc.addUser(u.getName(), u.getEmail(), u.getPassword(), contactNo, joinDate, u.getAddress(), dob, designationID);
 
-        Properties props = new Properties();
-            props.put("mail.smtp.auth", "true");
-            props.put("mail.smtp.starttls.enable", "true");
-            props.put("mail.smtp.host", "smtp.gmail.com");
-            props.put("mail.smtp.port", "587");
-
-            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication("staffflow2024@gmail.com", "vmksdvngcwplcsul");
-                }
-            });
-
-            session.setDebug(true); // Enable debug output
-
-            try {
-                Message msg = new MimeMessage(session);
-                msg.setFrom(new InternetAddress("staffflow2024@gmail.com", "StaffFlow HR"));
-                msg.addRecipient(Message.RecipientType.TO,
-                        new InternetAddress("yugparmartheactor@gmail.com", "Mr. User"));
-                msg.setSubject("Your Example.com account has been activated");
-                msg.setText("This is a test");
-
-                // Send the message
-                Transport.send(msg);
-                System.out.println("Email sent successfully");
-            } catch (AddressException e) {
-                // ...
-                 e.printStackTrace();
-                System.out.println("Adress exception occured");
-            } catch (MessagingException e) {
-                // ...
-                 e.printStackTrace();
-                System.out.println("Message exception occured");
-            } catch (UnsupportedEncodingException e) {
-                // ...
-                 e.printStackTrace();
-                System.out.println("Unsupported exception occured");
-            }
-            
+//        Properties props = new Properties();
+//            props.put("mail.smtp.auth", "true");
+//            props.put("mail.smtp.starttls.enable", "true");
+//            props.put("mail.smtp.host", "smtp.gmail.com");
+//            props.put("mail.smtp.port", "587");
+//
+//            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+//                protected PasswordAuthentication getPasswordAuthentication() {
+//                    return new PasswordAuthentication("staffflow2024@gmail.com", "vmksdvngcwplcsul");
+//                }
+//            });
+//
+//            session.setDebug(true); // Enable debug output
+//
+//            try {
+//                Message msg = new MimeMessage(session);
+//                msg.setFrom(new InternetAddress("staffflow2024@gmail.com", "StaffFlow HR"));
+//                msg.addRecipient(Message.RecipientType.TO,
+//                        new InternetAddress("yugparmartheactor@gmail.com", "Mr. User"));
+//                msg.setSubject("Your Example.com account has been activated");
+//                msg.setText("This is a test");
+//
+//                // Send the message
+//                Transport.send(msg);
+//                System.out.println("Email sent successfully");
+//            } catch (AddressException e) {
+//                // ...
+//                 e.printStackTrace();
+//                System.out.println("Adress exception occured");
+//            } catch (MessagingException e) {
+//                // ...
+//                 e.printStackTrace();
+//                System.out.println("Message exception occured");
+//            } catch (UnsupportedEncodingException e) {
+//                // ...
+//                 e.printStackTrace();
+//                System.out.println("Unsupported exception occured");
+//            }
+//            
         return "showUser.jsf";
     }
 
@@ -454,6 +454,7 @@ this.selectedName = name;
     @PostConstruct
     public void init() {
         dt = new Date(); // Set dt to the current date
+//         fetchUserData();
         // Initialize attendanceCollection if needed
     }
     
@@ -465,4 +466,7 @@ this.selectedName = name;
         ec.changePassword(u.getPassword(), userID.toString());
         return "homeHR.jsf";
     }
+   
+
+    
 }

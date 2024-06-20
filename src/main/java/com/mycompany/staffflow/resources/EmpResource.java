@@ -8,6 +8,7 @@ import EJBPackage.EmployeeEJB;
 import EJBPackage.HREJB;
 import EJBPackage.ProjectEJB;
 import EJBPackage.SuperAdminEJB;
+import Entitypkg.Employeefeedback;
 import Entitypkg.Leavetb;
 import Entitypkg.Projecttb;
 import Entitypkg.Tasktb;
@@ -135,4 +136,17 @@ public class EmpResource {
         return eejb.ShowUserforUpd(userID);
     }
    
+     @POST
+    @Path("giveFeedback/{userID}/{description}/{overallExperience}/{jobSatisfaction}")
+    public void giveFeedback(@PathParam("userID") Integer userID, @PathParam("description") String description,@PathParam("overallExperience") String overallExperience,@PathParam("jobSatisfaction") String jobSatisfaction) {
+        eejb.giveFeedback(userID, description, overallExperience, jobSatisfaction);
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("showFeedback")
+    public Collection<Employeefeedback> DisplayFeedback() {
+        return eejb.DisplayFeedback();
+    }
+
 }

@@ -2,13 +2,111 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <ui:include src="../employee/headerEmp.xhtml"/>
         <ui:include src="../employee/asideEmp.xhtml"/>
+        <style>
+            .form-title {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+            .form-section {
+                margin-bottom: 30px;
+            }
+            .radio-group {
+                display: flex;
+                flex-direction: column;
+            }
+            .radio-group .ui-radiobutton {
+                margin-bottom: 10px;
+            }
+            .radio-group .ui-radiobutton .ui-radiobutton-box {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                border: 2px solid #ccc;
+                background-color: transparent;
+                position: relative;
+                transition: all 0.3s ease;
+            }
+            .radio-group .ui-radiobutton .ui-radiobutton-icon {
+                width: 12px;
+                height: 12px;
+                border-radius: 50%;
+                background-color: #007bff;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%) scale(0);
+                transition: all 0.3s ease;
+            }
+            .radio-group .ui-radiobutton .ui-state-active .ui-radiobutton-box {
+                border-color: #007bff;
+            }
+            .radio-group .ui-radiobutton .ui-state-active .ui-radiobutton-icon {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        </style>
     </h:head>
     <h:body>
-        Hello from Facelets
+        <f:metadata>
+            <f:event type="preRenderView" listener="#{navigationCDI.checkEMP()}"/>
+        </f:metadata>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title form-title">Give your feedback</h5>
+                                    <h:form>
+                                        <div class="form-section">
+                                            <h4>Description</h4>
+                                            <h:inputTextarea id="t" class="form-control" value="#{empCDI.f.description}" rows="4"/>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-section">
+                                                    <h4>Overall experience</h4>
+                                                    <div class="radio-group">
+                                                        <h:selectOneRadio id="o" value="#{empCDI.f.overallExperience}" layout="pageDirection">
+                                                            <f:selectItem itemLabel=" Poor" itemValue="Poor"/>
+                                                            <f:selectItem itemLabel=" Good" itemValue="Good"/>
+                                                            <f:selectItem itemLabel=" Very good" itemValue="Very good"/>
+                                                            <f:selectItem itemLabel=" Extremely good" itemValue="Extremely good"/>
+                                                        </h:selectOneRadio>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-section">
+                                                    <h4>Job satisfaction</h4>
+                                                    <div class="radio-group">
+                                                        <h:selectOneRadio id="j" value="#{empCDI.f.jobSatisfaction}" layout="pageDirection">
+                                                            <f:selectItem itemLabel=" Poor" itemValue="Poor"/>
+                                                            <f:selectItem itemLabel=" Good" itemValue="Good"/>
+                                                            <f:selectItem itemLabel=" Very good" itemValue="Very good"/>
+                                                            <f:selectItem itemLabel=" Extremely good" itemValue="Extremely good"/>
+                                                        </h:selectOneRadio>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 text-center">
+                                            <h:commandButton value="Submit" class="btn btn-primary" action="#{empCDI.giveFeedback()}" />
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </h:body>
     <ui:include src="../employee/footerEmp.xhtml"/>
 </html>

@@ -59,9 +59,19 @@ public class empClient {
         webTarget.path(java.text.MessageFormat.format("updateUserProfile/{0}/{1}/{2}/{3}", new Object[]{userID, name, contactNo, address})).request().post(null);
     }
 
+    public void giveFeedback(String userID, String description, String overallExperience, String jobSatisfaction) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("giveFeedback/{0}/{1}/{2}/{3}", new Object[]{userID, description, overallExperience, jobSatisfaction})).request().post(null);
+    }
+
     public <T> T ShowUserProfile(Class<T> responseType, String userID) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ShowUserProfile/{0}", new Object[]{userID}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T DisplayFeedback(Class<T> responseType) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path("showFeedback");
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 

@@ -32,6 +32,7 @@ Entitypkg\Performanceevaltb.class
 CDIPackage\projectmanagerCDI$2.class
 CDIPackage\empCDI$2.class
 Entitypkg\Employeefeedback.class
+CDIPackage\empCDI$5.class
 CDIPackage\projectmanagerCDI$5.class
 com\mycompany\staffflow\JakartaRestConfiguration.class
 Entitypkg\Projecttb.class
