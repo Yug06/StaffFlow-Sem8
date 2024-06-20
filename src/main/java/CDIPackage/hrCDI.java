@@ -1,5 +1,6 @@
 package CDIPackage;
 
+import ClientPackage.empClient;
 import ClientPackage.hrClient;
 import EJBPackage.HREJB;
 import EJBPackage.userforattendance;
@@ -38,7 +39,7 @@ public class hrCDI {
 
     @EJB
     HREJB hrEJB;
-
+empClient ec;
     hrClient hc;
     Response rs;
 
@@ -85,6 +86,7 @@ public class hrCDI {
   
 
     public hrCDI() {
+        ec = new empClient();
         hc = new hrClient();
         users = new ArrayList<>();
         gusers = new GenericType<Collection<Usertb>>() {
@@ -453,5 +455,14 @@ this.selectedName = name;
     public void init() {
         dt = new Date(); // Set dt to the current date
         // Initialize attendanceCollection if needed
+    }
+    
+         public String changePassword()
+    {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        ec.changePassword(u.getPassword(), userID.toString());
+        return "homeHR.jsf";
     }
 }

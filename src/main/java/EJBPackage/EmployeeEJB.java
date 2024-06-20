@@ -16,6 +16,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 /**
  *
@@ -26,6 +27,7 @@ public class EmployeeEJB {
    @PersistenceContext(unitName = "my_persistence_unit")
     EntityManager em;
     
+   Pbkdf2PasswordHashImpl pb;
         public void giveFeedback(Integer userID,String description,String overallExperience,String jobSatisfaction)
     {
         Usertb u=(Usertb) em.find(Usertb.class, userID);
@@ -111,7 +113,18 @@ public class EmployeeEJB {
     {
         return em.createNamedQuery("Usertb.findByUserID").setParameter("userID", userID).getResultList();
     }
-
+             
+             
+   public void changePassword(String password,Integer userID)
+    {
+        pb = new Pbkdf2PasswordHashImpl();
+        String enc = pb.generate(password.toCharArray());
+        
+        Usertb u=em.find(Usertb.class, userID);
+        u.setPassword(enc);
+        em.merge(u);
+    }
+   
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")
 }

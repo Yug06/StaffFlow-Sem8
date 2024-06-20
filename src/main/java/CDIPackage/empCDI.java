@@ -210,5 +210,14 @@ public class empCDI {
         this.users = users;
     }
    
-   
+     public String changePassword()
+    {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        ec.changePassword(u.getPassword(), userID.toString());
+        return "homeEmp.jsf";
+    }
+     
+     
 }

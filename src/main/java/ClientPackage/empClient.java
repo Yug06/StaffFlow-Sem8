@@ -67,6 +67,10 @@ public class empClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
+    public void changePassword(String password, String userID) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("changePassword/{0}/{1}", new Object[]{password, userID})).request().post(null);
+    }
+
     public void close() {
         client.close();
     }

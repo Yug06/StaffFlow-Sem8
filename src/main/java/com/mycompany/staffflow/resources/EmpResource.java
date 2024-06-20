@@ -114,4 +114,11 @@ public class EmpResource {
         return eejb.ShowUserProfile(userID);
     }
     
+      @POST
+    @Path("changePassword/{password}/{userID}")
+    public void changePassword(@PathParam("password") String password,@PathParam("userID") Integer userID)
+    {
+        eejb.changePassword(password, userID);
+    }
+    
 }

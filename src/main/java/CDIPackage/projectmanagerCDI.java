@@ -4,6 +4,7 @@
  */
 package CDIPackage;
 
+import ClientPackage.empClient;
 import ClientPackage.pmClient;
 import Entitypkg.Leavetb;
 import Entitypkg.Projecttb;
@@ -28,7 +29,7 @@ import javax.ws.rs.core.Response;
 @Named(value = "projectmanagerCDI")
 @RequestScoped
 public class projectmanagerCDI {
-
+empClient ec;
     pmClient pc;
     
     Projecttb p = new Projecttb();
@@ -65,7 +66,7 @@ public class projectmanagerCDI {
      */
     public projectmanagerCDI() {
         pc = new pmClient();
-        
+        ec = new empClient();
         projcol = new ArrayList<>();
         gproj = new GenericType<Collection<Projecttb>>(){};
         
@@ -300,4 +301,13 @@ public class projectmanagerCDI {
          this.t = t;
          return "showIndividualTaskforUser.jsf";
      }
+     
+       public String changePassword()
+    {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        ec.changePassword(u.getPassword(), userID.toString());
+        return "homePM.jsf";
+    }
 }
