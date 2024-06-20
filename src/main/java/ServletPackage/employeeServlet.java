@@ -45,6 +45,7 @@ public class employeeServlet extends HttpServlet {
             out.println("<title>Servlet employeeServlet</title>");            
             out.println("</head>");
             out.println("<body>");
+     ejb.updateUserProfile(21, "trusha", 123456789, "ottawa");
             out.println("<h1>Servlet employeeServlet at " + request.getContextPath() + "</h1>");
                 Collection<Usertb> f = ejb.ShowUserProfile(17);
             for(Usertb p: f)

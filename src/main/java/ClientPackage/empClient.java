@@ -55,6 +55,10 @@ public class empClient {
         webTarget.path(java.text.MessageFormat.format("rejectTask/{0}", new Object[]{taskID})).request().post(null);
     }
 
+    public void updateUserProfile(String userID, String name, String contactNo, String address) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("updateUserProfile/{0}/{1}/{2}/{3}", new Object[]{userID, name, contactNo, address})).request().post(null);
+    }
+
     public <T> T ShowUserProfile(Class<T> responseType, String userID) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("ShowUserProfile/{0}", new Object[]{userID}));
@@ -64,6 +68,12 @@ public class empClient {
     public <T> T getTaskByEmpProj(Class<T> responseType, String ProjectID, String assignedTo) throws ClientErrorException {
         WebTarget resource = webTarget;
         resource = resource.path(java.text.MessageFormat.format("getTaskbyEmpProj/{0}/{1}", new Object[]{ProjectID, assignedTo}));
+        return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
+    }
+
+    public <T> T ShowUserforUpd(Class<T> responseType, String userID) throws ClientErrorException {
+        WebTarget resource = webTarget;
+        resource = resource.path(java.text.MessageFormat.format("ShowUserforUpd/{0}", new Object[]{userID}));
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 

@@ -13,6 +13,7 @@ import Entitypkg.Usertb;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import javax.annotation.PostConstruct;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
 import javax.faces.context.FacesContext;
@@ -36,39 +37,41 @@ public class empCDI {
     Leavetb l = new Leavetb();
     Collection<Leavetb> leaveForUser;
     GenericType<Collection<Leavetb>> gleaveForUser;
-    
+
     Collection<Projecttb> projByempcol;
     GenericType<Collection<Projecttb>> gprojByemp;
-    
-      Collection<Tasktb> taskbyempcol;
+
+    Collection<Tasktb> taskbyempcol;
     GenericType<Collection<Tasktb>> gtaskbyempcol;
-   
-      Collection<Usertb> users;
+
+    Collection<Usertb> users;
     GenericType<Collection<Usertb>> gusers;
-    
+
     Response rs;
     Projecttb p = new Projecttb();
     Tasktb t = new Tasktb();
     Usertb u = new Usertb();
     String selectedProjName;
-    
-    
+
     public empCDI() {
         rc = new RestClient();
         ec = new empClient();
         leaveForUser = new ArrayList<>();
         gleaveForUser = new GenericType<Collection<Leavetb>>() {
         };
-        
+
         projByempcol = new ArrayList<>();
-        gprojByemp = new GenericType<Collection<Projecttb>>(){};
-        
-         taskbyempcol = new ArrayList<>();
-        gtaskbyempcol = new GenericType<Collection<Tasktb>>(){};
-        
-         users=new ArrayList<>();
-        gusers=new GenericType<Collection<Usertb>>(){};
-        
+        gprojByemp = new GenericType<Collection<Projecttb>>() {
+        };
+
+        taskbyempcol = new ArrayList<>();
+        gtaskbyempcol = new GenericType<Collection<Tasktb>>() {
+        };
+
+        users = new ArrayList<>();
+        gusers = new GenericType<Collection<Usertb>>() {
+        };
+
     }
 
     public Usertb getU() {
@@ -110,29 +113,25 @@ public class empCDI {
     public void setSelectedProjName(String selectedProjName) {
         this.selectedProjName = selectedProjName;
     }
-    
-    
 
     public Collection<Leavetb> getLeaveForUser() {
-         FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Integer userID = (Integer) session.getAttribute("Uid");
-        rs=ec.showLeaveByUser(Response.class,String.valueOf(userID));
-        leaveForUser=rs.readEntity(gleaveForUser);
+        rs = ec.showLeaveByUser(Response.class, String.valueOf(userID));
+        leaveForUser = rs.readEntity(gleaveForUser);
         return leaveForUser;
     }
 
     public void setLeaveForUser(Collection<Leavetb> leaveForUser) {
         this.leaveForUser = leaveForUser;
     }
-    
-     public String applyForLeave()
-    {
+
+    public String applyForLeave() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Integer userID = (Integer) session.getAttribute("Uid");
-        if (userID != null) 
-        {
+        if (userID != null) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String sdate = dateFormat.format(l.getStartDate());
             String edate = dateFormat.format(l.getEndDate());
@@ -144,7 +143,7 @@ public class empCDI {
     }
 
     public Collection<Projecttb> getProjByempcol() {
-          FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Integer userID = (Integer) session.getAttribute("Uid");
         rs = ec.showProjectByEmp(Response.class, userID.toString());
@@ -155,23 +154,22 @@ public class empCDI {
     public void setProjByempcol(Collection<Projecttb> projByempcol) {
         this.projByempcol = projByempcol;
     }
-    
-    
-      public String getProj(Projecttb p){
+
+    public String getProj(Projecttb p) {
         this.p = p;
-       // this.selectedProjID = p.getProjectID().toString();
-       TempData.projID = p.getProjectID();     
+        // this.selectedProjID = p.getProjectID().toString();
+        TempData.projID = p.getProjectID();
         this.selectedProjName = p.getTitle();
 //        this.cid = p.getCid().getCid().toString();
         return "showTaskforUser.jsf";
     }
 
     public Collection<Tasktb> getTaskbyempcol() {
-           FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Integer userID = (Integer) session.getAttribute("Uid");
-        
-         rs = ec.getTaskByEmpProj(Response.class, TempData.projID.toString(), userID.toString());
+
+        rs = ec.getTaskByEmpProj(Response.class, TempData.projID.toString(), userID.toString());
         taskbyempcol = rs.readEntity(gtaskbyempcol);
         return taskbyempcol;
     }
@@ -179,26 +177,26 @@ public class empCDI {
     public void setTaskbyempcol(Collection<Tasktb> taskbyempcol) {
         this.taskbyempcol = taskbyempcol;
     }
-     
-  public String redirectToindividualTask(Tasktb t){
-         this.t = t;
-         return "showIndividualTaskforUser.jsf";
-     }
-  
-   public String completeTask(){
-        
-      ec.completeTask(t.getTaskID().toString());
+
+    public String redirectToindividualTask(Tasktb t) {
+        this.t = t;
+        return "showIndividualTaskforUser.jsf";
+    }
+
+    public String completeTask() {
+
+        ec.completeTask(t.getTaskID().toString());
         return "showTaskforUser.jsf";
     }
-    
-   public String rejectTask(){
-        
-      ec.rejectTask(t.getTaskID().toString());
+
+    public String rejectTask() {
+
+        ec.rejectTask(t.getTaskID().toString());
         return "showTaskforUser.jsf";
     }
 
     public Collection<Usertb> getUsers() {
-          FacesContext facesContext = FacesContext.getCurrentInstance();
+        FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Integer userID = (Integer) session.getAttribute("Uid");
         rs = ec.ShowUserProfile(Response.class, userID.toString());
@@ -209,15 +207,35 @@ public class empCDI {
     public void setUsers(Collection<Usertb> users) {
         this.users = users;
     }
-   
-     public String changePassword()
-    {
+
+    public void fetchUserData() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        rs = ec.ShowUserforUpd(Response.class, userID.toString());
+        u = rs.readEntity(Usertb.class);
+    }
+
+    @PostConstruct
+    public void init() {
+        fetchUserData();
+    }
+
+    public String updateUserProfile() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) session.getAttribute("Uid");
+        ec.updateUserProfile(userID.toString(), u.getName(), String.valueOf(u.getContactNo()), u.getAddress());
+        // Optionally, you can return a navigation case to redirect or display a success message
+        return "homeEmp.jsf";
+    }
+
+    public String changePassword() {
         FacesContext facesContext = FacesContext.getCurrentInstance();
         HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
         Integer userID = (Integer) session.getAttribute("Uid");
         ec.changePassword(u.getPassword(), userID.toString());
         return "homeEmp.jsf";
     }
-     
-     
+
 }

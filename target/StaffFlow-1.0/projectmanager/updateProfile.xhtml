@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <h:head>
+        <ui:include src="../projectmanager/headerPM.xhtml"/>
+        <ui:include src="../projectmanager/asidePM.xhtml"/>
+    </h:head>
+    <h:body>
+        <main id="main" class="main">
+            <section class="section">
+                <div class="container-fluid">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-10">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><center>Edit Profile</center></h5>
+                                    <h:form>
+                                        <div class="row g-3">
+                                            <div class="col-12">
+                                                Name
+                                                <h:inputText id="n" class="form-control" value="#{empCDI.u.name}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Contact Number
+                                                <h:inputText id="nn" class="form-control" value="#{empCDI.u.contactNo}"/>
+                                            </div>
+                                            <div class="col-12">
+                                                Address
+                                                <h:inputText id="nnn" class="form-control" value="#{empCDI.u.address}"/>
+                                            </div>
+                                            <div class="col-12 text-center">
+                                                <h:commandButton value="Submit" class="btn btn-primary" action="#{empCDI.updateUserProfile()}" />
+                                            </div>
+                                        </div>
+                                    </h:form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </h:body>
+    <ui:include src="../projectmanager/footerPM.xhtml"/>       
+</html>

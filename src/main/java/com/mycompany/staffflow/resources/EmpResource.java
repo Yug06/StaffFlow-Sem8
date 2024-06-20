@@ -121,4 +121,18 @@ public class EmpResource {
         eejb.changePassword(password, userID);
     }
     
+   @POST
+   @Path("updateUserProfile/{userID}/{name}/{contactNo}/{address}")
+   public void updateUserProfile(@PathParam("userID") Integer userID, @PathParam("name") String name, @PathParam("contactNo") Integer contactNo, @PathParam("address") String address){
+       eejb.updateUserProfile(userID, name, contactNo, address);
+   }
+
+    @GET
+   @Produces(MediaType.APPLICATION_JSON)
+    @Path("ShowUserforUpd/{userID}")
+    public Usertb ShowUserforUpd(@PathParam("userID") Integer userID)
+    {
+        return eejb.ShowUserforUpd(userID);
+    }
+   
 }
