@@ -25,39 +25,46 @@
                                     <h:form>
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                Name
-                                                <h:inputText id="n" class="form-control" value="#{hrCDI.u.name}"/>
+                                                <label for="n">Name</label>
+                                                <h:inputText id="n" class="form-control" value="#{hrCDI.u.name}" required="true" requiredMessage="Name is required"/>
+                                                <h:message for="n" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Email
-                                                <h:inputText id="e" class="form-control" value="#{hrCDI.u.email}"/>
+                                                <label for="e">Email</label>
+                                                <h:inputText id="e" class="form-control" value="#{hrCDI.u.email}" required="true" requiredMessage="Email is required"/>
+                                                <h:message for="e" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Password
-                                                <h:inputText id="p" class="form-control" value="#{hrCDI.u.password}"/>
+                                                <label for="p">Password</label>
+                                                <h:inputText id="p" class="form-control" value="#{hrCDI.u.password}" required="true" requiredMessage="Password is required"/>
+                                                <h:message for="p" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Contact no
-                                                <h:inputText id="cno" class="form-control" value="#{hrCDI.u.contactNo}"/>
+                                                <label for="cno">Contact no</label>
+                                                <h:inputText id="cno" class="form-control" value="#{hrCDI.u.contactNo}" required="true" requiredMessage="Contact number is required"/>
+                                                <h:message for="cno" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Join Date
-                                                <p:datePicker id="jd" class="form-control" value="#{hrCDI.u.joinDate}"/>
+                                                <label for="jd">Join Date</label>
+                                                <p:datePicker id="jd" class="form-control" value="#{hrCDI.u.joinDate}" required="true" requiredMessage="Join Date is required"/>
+                                                <h:message for="jd" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Address
-                                                <h:inputText id="aa" class="form-control" value="#{hrCDI.u.address}"/>
+                                                <label for="aa">Address</label>
+                                                <h:inputText id="aa" class="form-control" value="#{hrCDI.u.address}" required="true" requiredMessage="Address is required"/>
+                                                <h:message for="aa" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Date of Birth
-                                                <p:datePicker id="dob" class="form-control" value="#{hrCDI.u.dob}"/>
+                                                <label for="dob">Date of Birth</label>
+                                                <p:datePicker id="dob" class="form-control" value="#{hrCDI.u.dob}" required="true" requiredMessage="Date of Birth is required"/>
+                                                <h:message for="dob" style="color:red"/>
                                             </div>
-                                            
-                                            <div class="row mb-3">
-                                                Designation
-                                                <h:selectOneMenu id="ddd" class="form-select" value="#{hrCDI.designationID}">
+                                            <div class="col-12">
+                                                <label for="ddd">Designation</label>
+                                                <h:selectOneMenu id="ddd" class="form-select" value="#{hrCDI.designationID}" required="true" requiredMessage="Designation is required">
                                                     <f:selectItems value="#{hrCDI.deshr}" var="d" itemLabel="#{d.type}" itemValue="#{d.designationID}"/>
                                                 </h:selectOneMenu>
+                                                <h:message for="ddd" style="color:red"/>
                                             </div>
                                             <div class="col-12 text-center">
                                                 <h:commandButton value="Submit" class="btn btn-primary" action="#{hrCDI.addUser()}" />

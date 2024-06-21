@@ -5,6 +5,7 @@
 package EJBPackage;
 
 import Entitypkg.Designationtb;
+import Entitypkg.Leavetb;
 import Entitypkg.Usertb;
 import java.util.Collection;
 import java.util.Date;
@@ -19,50 +20,49 @@ import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
  */
 @Stateless
 public class SuperAdminEJB {
-@PersistenceContext(unitName = "my_persistence_unit")
-EntityManager em;
+
+    @PersistenceContext(unitName = "my_persistence_unit")
+    EntityManager em;
 
     Pbkdf2PasswordHashImpl pb;
 
     //Designation
     //Display
-    public Collection<Designationtb> displayDesignation(){
+    public Collection<Designationtb> displayDesignation() {
         return em.createNamedQuery("Designationtb.findAll").getResultList();
     }
 
     //Insert
-    public void addDesignation(String type){
+    public void addDesignation(String type) {
         Designationtb dt = new Designationtb();
         dt.setType(type);
         em.persist(dt);
     }
-    
+
     //GetDataById
-    public Collection<Designationtb> getDataByIdforUpdate(Integer designationID){
+    public Collection<Designationtb> getDataByIdforUpdate(Integer designationID) {
         return em.createNamedQuery("Designationtb.findByDesignationID").setParameter("designationID", designationID).getResultList();
     }
-    
+
     //Update
-    public void updateDesignation(Integer designationID, String type){
+    public void updateDesignation(Integer designationID, String type) {
         Designationtb dt = em.find(Designationtb.class, designationID);
         dt.setType(type);
         em.merge(dt);
     }
-    
+
     //Delete
-    public void deleteDesignation(Integer designationID){
+    public void deleteDesignation(Integer designationID) {
         Designationtb dt = em.find(Designationtb.class, designationID);
         em.remove(dt);
     }
-    
-    
-    //Add HR
-    public void addHR(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB){
-         
-         pb = new Pbkdf2PasswordHashImpl();
-         String enc = pb.generate(password.toCharArray());
 
-        
+    //Add HR
+    public void addHR(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB) {
+
+        pb = new Pbkdf2PasswordHashImpl();
+        String enc = pb.generate(password.toCharArray());
+
         Designationtb dt = em.find(Designationtb.class, 2);
         Usertb u = new Usertb();
         u.setName(name);
@@ -74,28 +74,26 @@ EntityManager em;
         u.setDob(DOB);
         u.setDesignationID(dt);
         em.persist(u);
-    } 
-    
+    }
+
     //Delete HR
-    public void deleteHR(Integer userID){
+    public void deleteHR(Integer userID) {
         Usertb ut = em.find(Usertb.class, userID);
         em.remove(ut);
     }
-    
+
     //Display HR
-    public Collection<Usertb> displayHR(){
+    public Collection<Usertb> displayHR() {
         return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 2).getResultList();
     }
-    
-    
-    
+
     //GetDataById
-      public Collection<Usertb> getHRByIdforUpdate(Integer userID){
+    public Collection<Usertb> getHRByIdforUpdate(Integer userID) {
         return em.createNamedQuery("Usertb.findByUserID").setParameter("userID", userID).getResultList();
     }
-    
+
     //Update HR
-      public void updateHR(Integer userID,String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB){
+    public void updateHR(Integer userID, String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB) {
         Usertb u = em.find(Usertb.class, userID);
         u.setName(name);
         u.setEmail(email);
@@ -105,58 +103,74 @@ EntityManager em;
         u.setAddress(address);
         u.setDob(DOB);
         em.merge(u);
-    } 
-    
-      //getid by email
-      public Integer getUserIDByEmail(String email) {
+    }
+
+    //getid by email
+    public Integer getUserIDByEmail(String email) {
+        try {
+            Usertb user = em.createQuery("SELECT u FROM Usertb u WHERE u.email = :email", Usertb.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+            return user.getUserID();
+        } catch (Exception e) {
+            // Handle case when no user is found with the given email
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+   public String getEmailByLeaveID(Integer leaveID) {
     try {
-        Usertb user = em.createQuery("SELECT u FROM Usertb u WHERE u.email = :email", Usertb.class)
-                        .setParameter("email", email)
-                        .getSingleResult();
-        return user.getUserID();
+        String email = em.createQuery(
+                "SELECT u.email FROM Leavetb l JOIN l.userID u WHERE l.leaveID = :leaveID", 
+                String.class)
+                .setParameter("leaveID", leaveID)
+                .getSingleResult();
+        return email;
     } catch (Exception e) {
         // Handle case when no user is found with the given email
         e.printStackTrace();
         return null;
     }
 }
-      
-        public String getUserNameByEmail(String email) {
-    try {
-        Usertb user = em.createQuery("SELECT u FROM Usertb u WHERE u.email = :email", Usertb.class)
-                        .setParameter("email", email)
-                        .getSingleResult();
-        return user.getName();
-    } catch (Exception e) {
-        // Handle case when no user is found with the given email
-        e.printStackTrace();
-        return null;
+
+
+    public String getUserNameByEmail(String email) {
+        try {
+            Usertb user = em.createQuery("SELECT u FROM Usertb u WHERE u.email = :email", Usertb.class)
+                    .setParameter("email", email)
+                    .getSingleResult();
+            return user.getName();
+        } catch (Exception e) {
+            // Handle case when no user is found with the given email
+            e.printStackTrace();
+            return null;
+        }
     }
-}
-      
-      //Display PM
-    public Collection<Usertb> displayPM(){
+
+    //Display PM
+    public Collection<Usertb> displayPM() {
         return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 3).getResultList();
     }
-    
-      //Display Employee
-    public Collection<Usertb> displayEmployee(){
+
+    //Display Employee
+    public Collection<Usertb> displayEmployee() {
         return em.createQuery("SELECT u FROM Usertb u WHERE u.designationID.designationID = :designationID", Usertb.class).setParameter("designationID", 4).getResultList();
     }
-      
-     public Integer getHRcount() {
-    Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 2").getSingleResult();
-    return count.intValue();
+
+    public Integer getHRcount() {
+        Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 2").getSingleResult();
+        return count.intValue();
     }
 
-      public Integer getPMcount() {
-    Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 3").getSingleResult();
-    return count.intValue();
+    public Integer getPMcount() {
+        Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 3").getSingleResult();
+        return count.intValue();
     }
 
-      public Integer getEmployeecount() {
-    Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 4").getSingleResult();
-    return count.intValue();
+    public Integer getEmployeecount() {
+        Long count = (Long) em.createQuery("SELECT COUNT(u.userID) FROM Usertb u WHERE u.designationID.designationID = 4").getSingleResult();
+        return count.intValue();
     }
     // Add business logic below. (Right-click in editor and choose
     // "Insert Code > Add Business Method")

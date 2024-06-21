@@ -3,6 +3,7 @@ package CDIPackage;
 import ClientPackage.empClient;
 import ClientPackage.hrClient;
 import EJBPackage.HREJB;
+import EJBPackage.SuperAdminEJB;
 import EJBPackage.userforattendance;
 import EJBPackage.userforpayroll;
 import Entitypkg.Attendancetb;
@@ -39,6 +40,8 @@ public class hrCDI {
 
     @EJB
     HREJB hrEJB;
+    @EJB
+SuperAdminEJB se;
 empClient ec;
     hrClient hc;
     Response rs;
@@ -206,45 +209,7 @@ empClient ec;
 
         hc.addUser(u.getName(), u.getEmail(), u.getPassword(), contactNo, joinDate, u.getAddress(), dob, designationID);
 
-//        Properties props = new Properties();
-//            props.put("mail.smtp.auth", "true");
-//            props.put("mail.smtp.starttls.enable", "true");
-//            props.put("mail.smtp.host", "smtp.gmail.com");
-//            props.put("mail.smtp.port", "587");
-//
-//            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-//                protected PasswordAuthentication getPasswordAuthentication() {
-//                    return new PasswordAuthentication("staffflow2024@gmail.com", "vmksdvngcwplcsul");
-//                }
-//            });
-//
-//            session.setDebug(true); // Enable debug output
-//
-//            try {
-//                Message msg = new MimeMessage(session);
-//                msg.setFrom(new InternetAddress("staffflow2024@gmail.com", "StaffFlow HR"));
-//                msg.addRecipient(Message.RecipientType.TO,
-//                        new InternetAddress("yugparmartheactor@gmail.com", "Mr. User"));
-//                msg.setSubject("Your Example.com account has been activated");
-//                msg.setText("This is a test");
-//
-//                // Send the message
-//                Transport.send(msg);
-//                System.out.println("Email sent successfully");
-//            } catch (AddressException e) {
-//                // ...
-//                 e.printStackTrace();
-//                System.out.println("Adress exception occured");
-//            } catch (MessagingException e) {
-//                // ...
-//                 e.printStackTrace();
-//                System.out.println("Message exception occured");
-//            } catch (UnsupportedEncodingException e) {
-//                // ...
-//                 e.printStackTrace();
-//                System.out.println("Unsupported exception occured");
-//            }
-//            
+
         return "showUser.jsf";
     }
 
@@ -437,17 +402,103 @@ this.selectedName = name;
         
     public String approveLeave(){
           FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-        Integer userID = (Integer) session.getAttribute("Uid");
+        HttpSession sess= (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) sess.getAttribute("Uid");
         hc.approveLeave(l.getLeaveID().toString(), userID.toString());
+        
+        String em = se.getEmailByLeaveID(l.getLeaveID());
+        
+                Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+
+            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("staffflow2024@gmail.com", "vmksdvngcwplcsul");
+                }
+            });
+
+            session.setDebug(true); // Enable debug output
+
+            try {
+                Message msg = new MimeMessage(session);
+                msg.setFrom(new InternetAddress("staffflow2024@gmail.com", "StaffFlow HR"));
+                msg.addRecipient(Message.RecipientType.TO,
+                        new InternetAddress(em, "Mr. User"));
+                msg.setSubject("Leave status");
+                msg.setText("Your leave has been Approved.");
+
+                // Send the message
+                Transport.send(msg);
+                System.out.println("Email sent successfully");
+            } catch (AddressException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Adress exception occured");
+            } catch (MessagingException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Message exception occured");
+            } catch (UnsupportedEncodingException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Unsupported exception occured");
+            }
+            
+        
         return "showLeavetoHR.jsf";
     }
     
      public String rejectLeave(){
           FacesContext facesContext = FacesContext.getCurrentInstance();
-        HttpSession session = (HttpSession) facesContext.getExternalContext().getSession(false);
-        Integer userID = (Integer) session.getAttribute("Uid");
+        HttpSession sess = (HttpSession) facesContext.getExternalContext().getSession(false);
+        Integer userID = (Integer) sess.getAttribute("Uid");
         hc.rejectLeave(l.getLeaveID().toString(), userID.toString());
+        
+         String em = se.getEmailByLeaveID(l.getLeaveID());
+        
+                Properties props = new Properties();
+            props.put("mail.smtp.auth", "true");
+            props.put("mail.smtp.starttls.enable", "true");
+            props.put("mail.smtp.host", "smtp.gmail.com");
+            props.put("mail.smtp.port", "587");
+
+            Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+                protected PasswordAuthentication getPasswordAuthentication() {
+                    return new PasswordAuthentication("staffflow2024@gmail.com", "vmksdvngcwplcsul");
+                }
+            });
+
+            session.setDebug(true); // Enable debug output
+
+            try {
+                Message msg = new MimeMessage(session);
+                msg.setFrom(new InternetAddress("staffflow2024@gmail.com", "StaffFlow HR"));
+                msg.addRecipient(Message.RecipientType.TO,
+                        new InternetAddress(em, "Mr. User"));
+                msg.setSubject("Leave status");
+                msg.setText("Your leave has been Rejected.");
+
+                // Send the message
+                Transport.send(msg);
+                System.out.println("Email sent successfully");
+            } catch (AddressException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Adress exception occured");
+            } catch (MessagingException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Message exception occured");
+            } catch (UnsupportedEncodingException e) {
+                // ...
+                 e.printStackTrace();
+                System.out.println("Unsupported exception occured");
+            }
+            
+        
         return "showLeavetoHR.jsf";
     }
     

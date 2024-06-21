@@ -12,7 +12,7 @@
     </h:head>
     
     <h:body>
-           <f:metadata>
+        <f:metadata>
             <f:event type="preRenderView" listener="#{navigationCDI.checkAdmin()}"/>
         </f:metadata>
         <main id="main" class="main">
@@ -26,32 +26,39 @@
                                     <h:form>
                                         <div class="row g-3">
                                             <div class="col-12">
-                                                HR Name
-                                                <h:inputText id="n" class="form-control" value="#{superadminCDI.u.name}"/>
+                                                <label for="n">HR Name</label>
+                                                <h:inputText id="n" class="form-control" value="#{superadminCDI.u.name}" required="true" requiredMessage="HR Name is required"/>
+                                                <h:message for="n" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Email
-                                                <h:inputText id="e" class="form-control" value="#{superadminCDI.u.email}"/>
+                                                <label for="e">Email</label>
+                                                <h:inputText id="e" class="form-control" value="#{superadminCDI.u.email}" required="true" requiredMessage="Email is required"/>
+                                                <h:message for="e" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Password
-                                                <h:inputText id="p" class="form-control" value="#{superadminCDI.u.password}"/>
+                                                <label for="p">Password</label>
+                                                <h:inputText id="p" class="form-control" value="#{superadminCDI.u.password}" required="true" requiredMessage="Password is required"/>
+                                                <h:message for="p" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Contact no
-                                                <h:inputText id="cno" class="form-control" value="#{superadminCDI.u.contactNo}"/>
+                                                <label for="cno">Contact no</label>
+                                                <h:inputText id="cno" class="form-control" value="#{superadminCDI.u.contactNo}" required="true" requiredMessage="Contact number is required"/>
+                                                <h:message for="cno" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Join Date(yyyy-mm-dd)
-                                                <p:datePicker id="jd" class="form-control" value="#{superadminCDI.u.joinDate}"/>
+                                                <label for="jd">Join Date (yyyy-mm-dd)</label>
+                                                <p:datePicker id="jd" class="form-control" value="#{superadminCDI.u.joinDate}" required="true" requiredMessage="Join Date is required"/>
+                                                <h:message for="jd" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                Address
-                                                <h:inputText id="aa" class="form-control" value="#{superadminCDI.u.address}"/>
+                                                <label for="aa">Address</label>
+                                                <h:inputText id="aa" class="form-control" value="#{superadminCDI.u.address}" required="true" requiredMessage="Address is required"/>
+                                                <h:message for="aa" style="color:red"/>
                                             </div>
                                             <div class="col-12">
-                                                DOB(yyyy-mm-dd)
-                                                <p:datePicker id="dob" class="form-control" value="#{superadminCDI.u.dob}"/>
+                                                <label for="dob">DOB (yyyy-mm-dd)</label>
+                                                <p:datePicker id="dob" class="form-control" value="#{superadminCDI.u.dob}" required="true" requiredMessage="DOB is required"/>
+                                                <h:message for="dob" style="color:red"/>
                                             </div>
                                             <div class="col-12 text-center">
                                                 <h:commandButton value="Submit" class="btn btn-primary" action="#{superadminCDI.addHR()}" />

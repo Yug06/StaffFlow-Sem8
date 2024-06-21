@@ -64,6 +64,9 @@ SuperAdminEJB de;
                 out.println(u.getName() + " " + u.getEmail() + " " + u.getPassword()+ " " + u.getContactNo() + " " + u.getJoinDate() + " " + u.getAddress()+ " " + u.getDob() + " " + u.getDesignationID().getType());
             }
             
+              String uts = de.getEmailByLeaveID(7);
+            
+            out.println(uts);
             out.println("--------------------------------");
             
             
