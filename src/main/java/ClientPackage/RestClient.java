@@ -7,6 +7,7 @@ package ClientPackage;
 import javax.ws.rs.ClientErrorException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.Response;
 
 /**
  * Jersey REST client generated for REST resource:JakartaEE8Resource [rest]<br>
@@ -57,8 +58,8 @@ public class RestClient {
         webTarget.path(java.text.MessageFormat.format("updateHR/{0}/{1}/{2}/{3}/{4}/{5}/{6}/{7}", new Object[]{userID, name, email, password, contactNo, joinDate, address, DOB})).request().put(null);
     }
 
-    public void giveFeedback(String description, String date, String userID) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("giveFeedback/{0}/{1}/{2}", new Object[]{description, date, userID})).request().post(null);
+    public void giveFeedback(String userID, String description, String overallExperience, String jobSatisfaction) throws ClientErrorException {
+        webTarget.path(java.text.MessageFormat.format("giveFeedback/{0}/{1}/{2}/{3}", new Object[]{userID, description, overallExperience, jobSatisfaction})).request().post(null);
     }
 
     public <T> T getHRByIdforUpdate(Class<T> responseType, String userID) throws ClientErrorException {
@@ -89,11 +90,11 @@ public class RestClient {
         return resource.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).get(responseType);
     }
 
-    public void addHR(String name, String email, String password, String contactNo, String joinDate, String address, String DOB) throws ClientErrorException {
-        webTarget.path(java.text.MessageFormat.format("addHR/{0}/{1}/{2}/{3}/{4}/{5}/{6}", new Object[]{name, email, password, contactNo, joinDate, address, DOB})).request().post(null);
+    public Response addHR(String name, String email, String password, String contactNo, String joinDate, String address, String DOB) throws ClientErrorException {
+        return webTarget.path(java.text.MessageFormat.format("addHR/{0}/{1}/{2}/{3}/{4}/{5}/{6}", new Object[]{name, email, password, contactNo, joinDate, address, DOB})).request().post(null, Response.class);
     }
 
-    public void deleteHR(Integer userID) throws ClientErrorException {
+    public void deleteHR(String userID) throws ClientErrorException {
         webTarget.path(java.text.MessageFormat.format("deleteHR/{0}", new Object[]{userID})).request().delete();
     }
 

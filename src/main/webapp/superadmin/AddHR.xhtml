@@ -9,6 +9,7 @@
     <h:head>
         <ui:include src="../superadmin/headersa.xhtml"/>
         <ui:include src="../superadmin/aside.xhtml"/>
+        
     </h:head>
     
     <h:body>
@@ -24,6 +25,9 @@
                                 <div class="card-body">
                                     <h5 class="card-title">HR Registration Form</h5>
                                     <h:form>
+                                        <!-- Display global messages here -->
+                                        <h:messages globalOnly="true" layout="list" style="color: red;"/>
+
                                         <div class="row g-3">
                                             <div class="col-12">
                                                 <label for="n">HR Name</label>

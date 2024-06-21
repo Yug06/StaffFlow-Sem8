@@ -12,6 +12,7 @@ jwtrest\JWTCredential.class
 ServletPackage\HRServlet.class
 Entitypkg\Userprojecttb.class
 EJBPackage\EmployeeEJB.class
+CDIPackage\hrCDI$11.class
 CDIPackage\hrCDI$2.class
 Entitypkg\Payrolltb.class
 CDIPackage\NavigationCDI.class
@@ -27,6 +28,7 @@ servlet\NewServlet.class
 ServletPackage\employeeServlet.class
 CDIPackage\superadminCDI$1.class
 CDIPackage\hrCDI$3.class
+CDIPackage\hrCDI$12.class
 Entitypkg\Performanceevaltb.class
 CDIPackage\projectmanagerCDI$2.class
 CDIPackage\empCDI$2.class

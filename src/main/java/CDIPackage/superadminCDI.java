@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import javax.inject.Named;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.Response;
 import javax.xml.registry.infomodel.User;
@@ -96,17 +98,35 @@ public class superadminCDI {
     }
 
     
-    public String addHR(){
-        
-        String contactNo = String.valueOf(u.getContactNo());
-         
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        String joinDate = dateFormat.format(u.getJoinDate());
-        String dob = dateFormat.format(u.getDob());
-        rc.addHR(u.getName(), u.getEmail(), u.getPassword(), contactNo, joinDate, u.getAddress(), dob);
-        
+//    public String addHR(){
+//        
+//        String contactNo = String.valueOf(u.getContactNo());
+//         
+//        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//        String joinDate = dateFormat.format(u.getJoinDate());
+//        String dob = dateFormat.format(u.getDob());
+//        rc.addHR(u.getName(), u.getEmail(), u.getPassword(), contactNo, joinDate, u.getAddress(), dob);
+//        
+//        return "ShowHR.jsf";
+//    }
+    public String addHR() {
+    String contactNo = String.valueOf(u.getContactNo());
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    String joinDate = dateFormat.format(u.getJoinDate());
+    String dob = dateFormat.format(u.getDob());
+    
+    Response response = rc.addHR(u.getName(), u.getEmail(), u.getPassword(), contactNo, joinDate, u.getAddress(), dob);
+    
+    if (response.getStatus() == Response.Status.OK.getStatusCode()) {
         return "ShowHR.jsf";
+    } else if (response.getStatus() == Response.Status.CONFLICT.getStatusCode()) {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "User with this email already exists", null));
+        return null;
+    } else {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "An error occurred", null));
+        return null;
     }
+}
     
     public GenericType<Collection<Usertb>> getGusers() {
         return gusers;
@@ -117,7 +137,7 @@ public class superadminCDI {
     }
     
  public String deleteHR(Integer uid){
-        rc.deleteHR(uid);
+        rc.deleteHR(uid.toString());
         return "ShowHR.jsf";
     }
 

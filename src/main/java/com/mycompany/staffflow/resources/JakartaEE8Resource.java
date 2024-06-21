@@ -93,21 +93,40 @@ public class JakartaEE8Resource {
         saejb.deleteDesignation(designationID);
     }
 
+//    @POST
+//    @Path("addHR/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}")
+//    public void addHR(@PathParam("name") String name,@PathParam("email") String email,@PathParam("password") String password, @PathParam("contactNo") Integer contactNo, @PathParam("joinDate") String joinDate,@PathParam("address") String address,@PathParam("DOB") String DOB) {
+//       try{
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//            
+//              Date jdate = sdf.parse(joinDate);
+//              Date dob = sdf.parse(DOB);
+//
+//        saejb.addHR(name, email, password, contactNo, jdate, address, dob);
+//       }catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//    }
+    
     @POST
-    @Path("addHR/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}")
-    public void addHR(@PathParam("name") String name,@PathParam("email") String email,@PathParam("password") String password, @PathParam("contactNo") Integer contactNo, @PathParam("joinDate") String joinDate,@PathParam("address") String address,@PathParam("DOB") String DOB) {
-       try{
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            
-              Date jdate = sdf.parse(joinDate);
-              Date dob = sdf.parse(DOB);
-
-        saejb.addHR(name, email, password, contactNo, jdate, address, dob);
-       }catch (Exception e) {
-            e.printStackTrace();
+@Path("addHR/{name}/{email}/{password}/{contactNo}/{joinDate}/{address}/{DOB}")
+public Response addHR(@PathParam("name") String name, @PathParam("email") String email, @PathParam("password") String password, @PathParam("contactNo") Integer contactNo, @PathParam("joinDate") String joinDate, @PathParam("address") String address, @PathParam("DOB") String DOB) {
+    try {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date jdate = sdf.parse(joinDate);
+        Date dob = sdf.parse(DOB);
+        boolean added = saejb.addHR(name, email, password, contactNo, jdate, address, dob);
+        if (added) {
+            return Response.ok("HR added successfully").build();
+        } else {
+            return Response.status(Response.Status.CONFLICT).entity("User already exists").build();
         }
-
+    } catch (Exception e) {
+        e.printStackTrace();
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity("An error occurred").build();
     }
+}
 
     
     @DELETE

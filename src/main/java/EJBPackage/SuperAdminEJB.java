@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import org.glassfish.soteria.identitystores.hash.Pbkdf2PasswordHashImpl;
 
 /**
@@ -58,23 +59,53 @@ public class SuperAdminEJB {
     }
 
     //Add HR
-    public void addHR(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB) {
-
-        pb = new Pbkdf2PasswordHashImpl();
-        String enc = pb.generate(password.toCharArray());
-
-        Designationtb dt = em.find(Designationtb.class, 2);
-        Usertb u = new Usertb();
-        u.setName(name);
-        u.setEmail(email);
-        u.setPassword(enc);
-        u.setContactNo(contactNo);
-        u.setJoinDate(joinDate);
-        u.setAddress(address);
-        u.setDob(DOB);
-        u.setDesignationID(dt);
-        em.persist(u);
+//    public void addHR(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB) {
+//
+//        pb = new Pbkdf2PasswordHashImpl();
+//        String enc = pb.generate(password.toCharArray());
+//
+//        Designationtb dt = em.find(Designationtb.class, 2);
+//        Usertb u = new Usertb();
+//        u.setName(name);
+//        u.setEmail(email);
+//        u.setPassword(enc);
+//        u.setContactNo(contactNo);
+//        u.setJoinDate(joinDate);
+//        u.setAddress(address);
+//        u.setDob(DOB);
+//        u.setDesignationID(dt);
+//        em.persist(u);
+//    }
+    
+    public boolean addHR(String name, String email, String password, Integer contactNo, Date joinDate, String address, Date DOB) {
+    // Check if user already exists
+    if (userExists(email)) {
+        return false;
     }
+
+    // If not, proceed with user creation
+    pb = new Pbkdf2PasswordHashImpl();
+    String enc = pb.generate(password.toCharArray());
+    Designationtb dt = em.find(Designationtb.class, 2);
+    Usertb u = new Usertb();
+    u.setName(name);
+    u.setEmail(email);
+    u.setPassword(enc);
+    u.setContactNo(contactNo);
+    u.setJoinDate(joinDate);
+    u.setAddress(address);
+    u.setDob(DOB);
+    u.setDesignationID(dt);
+    em.persist(u);
+    return true;
+}
+
+private boolean userExists(String email) {
+    Query query = em.createQuery("SELECT COUNT(u) FROM Usertb u WHERE u.email = :email");
+    query.setParameter("email", email);
+    Long count = (Long) query.getSingleResult();
+    return count > 0;
+}
 
     //Delete HR
     public void deleteHR(Integer userID) {
